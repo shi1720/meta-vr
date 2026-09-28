@@ -54,9 +54,28 @@ frame by frame so it is smooth even on a laptop without a GPU
 | E. Settings | `?emulate&screen=settings&seed=garden&autoxr&…` | |
 | F. Look to select | `?emulate&seed=garden&gaze&autoxr&…`, head turned to a button | The ring fills, then presses |
 | G. Companion site | `node tools/record-web.mjs` | Coach on the sample dashboard; 3D dictionary |
+| H. Built responsibly | Companion site landing page, scrolled to `#responsible` (1440×810 at 4/3 scale), saved as `web-responsible.png` | Still with a slow push-in |
 
 All headset footage is captured frame by frame with `tools/record.mjs`
 (`--video out.mp4`), so it is smooth even without a GPU.
+
+## Building the cut
+
+The edit is data: `tools/video/spec.json` lists each segment (clip, in-point,
+length, speed, overlay cards and fades), so a retake only needs a rebuild.
+
+```bash
+node tools/video/render-cards.mjs                      # title cards and tags
+CAPTURES=out/captures python3 tools/video/build_video.py tools/video/spec.json
+# -> out/video/signsprout-demo.mp4 (captions burned in), signsprout-demo-no-captions.mp4, music_fx.wav
+```
+
+Headset shots start after the 2.5 s mark, when the emulated head turns to its
+final framing. Then add the voiceover:
+
+```bash
+tools/add-voiceover.sh out/video/signsprout-demo.mp4 my-voice.m4a signsprout-final.mp4
+```
 
 ## Captions and subtitles
 

@@ -12,3 +12,6 @@ playwright-report/
 .vite/
 apps/web/screenshots/
 docs/submission/deck/slides/
+tools/video/cards/
+out/
+__pycache__/
