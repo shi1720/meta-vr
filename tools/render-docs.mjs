@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 /**
  * Renders the submission documents with headless Chromium:
- *   docs/submission/deck/deck.html         → Signsprout-deck.pdf + deck/slides/NN.png
+ *   docs/submission/deck/deck.html         → Signsprout-deck.pdf + deck/slides/NN.png (not committed)
  *   docs/submission/one-pager/one-pager.html → Signsprout-one-pager.pdf
  *   docs/submission/BUSINESS_PLAN.md       → Signsprout-business-plan.pdf
  *

@@ -11,3 +11,4 @@ test-results/
 playwright-report/
 .vite/
 apps/web/screenshots/
+docs/submission/deck/slides/
