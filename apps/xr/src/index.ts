@@ -23,6 +23,9 @@ async function boot(): Promise<void> {
   const container = document.getElementById('scene-container') as HTMLDivElement;
   const world = await World.create(container, projectOptions);
   (window as unknown as { __world: World }).__world = world;
+  if (import.meta.env.DEV || params.has('debug')) {
+    (window as unknown as { __core: unknown }).__core = await import('@iwsdk/core');
+  }
 
   world.registerSystem(HandInputSystem, { priority: -10 });
   const app = new App(world);
@@ -52,6 +55,16 @@ async function boot(): Promise<void> {
     }
   };
   if (params.has('demo')) startDemo();
+  // Emulator recordings: enter the immersive session automatically.
+  if (device && params.has('autoxr')) {
+    const d = device as unknown as { sessionOffered?: boolean; grantOfferedSession?: () => void };
+    const tryEnter = () => {
+      if (world.session) return;
+      if (d.sessionOffered && d.grantOfferedSession) d.grantOfferedSession();
+      else world.launchXR();
+    };
+    setTimeout(tryEnter, 300);
+  }
 
   initLauncher({
     xrSupported: async () => {

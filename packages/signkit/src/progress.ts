@@ -29,6 +29,12 @@ export interface LearnerSettings {
   highContrast: boolean;
   /** Passthrough (mixed reality) vs the virtual garden. */
   passthrough: boolean;
+  /**
+   * Sprout signs as your mirror image when facing you. Beginners naturally
+   * copy a face-to-face model like a mirror; matching that tendency cuts
+   * left/right errors (Shield & Meier, 2018).
+   */
+  mirrorTeacher: boolean;
   /** Child's name, used for personalised phrases & fingerspelling practice. */
   childName?: string;
   /** Daily goal in minutes. */
@@ -70,6 +76,7 @@ export const DEFAULT_SETTINGS: LearnerSettings = {
   reducedMotion: false,
   highContrast: false,
   passthrough: false,
+  mirrorTeacher: true,
   dailyGoal: 5,
 };
 

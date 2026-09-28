@@ -410,6 +410,7 @@ export function settingsScreen(
       button({ label: 'High contrast', icon: 'contrast', size: 'sm', grow: true, selected: s.highContrast, onClick: () => a.set({ highContrast: !s.highContrast }) }),
       button({ label: 'Calm motion', icon: 'access', size: 'sm', grow: true, selected: s.reducedMotion, onClick: () => a.set({ reducedMotion: !s.reducedMotion }) }),
     ),
+    seg('Sprout faces me as a…', s.mirrorTeacher, [[true, 'Mirror (easier to copy)'], [false, 'Signer (as others see it)']], 'mirrorTeacher'),
     row(
       { gap: 10 },
       button({ label: s.passthrough ? 'See my room: on' : 'See my room: off', icon: 'glasses', size: 'sm', grow: true, selected: s.passthrough, onClick: () => a.set({ passthrough: !s.passthrough }) }),

@@ -119,7 +119,7 @@ export class HandInputSystem extends createSystem({}) {
       h.lostFor = 0;
     }
     // In the emulator, an autopilot can also drive the emulated hands.
-    if (autopilot && emulatorInjector) emulatorInjector(time);
+    if (emulatorInjector) emulatorInjector(time);
   }
 }
 

@@ -188,6 +188,7 @@ export class App {
 
   private applySettings(): void {
     const s = settings.peek();
+    if (this.teacherFrame.mirror !== s.mirrorTeacher && this.main) this.layout();
     setHighContrast(s.highContrast);
     setVoiceEnabled(s.voice);
     this.env?.setPassthrough(s.passthrough && !!this.world.session && this.world.session.environmentBlendMode !== 'opaque');
@@ -220,6 +221,7 @@ export class App {
     learner.yaw = [this.stage.quaternion.x, this.stage.quaternion.y, this.stage.quaternion.z, this.stage.quaternion.w];
     this.uiFrame = learner;
     const tf = this.lesson.teacherFrame(learner, 1.08);
+    tf.mirror = settings.peek().mirrorTeacher;
     this.teacherFrame = tf;
     this.teacher.place(tf);
 
@@ -628,7 +630,8 @@ export class App {
 
   update(dt: number, time: number): void {
     this.now = time;
-    if (!this.recentered && tracking.head.valid && (this.world.session || time > 0.5)) {
+    // Recenter once the head pose is real (a seated eye is well above 0.6 m).
+    if (!this.recentered && tracking.head.valid && tracking.head.pos[1] > 0.6 && (this.world.session || time > 0.5)) {
       this.recenter();
       this.recentered = true;
     }
