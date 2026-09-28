@@ -16,7 +16,7 @@ Meta Quest.
 [Demo video](docs/submission/VIDEO_SCRIPT.md) ·
 [How it works](docs/ARCHITECTURE.md)
 
-<img src="docs/media/hero.png" width="860" alt="Sprout, a friendly seedling character, sits across a small table in a golden-hour meadow. A panel reads HELLO, and a garden of flowers grows in a planter on the table." />
+<img src="docs/media/hero.jpg" width="860" alt="Headset view: Sprout, a friendly seedling character, signs I LOVE YOU across a small table in a golden-hour meadow. The learner's hand sits inside a glowing guide hand; a red ring marks the ring finger and the panel says: Fold your ring finger down more." />
 
 </div>
 
@@ -53,6 +53,19 @@ Each sign takes about a minute and has four steps:
 | 🤲 | **Together** | Glowing guide hands appear on your own hands. Put your hands inside them and sign along. |
 | ✋ | **Your turn** | Sign from memory. Signsprout checks handshape, then place (including palm direction), then movement, then the final handshape, and says what to fix in plain words ("Fold your ring finger down more"). |
 | 🌱 | **Celebrate** | A new plant sprouts in your garden. |
+
+<table>
+<tr>
+<td><img src="docs/media/step-watch.jpg" alt="Watch: Sprout signs I LOVE YOU face to face" /></td>
+<td><img src="docs/media/step-together.jpg" alt="Together: the learner's hand inside the glowing guide hand, with fingertip markers" /></td>
+</tr>
+<tr>
+<td><img src="docs/media/step-try.jpg" alt="Your turn: the learner makes the I LOVE YOU handshape from memory" /></td>
+<td><img src="docs/media/step-celebrate.jpg" alt="Celebrate: sparkles and a new plant in the garden" /></td>
+</tr>
+</table>
+
+<sub>Captured in Meta's Immersive Web Emulator (Quest 3 profile) with a simulated learner. On Quest, the same code reads your real hands.</sub>
 
 - **A garden that is your progress.** Plants grow as signs move into long-term
   memory (spaced repetition) and droop when a review is due. Poke a plant to see
