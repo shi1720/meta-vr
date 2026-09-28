@@ -2,15 +2,16 @@
  * Sprout, the coach: turns a family's goal ("bath time and bedtime words",
  * "my son is starting daycare") into a short, personalised practice plan.
  *
- * Two planners share one contract:
- *  - an agentic Claude planner with tools over the verified sign catalog and
+ * All planners share one contract:
+ *  - an agentic model planner with tools over the verified sign catalog and
  *    the learner's progress (it can only ever choose signs we can teach and
- *    verify — it never invents a sign), and
+ *    verify — it never invents a sign). It runs on Gemini or Claude, whichever
+ *    key is configured, and
  *  - a deterministic rules planner used when no model is configured or a
  *    request fails, so the feature degrades gracefully.
  *
- * Runtime-agnostic (Deno edge function, Node tests); the Anthropic client is
- * injected.
+ * Runtime-agnostic (Deno edge function, Node tests); the Anthropic client and
+ * the fetch used for Gemini are injected.
  */
 
 import catalogJson from './catalog.json' with { type: 'json' };
@@ -38,13 +39,12 @@ const BY_ID = new Map(CATALOG.signs.map((s) => [s.id, s]));
 export interface LearnerSnapshot {
   cards: Record<string, { reps: number; mastery: number; lapses: number; ease: number; due: number }>;
   streak?: number;
-  childName?: string;
 }
 
 export interface Plan {
   message: string;
   signIds: string[];
-  source: 'claude' | 'rules';
+  source: 'gemini' | 'claude' | 'rules';
 }
 
 // ---------------------------------------------------------------------------
@@ -106,7 +106,6 @@ export function learnerSummary(learner: LearnerSnapshot) {
     learnedGlosses: learned.slice(0, 40).map(([id]) => BY_ID.get(id)?.gloss ?? id),
     strugglingWith: weak,
     streakDays: learner.streak ?? 0,
-    childName: learner.childName ?? null,
   };
 }
 
@@ -149,7 +148,7 @@ export function rulesPlan(goal: string, learner: LearnerSnapshot): Plan {
 }
 
 // ---------------------------------------------------------------------------
-// Claude planner (agentic tool use)
+// Model planners (agentic tool use)
 // ---------------------------------------------------------------------------
 
 export const SYSTEM_PROMPT = `You are Sprout, the warm, encouraging coach inside Signsprout, a VR app that teaches American Sign Language (ASL) to families — very often hearing parents of deaf or hard-of-hearing babies and toddlers.
@@ -193,6 +192,23 @@ export const TOOLS = [
   },
 ] as const;
 
+type ToolOutcome = { plan: Omit<Plan, 'source'> } | { result: unknown } | { error: string };
+
+/** Runs one tool call. The learner summary never includes names or emails. */
+export function runTool(name: string | undefined, input: Record<string, unknown>, learner: LearnerSnapshot): ToolOutcome {
+  if (name === 'propose_plan') {
+    const v = validatePlan(input.sign_ids);
+    return v.ok ? { plan: { signIds: v.ids, message: String(input.message ?? '').slice(0, 600) } } : { error: v.error };
+  }
+  if (name === 'search_signs') return { result: searchSigns(String(input.query ?? ''), learner) };
+  if (name === 'get_learner_progress') return { result: learnerSummary(learner) };
+  return { error: `Unknown tool ${name}` };
+}
+
+const firstTurn = (goal: string) => `My goal: ${goal.slice(0, 600)}`;
+
+// Claude ---------------------------------------------------------------------
+
 type Block = { type: string; id?: string; name?: string; input?: unknown; text?: string };
 type Msg = { role: 'user' | 'assistant'; content: unknown };
 
@@ -212,7 +228,7 @@ export async function claudePlan(
   model = 'claude-opus-5',
   maxTurns = 6,
 ): Promise<Plan | null> {
-  const messages: Msg[] = [{ role: 'user', content: `My goal: ${goal.slice(0, 600)}` }];
+  const messages: Msg[] = [{ role: 'user', content: firstTurn(goal) }];
   const useFallbacks = /^claude-(opus-5|fable-5)/.test(model);
   for (let turn = 0; turn < maxTurns; turn++) {
     const params: Record<string, unknown> = {
@@ -234,23 +250,82 @@ export async function claudePlan(
     if (!uses.length) return null; // ended without a plan
     const results: unknown[] = [];
     for (const u of uses) {
-      const input = (u.input ?? {}) as Record<string, unknown>;
-      if (u.name === 'propose_plan') {
-        const v = validatePlan(input.sign_ids);
-        if (v.ok) {
-          const message = String(input.message ?? '').slice(0, 600);
-          return { signIds: v.ids, message, source: 'claude' };
-        }
-        results.push({ type: 'tool_result', tool_use_id: u.id, content: v.error, is_error: true });
-      } else if (u.name === 'search_signs') {
-        results.push({ type: 'tool_result', tool_use_id: u.id, content: JSON.stringify(searchSigns(String(input.query ?? ''), learner)) });
-      } else if (u.name === 'get_learner_progress') {
-        results.push({ type: 'tool_result', tool_use_id: u.id, content: JSON.stringify(learnerSummary(learner)) });
-      } else {
-        results.push({ type: 'tool_result', tool_use_id: u.id, content: `Unknown tool ${u.name}`, is_error: true });
-      }
+      const out = runTool(u.name, (u.input ?? {}) as Record<string, unknown>, learner);
+      if ('plan' in out) return { ...out.plan, source: 'claude' };
+      if ('error' in out) results.push({ type: 'tool_result', tool_use_id: u.id, content: out.error, is_error: true });
+      else results.push({ type: 'tool_result', tool_use_id: u.id, content: JSON.stringify(out.result) });
     }
     messages.push({ role: 'user', content: results });
+  }
+  return null;
+}
+
+// Gemini ---------------------------------------------------------------------
+
+type GeminiPart = { text?: string; functionCall?: { id?: string; name?: string; args?: Record<string, unknown> } } & Record<string, unknown>;
+type GeminiContent = { role: 'user' | 'model'; parts: GeminiPart[] };
+type GeminiResponse = { candidates?: { content?: GeminiContent; finishReason?: string }[] };
+
+/** The part of `fetch` the Gemini planner uses (injectable for tests). */
+export type FetchLike = (
+  url: string,
+  init: { method: string; headers: Record<string, string>; body: string },
+) => Promise<{ ok: boolean; status: number; json(): Promise<unknown> }>;
+
+export class GeminiError extends Error {
+  constructor(readonly status: number) {
+    super(`Gemini API error ${status}`);
+  }
+}
+
+// Gemini takes the same tools as function declarations. Its schema dialect has
+// no `additionalProperties`, and a tool without arguments has no parameters.
+export const GEMINI_TOOLS = [
+  {
+    functionDeclarations: TOOLS.map(({ name, description, input_schema }) => {
+      const { additionalProperties: _, ...parameters } = input_schema;
+      return Object.keys(parameters.properties).length ? { name, description, parameters } : { name, description };
+    }),
+  },
+];
+
+export async function geminiPlan(
+  apiKey: string,
+  goal: string,
+  learner: LearnerSnapshot,
+  model = 'gemini-flash-latest',
+  fetchFn: FetchLike = fetch,
+  maxTurns = 6,
+): Promise<Plan | null> {
+  const url = `https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(model)}:generateContent`;
+  const contents: GeminiContent[] = [{ role: 'user', parts: [{ text: firstTurn(goal) }] }];
+  for (let turn = 0; turn < maxTurns; turn++) {
+    const res = await fetchFn(url, {
+      method: 'POST',
+      headers: { 'content-type': 'application/json', 'x-goog-api-key': apiKey },
+      body: JSON.stringify({
+        systemInstruction: { parts: [{ text: SYSTEM_PROMPT }] },
+        contents,
+        tools: GEMINI_TOOLS,
+        // Every turn is a tool call, so the loop always ends in propose_plan.
+        toolConfig: { functionCallingConfig: { mode: 'ANY' } },
+      }),
+    });
+    if (!res.ok) throw new GeminiError(res.status);
+    const content = ((await res.json()) as GeminiResponse).candidates?.[0]?.content;
+    if (!content?.parts?.length) return null; // blocked or empty
+    // Send the model's parts back unchanged: they may carry thought signatures.
+    contents.push({ role: 'model', parts: content.parts });
+    const calls = content.parts.flatMap((p) => (p.functionCall ? [p.functionCall] : []));
+    if (!calls.length) return null;
+    const replies: GeminiPart[] = [];
+    for (const c of calls) {
+      const out = runTool(c.name, c.args ?? {}, learner);
+      if ('plan' in out) return { ...out.plan, source: 'gemini' };
+      const response = 'error' in out ? { error: out.error } : { result: out.result };
+      replies.push({ functionResponse: { ...(c.id ? { id: c.id } : {}), name: c.name, response } });
+    }
+    contents.push({ role: 'user', parts: replies });
   }
   return null;
 }

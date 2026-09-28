@@ -5,12 +5,14 @@
  * plan, and queues the signs into the learner's synced progress so the headset
  * picks them up as "Sprout's plan for you".
  *
- * Env: ANTHROPIC_API_KEY (optional — without it the rules planner is used),
- *      COACH_MODEL (default claude-opus-5).
+ * Env (all optional; with neither key the rules planner is used):
+ *   GEMINI_API_KEY, GEMINI_MODEL (default gemini-flash-latest)
+ *   ANTHROPIC_API_KEY, COACH_MODEL (default claude-opus-5)
+ * If both keys are set, Gemini is tried first.
  */
 import Anthropic from 'npm:@anthropic-ai/sdk';
 import { admin, corsHeaders, json, userFrom } from '../_shared/http.ts';
-import { claudePlan, rulesPlan } from '../_shared/coach-core.ts';
+import { GeminiError, claudePlan, geminiPlan, rulesPlan } from '../_shared/coach-core.ts';
 import type { LearnerSnapshot, MessagesClient, Plan } from '../_shared/coach-core.ts';
 
 Deno.serve(async (req) => {
@@ -34,12 +36,21 @@ Deno.serve(async (req) => {
   if ((count ?? 0) >= 20) return json({ error: 'Sprout needs a rest — try again tomorrow.' }, 429);
 
   const { data: prog } = await sb.from('progress').select('doc').eq('user_id', user.id).maybeSingle();
-  const doc = (prog?.doc ?? {}) as Record<string, unknown> & { cards?: LearnerSnapshot['cards']; settings?: { childName?: string } };
-  const learner: LearnerSnapshot = { cards: doc.cards ?? {}, childName: doc.settings?.childName };
+  const doc = (prog?.doc ?? {}) as Record<string, unknown> & { cards?: LearnerSnapshot['cards'] };
+  const learner: LearnerSnapshot = { cards: doc.cards ?? {} };
 
   let plan: Plan | null = null;
+  const geminiKey = Deno.env.get('GEMINI_API_KEY');
+  if (geminiKey) {
+    try {
+      plan = await geminiPlan(geminiKey, goal, learner, Deno.env.get('GEMINI_MODEL') ?? 'gemini-flash-latest');
+    } catch (err) {
+      if (err instanceof GeminiError) console.warn(`coach: Gemini error ${err.status}`);
+      else console.warn('coach: unexpected Gemini error', err);
+    }
+  }
   const key = Deno.env.get('ANTHROPIC_API_KEY');
-  if (key) {
+  if (!plan && key) {
     try {
       const client = new Anthropic({ apiKey: key }) as unknown as MessagesClient;
       plan = await claudePlan(client, goal, learner, Deno.env.get('COACH_MODEL') ?? 'claude-opus-5');

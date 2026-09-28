@@ -116,7 +116,7 @@ mostly fixed.
 |---|---|---|
 | Hosting (static, CDN) | $0 | $0–20/month |
 | Supabase (auth, Postgres, functions) | $0 (free plan) | $25/month (Pro) plus usage |
-| AI coach (Claude) | Rules planner, $0 | A few cents per plan, capped at 20 plans per user per day; most families make one or two a week |
+| AI coach (Gemini) | Rules planner, $0 | A few cents per plan, capped at 20 plans per user per day; most families make one or two a week |
 | Email (sign-in links) | Supabase built-in | About $15/month |
 | **Total** | **$0** | **Roughly $100–500/month**, under $0.05 per family |
 

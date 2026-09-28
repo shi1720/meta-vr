@@ -251,7 +251,7 @@ Built with [Meta's Immersive Web SDK](https://github.com/facebook/immersive-web-
 [Immersive Web Emulator (IWER)](https://github.com/meta-quest/immersive-web-emulation-runtime),
 [three.js](https://threejs.org/), [pmndrs/uikit](https://github.com/pmndrs/uikit),
 the [WebXR generic hand models](https://github.com/immersive-web/webxr-input-profiles),
-[Supabase](https://supabase.com/) and [Claude](https://www.anthropic.com/claude).
+[Supabase](https://supabase.com/) and the [Gemini API](https://ai.google.dev/).
 Development used an AI-assisted workflow with Claude Code.
 
 ## License

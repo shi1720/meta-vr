@@ -69,7 +69,7 @@ create table if not exists public.coach_plans (
   goal text not null,
   message text not null,
   sign_ids text[] not null default '{}',
-  source text not null default 'rules' check (source in ('claude', 'rules')),
+  source text not null default 'rules' check (source in ('gemini', 'claude', 'rules')),
   created_at timestamptz not null default now()
 );
 alter table public.coach_plans enable row level security;

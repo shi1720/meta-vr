@@ -23,7 +23,7 @@ it works.
                                              │  Supabase (Postgres + RLS + Edge Functions)
 ┌────────────────────────────┐   pair code   │   progress (JSON doc, CRDT-style merge)
 │ apps/web (phone / desktop) │◄──────────────┤   pair  : headset ↔ phone sign-in
-│ landing · 3D dictionary ·  │               │   coach : Claude tool-use planner (+ rules fallback)
+│ landing · 3D dictionary ·  │               │   coach : Gemini/Claude tool-use planner (+ rules)
 │ pairing · dashboard · coach│──────────────►│   share : read-only family view
 └────────────────────────────┘               │
 ```
@@ -200,11 +200,13 @@ The backend is optional: the app is fully usable without an account.
   6-character code and keeps a secret. A signed-in phone approves the code; the
   function mints a one-time magic-link token hash; the headset redeems it with
   `auth.verifyOtp`. Codes expire in 10 minutes and are single-use.
-- **`coach`** is an agentic planner using Claude tool use (`search_signs`,
-  `get_learner_progress`, `propose_plan`). It can only choose signs that exist in
-  the sign catalog and are validated server-side. It uses server-side refusal
-  fallbacks, and a deterministic rules planner takes over when no key is
-  configured or the model declines. The resulting plan is queued into the
+- **`coach`** is an agentic planner using tool use (`search_signs`,
+  `get_learner_progress`, `propose_plan`) on Gemini (function calling over
+  REST) or Claude, whichever key is configured. Both run the same tools and the
+  same validation: the model can only choose signs that exist in the sign
+  catalog, and an invented id is sent back as an error. A deterministic rules
+  planner takes over when no key is configured, a request fails or the model
+  declines. The model never sees names or emails. The resulting plan is queued into the
   learner's synced progress and appears on the headset as "Sprout's plan for
   you".
 - **`share`** returns a privacy-preserving, read-only family view.

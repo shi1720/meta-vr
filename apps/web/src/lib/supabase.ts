@@ -73,7 +73,7 @@ export interface ShareRow {
 export interface CoachPlan {
   message: string;
   signIds: string[];
-  source: 'claude' | 'rules';
+  source: 'gemini' | 'claude' | 'rules';
 }
 
 export interface ShareSummary {

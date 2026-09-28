@@ -78,7 +78,7 @@ videos, so one definition drives Sprout, the guide hands, the tips, the checker
 and left-handed mirroring. A simulated learner (synthetic hands from the same
 hand model, not yet real-user data) tests all 87 signs: correct attempts are
 accepted; wrong handshapes, places or movements are rejected. On-device testing with real signers is next. Accounts, pairing, sync
-and the Claude-powered coach run on Supabase; the public preview works fully
+and the AI coach (Gemini function calling) run on Supabase; the public preview works fully
 offline.
 
 ### Accessibility and respect
@@ -145,7 +145,7 @@ veto), facial-grammar lessons, two-person practice and more sign languages.
 ## Built with
 
 `immersive-web-sdk` `webxr` `webxr-hand-input` `three.js` `typescript`
-`vite` `supabase` `postgresql` `deno` `claude` `react` `playwright` `iwer`
+`vite` `supabase` `postgresql` `deno` `gemini` `react` `playwright` `iwer`
 
 ## Team
 

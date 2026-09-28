@@ -36,15 +36,21 @@ phone pairing, family sharing and the AI coach need a free Supabase project.
 ### The AI coach (optional)
 
 Without a key the coach uses a built-in rules planner, so the feature always
-works. To use Claude:
+works. To use Gemini:
 
-1. Create a key at [console.anthropic.com](https://console.anthropic.com)
-   → **API Keys**.
-2. Either pass `ANTHROPIC_API_KEY=sk-ant-...` to `tools/setup-backend.mjs`, or
-   add it later in Supabase under **Edge Functions → Secrets**.
+1. Sign in at [aistudio.google.com](https://aistudio.google.com) with a Google
+   account → **Get API key** → **Create API key**.
+2. Either pass `GEMINI_API_KEY=...` to `tools/setup-backend.mjs`, or add it
+   later in Supabase under **Edge Functions → Secrets**. `GEMINI_MODEL`
+   (default `gemini-flash-latest`) picks the model.
 
-The coach sends Claude only the goal a parent types and a summary of which
-signs the learner knows. No names, emails or hand data.
+Claude works too: set `ANTHROPIC_API_KEY` (and optionally `COACH_MODEL`)
+instead. If both keys are set, Gemini is tried first.
+
+The coach sends the model only the goal a parent types and a summary of which
+signs the learner knows. No names, emails or hand data. On Google's free tier,
+prompts may be used to improve Google's products. Before launch, turn on
+billing for the key's Cloud project so the paid-tier data terms apply.
 
 ## 2. Build and deploy
 

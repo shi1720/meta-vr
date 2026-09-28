@@ -52,9 +52,10 @@ for (const sd of [6, 10, 14]) {
   const weak = Object.entries(perShape).filter(([, v]) => v < 14).map(([k, v]) => `${k}:${v}/20`).join(' ');
   console.log(`noise sd=${sd}deg  top1=${(100*top1/n).toFixed(1)}%  target>=0.6: ${(100*pass/n).toFixed(1)}%  weak: ${weak}`);
 }
-// 3. IWER captured poses
-const iw = JSON.parse(readFileSync('/tmp/claude-0/-home-user-meta-vr/28a67911-38db-5156-baa7-fa2764f4e721/scratchpad/iwer_poses_wristlocal.json', 'utf8'));
-for (const name of ['relaxed','point','pinch']) {
+// 3. Optional: poses captured from the IWER emulator (pass the JSON path)
+const iwPath = process.argv[2];
+const iw = iwPath ? JSON.parse(readFileSync(iwPath, 'utf8')) : {};
+for (const name of Object.keys(iw).length ? ['relaxed','point','pinch'] : []) {
   const pos = new Float32Array(75); const joints = Object.values(iw[name]) as any[];
   joints.forEach((j, i) => { pos[i*3] = j.p[0]; pos[i*3+1] = j.p[1]; pos[i*3+2] = j.p[2]; });
   const f = extractFeatures(pos, 'left');

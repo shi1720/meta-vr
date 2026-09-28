@@ -4,14 +4,15 @@
  *
  * Creates (or reuses) a Supabase project, applies the database schema,
  * deploys the three edge functions, configures sign-in redirects, stores the
- * optional Claude key for the coach, and writes the public keys the two web
- * apps need at build time.
+ * optional model key for the coach (Gemini or Claude), and writes the public
+ * keys the two web apps need at build time.
  *
  * Usage:
  *   SUPABASE_ACCESS_TOKEN=sbp_... \
  *   SITE_URL=https://signsprout.surge.sh \
  *   [SUPABASE_PROJECT_REF=abcd1234]   # reuse an existing project
- *   [ANTHROPIC_API_KEY=sk-ant-...]    # optional: the coach falls back to rules without it
+ *   [GEMINI_API_KEY=...]              # optional: the coach falls back to rules without a model key
+ *   [ANTHROPIC_API_KEY=sk-ant-...]    # optional alternative to Gemini
  *   node tools/setup-backend.mjs
  *
  * Only public values (project URL and anon/publishable key) are written to
@@ -92,9 +93,10 @@ for (const fn of ['pair', 'share', 'coach']) {
 }
 
 // 4. Secrets -------------------------------------------------------------------
-if (process.env.ANTHROPIC_API_KEY) {
-  await api('POST', `/projects/${ref}/secrets`, [{ name: 'ANTHROPIC_API_KEY', value: process.env.ANTHROPIC_API_KEY }]);
-  console.log('Stored ANTHROPIC_API_KEY for the coach.');
+for (const name of ['GEMINI_API_KEY', 'GEMINI_MODEL', 'ANTHROPIC_API_KEY', 'COACH_MODEL']) {
+  if (!process.env[name]) continue;
+  await api('POST', `/projects/${ref}/secrets`, [{ name, value: process.env[name] }]);
+  console.log(`Stored ${name} for the coach.`);
 }
 
 // 5. Auth redirects (magic links from the companion site) -----------------------
