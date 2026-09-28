@@ -31,7 +31,7 @@ noted where the form has limits.
 
 ---
 
-## Description (under 500 words; this draft is 474)
+## Description (under 500 words; this draft is 477, or 490 with the headings)
 
 ### Inspiration
 
@@ -77,8 +77,9 @@ dependency-free engine, signkit, writes signs as linguistic parameters, not
 videos, so one definition drives Sprout, the guide hands, the tips, the checker
 and left-handed mirroring. A simulated learner (synthetic hands from the same
 hand model, not yet real-user data) tests all 87 signs: correct attempts are
-accepted; wrong handshapes, places or movements are rejected. On-device testing with real signers is next. Accounts, pairing, sync
-and the AI coach (Gemini function calling) run on Supabase; the public preview works fully
+accepted; wrong handshapes, places or movements are rejected. On-device
+testing with real signers is next. Accounts, pairing, sync and the AI coach
+(Gemini function calling) run on Supabase; the public preview works fully
 offline.
 
 ### Accessibility and respect

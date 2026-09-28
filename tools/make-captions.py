@@ -25,7 +25,8 @@ def stamp(t: float) -> str:
 
 cues = []
 for line in script.splitlines():
-    m = re.match(r'^\| (\d:\d\d)–(\d:\d\d) \| (.*?) \| (.*?) \| (.*?) \|$', line)
+    # The last cell (on-screen text) may be empty.
+    m = re.match(r'^\| (\d:\d\d)–(\d:\d\d) \| (.*?) \| (.*?) \|(.*?)\|$', line)
     if not m:
         continue
     start, end, vo = secs(m.group(1)), secs(m.group(2)), m.group(4).strip()

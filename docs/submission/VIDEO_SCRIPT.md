@@ -47,6 +47,7 @@ frame by frame so it is smooth even on a laptop without a GPU
 | Shot | URL parameters (headset app) | Notes |
 |---|---|---|
 | A. Terrace, Sprout demonstrating | `?demo&fresh&clean` (desktop preview) | Welcome, I-LOVE-YOU and THANK-YOU watch steps |
+| B0. Welcome, held | `?emulate&fresh&autoxr&fov=72&pitch=-14&yaw=-12` | No simulated learner, so the welcome panel stays up |
 | B. First session in the headset | `?emulate&demo&fresh&autoxr&fov=72&pitch=-14&yaw=-12` | Onboarding, three signs, summary (includes a deliberate slip) |
 | C. A month later, with a coach plan | `?emulate&seed=garden&plan=bath&autoxr&fov=72&pitch=-14&yaw=-12` | Home screen, garden, "Sprout's plan for you" |
 | D. Garden close-up | `?seed=garden&away=4&screen=garden&clean&cam=garden` | Drooping plants after four days away |
