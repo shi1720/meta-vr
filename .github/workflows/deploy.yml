@@ -27,10 +27,10 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npm run build:site
+        # Supabase's public URL and key come from the committed
+        # apps/*/.env.production files (written by tools/setup-backend.mjs).
         env:
           VITE_BASE: /${{ github.event.repository.name }}/
-          VITE_SUPABASE_URL: ${{ vars.VITE_SUPABASE_URL }}
-          VITE_SUPABASE_ANON_KEY: ${{ vars.VITE_SUPABASE_ANON_KEY }}
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:

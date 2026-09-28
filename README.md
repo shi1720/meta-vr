@@ -11,8 +11,8 @@ your hands are, and every sign you learn grows a plant in your garden.
 First ASL vocabulary for families: five minutes a day, seated, hands only, on
 Meta Quest.
 
-[**Try it on Quest**](https://signsprout.surge.sh/app/) ·
-[Companion site](https://signsprout.surge.sh/) ·
+[**Try it on Quest**](https://shi1720.github.io/meta-vr/app/) ·
+[Companion site](https://shi1720.github.io/meta-vr/) ·
 [Demo video](docs/submission/VIDEO_SCRIPT.md) ·
 [How it works](docs/ARCHITECTURE.md)
 
@@ -103,7 +103,7 @@ works fully offline without them.
 
 | Where | How |
 |---|---|
-| **Meta Quest** | Open **https://signsprout.surge.sh/app/** in the Quest browser and tap **Start learning**. Put your controllers down. |
+| **Meta Quest** | Open **https://shi1720.github.io/meta-vr/app/** in the Quest browser and tap **Start learning**. Put your controllers down. |
 | **Desktop** | Open the same link and choose **Watch the demo**: a simulated learner goes through the first lesson. |
 | **Desktop, emulated headset** | Add `?emulate&demo&fresh&autoxr` to run the real WebXR path in Meta's Immersive Web Emulator. |
 
@@ -214,7 +214,7 @@ coach need a Supabase project; see [docs/SETUP.md](docs/SETUP.md). With a
 Supabase access token, one command sets it all up:
 
 ```bash
-SUPABASE_ACCESS_TOKEN=sbp_... SITE_URL=https://signsprout.surge.sh node tools/setup-backend.mjs
+SUPABASE_ACCESS_TOKEN=sbp_... SITE_URL=https://shi1720.github.io/meta-vr node tools/setup-backend.mjs
 ```
 
 ## Privacy

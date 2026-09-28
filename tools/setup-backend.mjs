@@ -9,14 +9,16 @@
  *
  * Usage:
  *   SUPABASE_ACCESS_TOKEN=sbp_... \
- *   SITE_URL=https://signsprout.surge.sh \
+ *   SITE_URL=https://shi1720.github.io/meta-vr \
  *   [SUPABASE_PROJECT_REF=abcd1234]   # reuse an existing project
  *   [GEMINI_API_KEY=...]              # optional: the coach falls back to rules without a model key
  *   [ANTHROPIC_API_KEY=sk-ant-...]    # optional alternative to Gemini
  *   node tools/setup-backend.mjs
  *
- * Only public values (project URL and anon/publishable key) are written to
- * disk, in apps/web/.env.production.local and apps/xr/.env.production.local.
+ * Only public values (project URL and anon/publishable key, which row-level
+ * security makes safe to publish) are written to disk, in
+ * apps/web/.env.production and apps/xr/.env.production. Commit them so the
+ * GitHub Pages workflow builds with sign-in turned on.
  */
 import { execFileSync } from 'node:child_process';
 import { randomBytes } from 'node:crypto';
@@ -35,7 +37,7 @@ if (!TOKEN) {
   process.exit(1);
 }
 if (!SITE_URL) {
-  console.error('Set SITE_URL to where the web app is hosted, e.g. https://signsprout.surge.sh');
+  console.error('Set SITE_URL to where the web app is hosted, e.g. https://shi1720.github.io/meta-vr');
   process.exit(1);
 }
 
@@ -132,6 +134,6 @@ const anon = keys.find((k) => k.name === 'anon' || k.type === 'publishable')?.ap
 if (!anon) throw new Error('Could not find the anon/publishable key.');
 const url = `https://${ref}.supabase.co`;
 const lines = [`VITE_SUPABASE_URL=${url}`, `VITE_SUPABASE_ANON_KEY=${anon}`, `VITE_WEB_URL=${SITE_URL}/#/pair`, ''].join('\n');
-writeFileSync(join(ROOT, 'apps/web/.env.production.local'), lines);
-writeFileSync(join(ROOT, 'apps/xr/.env.production.local'), lines);
-console.log(`\nDone. ${url} is ready. Rebuild with \`npm run build\` and redeploy.`);
+writeFileSync(join(ROOT, 'apps/web/.env.production'), lines);
+writeFileSync(join(ROOT, 'apps/xr/.env.production'), lines);
+console.log(`\nDone. ${url} is ready. Commit apps/*/.env.production, then rebuild and redeploy.`);

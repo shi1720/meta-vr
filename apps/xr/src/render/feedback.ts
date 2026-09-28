@@ -29,6 +29,7 @@ import { FINGERS, TIP_OF } from '@signsprout/signkit';
 import type { Finger, HandshapeMatch, Vec3 } from '@signsprout/signkit';
 import { COLORS } from '../app/theme.js';
 import { motion } from '../app/motion.js';
+import { discDot, softDot } from './dots.js';
 
 const STATUS_COLOR = {
   good: new Color(COLORS.good),
@@ -93,7 +94,7 @@ export class Feedback {
     g.setAttribute('position', new BufferAttribute(new Float32Array(n * 3), 3));
     this.path = new Points(
       g,
-      new PointsMaterial({ color: new Color(COLORS.ghostRim), size: 0.0075, transparent: true, opacity: 0.85, depthWrite: false }),
+      new PointsMaterial({ color: new Color(COLORS.ghostRim), map: discDot(), size: 0.009, transparent: true, opacity: 0.85, depthWrite: false }),
     );
     this.path.frustumCulled = false;
     this.path.visible = false;
@@ -109,7 +110,7 @@ export class Feedback {
     this.sparkVel = new Float32Array(sparkN * 3);
     this.sparks = new Points(
       sg,
-      new PointsMaterial({ color: new Color(COLORS.honey), size: 0.012, transparent: true, opacity: 0, depthWrite: false, blending: AdditiveBlending }),
+      new PointsMaterial({ color: new Color(COLORS.honey), map: softDot(), size: 0.03, transparent: true, opacity: 0, depthWrite: false, blending: AdditiveBlending }),
     );
     this.sparks.frustumCulled = false;
 
@@ -223,6 +224,11 @@ export class Feedback {
         attr.getY(i) + (attr.getY(j) - attr.getY(i)) * t,
         attr.getZ(i) + (attr.getZ(j) - attr.getZ(i)) * t,
       );
+      // Paths at the chin or forehead pass a hand's width from the eyes: keep
+      // the travelling dot small there instead of filling the view.
+      const d = this.pathDot.position.distanceTo(this.head);
+      const k = Math.min(1, d * 2.5);
+      this.pathDot.scale.set(k, k, k);
     }
     if (this.sparkLife > 0) {
       this.sparkLife -= dt;

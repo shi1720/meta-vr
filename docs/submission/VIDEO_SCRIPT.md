@@ -32,7 +32,7 @@ the end of the sentence; the edit has a little air after each block.
 | 1:56–2:12 | Phone companion: typing "Words for bath time and bedtime", the plan appears; cut to the headset home with "Sprout's plan for you". | On your phone, tell Sprout what you need, like words for bath time. The AI coach plans from signs Signsprout can check, and the plan waits in your headset. | "AI coach: plans only from signs Signsprout can check" |
 | 2:12–2:30 | Settings in the headset; a head-gaze ring fills on a button and presses it; the companion site's 3D dictionary switching to "Your view". | Left-handed? Every sign flips. There's a limited finger range, high contrast and calm motion, and you can press any button just by looking at it. | "Left-handed · limited finger range · high contrast · calm motion · look to select" |
 | 2:30–2:44 | Sprout beside the grown garden; the companion site's "Built responsibly" section. | Signsprout is a practice partner, not a translator. It's here to help families find their first signs, and then their way to Deaf teachers and community. | |
-| 2:44–2:52 | End card: logo, link, credit. | Signsprout. Your first ASL signs, with your own two hands. | "Signsprout / signsprout.surge.sh/app / Made by Shivam Gupta" |
+| 2:44–2:52 | End card: logo, link, credit. | Signsprout. Your first ASL signs, with your own two hands. | "Signsprout / shi1720.github.io/meta-vr/app / Made by Shivam Gupta" |
 
 **Word count:** 304 words of voiceover.
 

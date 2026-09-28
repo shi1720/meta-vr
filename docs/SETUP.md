@@ -18,7 +18,7 @@ phone pairing, family sharing and the AI coach need a free Supabase project.
 
    ```bash
    SUPABASE_ACCESS_TOKEN=sbp_your_token \
-   SITE_URL=https://signsprout.surge.sh \
+   SITE_URL=https://shi1720.github.io/meta-vr \
    node tools/setup-backend.mjs
    ```
 
@@ -61,24 +61,27 @@ npm run build:site     # ./dist: companion site at /, headset app at /app/
 
 `./dist` is a static site and can go on any HTTPS host.
 
-### Surge (used for the competition build)
-
-```bash
-npx surge ./dist signsprout.surge.sh
-```
-
-The first run asks for an email and password and creates the account.
-
-### GitHub Pages (alternative)
+### GitHub Pages (used for the competition build)
 
 Pages on a private repository needs a paid GitHub plan. On a public repository:
 **Settings → Pages → Source: GitHub Actions**, then run the **Deploy site**
-workflow from the **Actions** tab. It only runs when started by hand, so
-nothing redeploys by accident after the submission deadline.
+workflow from the **Actions** tab. The site appears at
+`https://<user>.github.io/<repo>/`, with the headset app at `/app/`. The
+workflow only runs when started by hand, so nothing redeploys by accident after
+the submission deadline.
+
+If you forked the repo, set `VITE_WEB_URL` (the pairing address shown in the
+headset) in `apps/xr/.env.production` to your own site.
+
+### Any other static host
+
+```bash
+npx surge ./dist your-name.surge.sh
+```
 
 ## 3. Testing on a Quest
 
-1. Open `https://signsprout.surge.sh/app/` in the Quest browser.
+1. Open `https://shi1720.github.io/meta-vr/app/` in the Quest browser.
 2. Tap **Start learning**, put the controllers down, and follow Sprout.
 3. To test pairing: in the headset, **Home → Save my garden** shows a code.
    On a phone, open the companion site, sign in with an email link, choose

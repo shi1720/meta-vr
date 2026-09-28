@@ -22,8 +22,8 @@ noted where the form has limits.
 
 ## Build link
 
-`https://signsprout.surge.sh/app/` (headset app, opens in Meta Quest Browser)
-`https://signsprout.surge.sh/` (companion site: 3D sign dictionary, phone pairing, family dashboard)
+`https://shi1720.github.io/meta-vr/app/` (headset app, opens in Meta Quest Browser)
+`https://shi1720.github.io/meta-vr/` (companion site: 3D sign dictionary, phone pairing, family dashboard)
 
 ## Video
 
