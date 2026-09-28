@@ -1,0 +1,16 @@
+# Supabase CLI settings for Signsprout.
+# Only the parts that differ from the defaults are listed.
+
+[functions.pair]
+# The headset calls `start` and `poll` before anyone is signed in. The function
+# checks the pairing secret itself; approving a code requires a user token.
+verify_jwt = false
+
+[functions.share]
+# Public, read-only family view behind an unguessable share id.
+verify_jwt = false
+
+[functions.coach]
+# Checks the caller's user token itself (see _shared/http.ts), so it also works
+# with Supabase's non-JWT publishable keys.
+verify_jwt = false

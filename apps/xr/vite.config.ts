@@ -5,15 +5,18 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import { fileURLToPath } from 'node:url';
 import { iwsdkDev } from '@iwsdk/vite-plugin-dev';
 import { defineConfig } from 'vite';
 
 export default defineConfig({
-  plugins: [iwsdkDev()],
+  // The UI is built in code (not UIKitML files), so tell the plugin which
+  // bundled MSDF font to keep in production builds.
+  plugins: [iwsdkDev({ bundle: { fonts: ['inter'] } })],
   server: { host: '0.0.0.0', port: 8081, open: false },
   build: {
     outDir: 'dist',
-    sourcemap: process.env.NODE_ENV !== 'production',
+    sourcemap: false,
     target: 'esnext',
     rollupOptions: { input: './index.html' },
   },
@@ -22,6 +25,13 @@ export default defineConfig({
   // (three@0.185 vs app super-three@0.181). Duplicate Component classes break
   // instanceof checks → "Only pmndrs/uikit components can be added as children".
   resolve: {
+    // Ship only the icons we use (see src/ui/lucide-subset.ts).
+    alias: [
+      {
+        find: /^@pmndrs\/uikit-lucide$/,
+        replacement: fileURLToPath(new URL('./src/ui/lucide-subset.ts', import.meta.url)),
+      },
+    ],
     dedupe: [
       'three',
       '@pmndrs/uikit',
@@ -35,7 +45,6 @@ export default defineConfig({
       'three',
       '@pmndrs/uikit',
       '@pmndrs/uikit-horizon',
-      '@pmndrs/uikit-lucide',
       '@drawcall/uikitml',
     ],
     esbuildOptions: { target: 'esnext' },

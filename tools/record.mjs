@@ -2,8 +2,8 @@
 /**
  * Deterministic capture of Signsprout running in headless Chromium.
  *
- * Installs Playwright's fake clock before the page loads, then advances time
- * one video frame at a time and screenshots each frame. This decouples the
+ * Installs a paused Playwright fake clock before the page loads, then advances
+ * time one video frame at a time and screenshots each frame. This decouples the
  * app's timeline from how slowly software rendering runs, which gives smooth
  * footage and a reproducible end-to-end test.
  *
@@ -37,7 +37,11 @@ page.on('pageerror', (e) => errors.push(e.message));
 page.on('console', (m) => {
   if (m.type() === 'error') errors.push(m.text());
 });
-await page.clock.install();
+// Pause the fake clock so time only moves when we step it. Otherwise it also
+// flows in real time, and slow frames would speed the app up.
+const t0 = new Date('2026-11-01T17:00:00Z');
+await page.clock.install({ time: t0 });
+await page.clock.pauseAt(new Date(t0.getTime() + 1000));
 await page.goto(url, { waitUntil: 'load' });
 // Let modules initialise with a little real time, then take over the clock.
 for (let i = 0; i < 60; i++) {

@@ -4,6 +4,7 @@ dist/
 *.log
 .env
 .env.local
+*.local
 .iwsdk/
 coverage/
 test-results/

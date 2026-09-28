@@ -11,7 +11,6 @@ import {
   AdditiveBlending,
   BufferAttribute,
   BufferGeometry,
-  CircleGeometry,
   Color,
   ConeGeometry,
   CylinderGeometry,
@@ -80,8 +79,10 @@ export function createEnvironment(scene: Scene): Environment {
   const r = rng(7);
 
   // --- Ground ---------------------------------------------------------------
+  // A ring rather than a disc: a triangle fan whose centre sits right under
+  // the learner's head degenerates at eye level (the deck covers the middle).
   const ground = new Mesh(
-    new CircleGeometry(60, 48),
+    new RingGeometry(1.8, 60, 64, 8),
     new MeshLambertMaterial({ color: new Color('#8DB872') }),
   );
   ground.rotation.x = -Math.PI / 2;
@@ -96,14 +97,15 @@ export function createEnvironment(scene: Scene): Environment {
     new CylinderGeometry(2.2, 2.3, 0.08, 40),
     new MeshLambertMaterial({ color: new Color('#C99A6B') }),
   );
-  deck.position.y = 0.0;
+  // Centred under the table, not under the learner's head (see ground).
+  deck.position.set(0, 0, -0.5);
   world.add(deck);
   const deckRing = new Mesh(
     new TorusGeometry(2.25, 0.035, 8, 64),
     new MeshLambertMaterial({ color: new Color('#A8784B') }),
   );
   deckRing.rotation.x = Math.PI / 2;
-  deckRing.position.y = 0.045;
+  deckRing.position.set(0, 0.045, -0.5);
   world.add(deckRing);
 
   // --- Trees, bushes, flowers (instanced) --------------------------------------

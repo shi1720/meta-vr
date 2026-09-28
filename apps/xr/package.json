@@ -7,7 +7,7 @@
     "dev": "vite",
     "dev:managed": "iwsdk dev restart --open --foreground",
     "typecheck": "tsc --noEmit",
-    "build": "vite build",
+    "build": "tsc --noEmit && vite build",
     "preview": "vite preview --port 8443"
   },
   "dependencies": {

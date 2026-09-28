@@ -183,7 +183,10 @@ export class Feedback {
 
   update(dt: number, time: number, head: Vec3): void {
     if (this.haloOn) {
-      const k = 1 + 0.12 * Math.sin(time * 4);
+      // Keep the halo at most ~6° across: start positions at the chin or
+      // forehead are only a hand's width from the eyes.
+      const d = Math.hypot(this.halo.position.x - head[0], this.halo.position.y - head[1], this.halo.position.z - head[2]);
+      const k = (1 + 0.12 * Math.sin(time * 4)) * Math.min(1, (d * 0.11) / 0.05);
       this.halo.scale.set(k, k, k);
       this.halo.lookAt(head[0], head[1], head[2]);
       (this.halo.material as MeshBasicMaterial).opacity = 0.55 + 0.25 * Math.sin(time * 4);

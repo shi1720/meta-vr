@@ -11,7 +11,9 @@ import { App } from './app/app.js';
 import { tracking } from './app/hands.js';
 import { unlockAudio, startAmbient } from './audio/sfx.js';
 import { Autopilot } from './demo/autopilot.js';
-import { maybeInstallEmulator } from './demo/emulation.js';
+import { seededHistory } from './demo/seed.js';
+import { store } from './app/store.js';
+import { headQuat, maybeInstallEmulator, setEmulatedHead } from './demo/emulation.js';
 import { account } from './net/account.js';
 import { HandInputSystem, setAutopilot, setEmulatorInjector } from './systems/hand-input.js';
 import { initLauncher } from './launcher.js';
@@ -28,6 +30,8 @@ async function boot(): Promise<void> {
   }
 
   world.registerSystem(HandInputSystem, { priority: -10 });
+  // Demo/video: start from a six-week learner history instead of a new one.
+  if (params.get('seed') === 'garden') store.replace(seededHistory(Date.now(), 30, Number(params.get('away')) || 0));
   const app = new App(world);
   (window as unknown as { __app: App }).__app = app;
   await app.init();
@@ -55,6 +59,11 @@ async function boot(): Promise<void> {
     }
   };
   if (params.has('demo')) startDemo();
+  // Demo/video: open a specific screen.
+  const screen = params.get('screen');
+  if (screen === 'garden') app.showGarden();
+  else if (screen === 'settings') app.showSettings();
+  else if (screen === 'library') app.showLibrary();
   // Emulator recordings: enter the immersive session automatically.
   if (device && params.has('autoxr')) {
     const d = device as unknown as { sessionOffered?: boolean; grantOfferedSession?: () => void };
@@ -64,6 +73,9 @@ async function boot(): Promise<void> {
       else world.launchXR();
     };
     setTimeout(tryEnter, 300);
+    // Recording framing: turn the head after the stage has recentered.
+    const yaw = Number(params.get('yaw')) || 0;
+    if (yaw) setTimeout(() => setEmulatedHead([0, 1.2, 0], headQuat(yaw, Number(params.get('pitch')) || 0)), 2500);
   }
 
   initLauncher({

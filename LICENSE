@@ -1,0 +1,11 @@
+Copyright (c) 2026 Shivam Gupta. All rights reserved.
+
+This source code is made available so that it can be reviewed and evaluated,
+including by the judges of the Meta VR Start Developer Competition 2026. No
+license is granted to copy, modify, distribute or use it for any other purpose
+without the prior written permission of the copyright holder.
+
+Third-party components included in or used by this project (for example
+Meta's Immersive Web SDK, the Immersive Web Emulator, three.js, pmndrs/uikit,
+the WebXR input profile hand models, and the fonts) are provided under their
+own licenses, which continue to apply.

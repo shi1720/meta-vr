@@ -94,4 +94,8 @@ export const store = {
   reset(): void {
     commit(createProgress(Date.now()));
   },
+  /** Replace the whole document (demo seeding). */
+  replace(doc: ProgressDoc): void {
+    commit(doc);
+  },
 };

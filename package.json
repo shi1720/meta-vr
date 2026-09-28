@@ -8,9 +8,10 @@
     "apps/*"
   ],
   "scripts": {
-    "test": "npm run test --workspaces --if-present",
+    "test": "npm run test --workspaces --if-present && vitest run supabase/tests",
     "typecheck": "npm run typecheck --workspaces --if-present",
-    "build": "npm run build --workspace packages/signkit && npm run build --workspace apps/xr && npm run build --workspace apps/web"
+    "build": "npm run build --workspace apps/xr && npm run build --workspace apps/web",
+    "build:site": "node tools/build-site.mjs"
   },
   "engines": {
     "node": ">=20.19.0"

@@ -47,5 +47,7 @@ export function initLauncher(o: LauncherOpts): void {
   o.world.visibilityState.subscribe((s) => {
     el.classList.toggle('hidden', s !== VisibilityState.NonImmersive);
   });
-  if (new URLSearchParams(location.search).has('demo')) el.classList.add('minimised');
+  const q = new URLSearchParams(location.search);
+  if (q.has('clean')) el.classList.add('hidden');
+  else if (q.has('demo') || q.has('screen')) el.classList.add('minimised');
 }

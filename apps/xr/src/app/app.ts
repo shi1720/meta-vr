@@ -58,6 +58,8 @@ type Screen =
 
 const DAY = 86_400_000;
 
+
+const PREVIEW_CAM = new URLSearchParams(location.search).get('cam');
 export class App {
   readonly stage = new Group();
   stageEntity!: Entity;
@@ -229,10 +231,12 @@ export class App {
     this.main.place(this.stage.localToWorld(new Vector3(0.38, eye - 0.05, -0.56)), head);
     if (!this.world.session) {
       // Desktop preview: a slightly pulled-back, wider view of the same seat.
+      // `?cam=garden` frames the planter for screenshots and video.
       const cam = this.world.camera;
-      cam.position.copy(this.stage.localToWorld(new Vector3(0.06, eye + 0.1, 0.42)));
-      cam.lookAt(this.stage.localToWorld(new Vector3(0.1, eye - 0.2, -0.8)));
-      cam.fov = 62;
+      const garden = PREVIEW_CAM === 'garden';
+      cam.position.copy(this.stage.localToWorld(garden ? new Vector3(0.02, eye - 0.08, -0.1) : new Vector3(0.06, eye + 0.1, 0.42)));
+      cam.lookAt(this.stage.localToWorld(garden ? new Vector3(0.04, eye - 0.45, -0.72) : new Vector3(0.1, eye - 0.2, -0.8)));
+      cam.fov = garden ? 50 : 62;
       cam.updateProjectionMatrix();
     }
     this.bubble.place(new Vector3(tf.origin[0], eye + 0.3, tf.origin[2]), head);
@@ -688,7 +692,23 @@ export class App {
     }
     this.feedback.update(dt, time, tracking.head.pos);
 
+    // While the learner is signing, a pinch-like handshape (MORE, F, 9...)
+    // must not "click" whatever the far ray points at. Buttons stay pokeable.
+    const step = this.lesson.currentStep;
+    this.setFarRays(!(inLesson && !this.lesson.paused && (step === 'together' || step === 'try')));
+
     if (this.bubble.visible && time > this.bubbleUntil) this.bubble.hide();
+  }
+
+  private farRays = true;
+
+  private setFarRays(on: boolean): void {
+    if (this.farRays === on) return;
+    this.farRays = on;
+    const pointers = this.world.input.xr?.multiPointers;
+    if (!pointers) return;
+    pointers.left.toggleSubPointer('ray', on);
+    pointers.right.toggleSubPointer('ray', on);
   }
 
   private pathDirty = '';

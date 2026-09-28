@@ -15,10 +15,13 @@ export async function maybeInstallEmulator(): Promise<XRDeviceT | null> {
   const q = new URLSearchParams(location.search);
   if (!q.has('emulate')) return null;
   const { XRDevice, metaQuest3 } = await import('iwer');
-  device = new XRDevice(metaQuest3, { stereoEnabled: false });
+  // Recording knobs: ?fov=<vertical degrees> and ?pitch=<degrees, negative looks down>.
+  const fov = Number(q.get('fov'));
+  device = new XRDevice(metaQuest3, { stereoEnabled: false, ...(fov > 20 && fov < 150 ? { fovy: (fov * Math.PI) / 180 } : {}) });
   device.installRuntime({ forceInstall: true });
   device.primaryInputMode = 'hand';
   device.position.set(0, 1.2, 0);
+  device.quaternion.set(...headQuat(0, Number(q.get('pitch')) || 0));
   if (q.has('devui')) {
     const { DevUI } = await import('@iwer/devui');
     device.installDevUI(DevUI);
@@ -108,6 +111,14 @@ export function injectHand(
   }
   if (hand.poseId !== id) hand.poseId = id;
   hand.setPinchValueImmediate?.(0);
+}
+
+/** Head orientation from yaw (left is positive) and pitch (up is positive), in degrees. */
+export function headQuat(yawDeg: number, pitchDeg: number): [number, number, number, number] {
+  const y = (yawDeg * Math.PI) / 360;
+  const p = (pitchDeg * Math.PI) / 360;
+  // q = yaw(Y) * pitch(X)
+  return [Math.cos(y) * Math.sin(p), Math.sin(y) * Math.cos(p), -Math.sin(y) * Math.sin(p), Math.cos(y) * Math.cos(p)];
 }
 
 /** Move the emulated headset. */
