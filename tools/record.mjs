@@ -9,9 +9,12 @@
  *
  * Usage:
  *   node tools/record.mjs --url "https://localhost:8081/?demo&fresh" --seconds 90 --fps 30 --out out/frames [--every 1] [--until summary]
+ *   node tools/record.mjs --url ... --video out/clip.mp4 [--stills 15]   # encode with ffmpeg; also keep every 15th frame as a PNG
  */
 import { chromium } from 'playwright';
-import { mkdirSync } from 'node:fs';
+import { spawn } from 'node:child_process';
+import { mkdirSync, writeFileSync } from 'node:fs';
+import { dirname } from 'node:path';
 
 const args = Object.fromEntries(
   process.argv.slice(2).reduce((acc, a, i, arr) => (a.startsWith('--') ? [...acc, [a.slice(2), arr[i + 1]?.startsWith('--') || arr[i + 1] === undefined ? true : arr[i + 1]]] : acc), []),
@@ -24,8 +27,19 @@ const out = args.out ?? 'out/frames';
 const width = +(args.width ?? 1920);
 const height = +(args.height ?? 1080);
 const until = args.until;
-const shots = !args['no-shots'];
+const video = typeof args.video === 'string' ? args.video : null;
+const stills = +(args.stills ?? 0);
+const shots = !args['no-shots'] && !video;
 mkdirSync(out, { recursive: true });
+let encoder = null;
+if (video) {
+  mkdirSync(dirname(video), { recursive: true });
+  encoder = spawn(
+    process.env.FFMPEG ?? 'ffmpeg',
+    ['-y', '-loglevel', 'error', '-f', 'image2pipe', '-framerate', String(fps), '-i', '-', '-c:v', 'libx264', '-preset', 'medium', '-crf', '16', '-pix_fmt', 'yuv420p', '-movflags', '+faststart', video],
+    { stdio: ['pipe', 'inherit', 'inherit'] },
+  );
+}
 
 const browser = await chromium.launch({
   executablePath: process.env.CHROME_PATH ?? '/opt/pw-browsers/chromium-1194/chrome-linux/chrome',
@@ -55,6 +69,11 @@ const log = [];
 for (let f = 0; f < total; f++) {
   await page.clock.runFor(1000 / fps);
   if (shots && f % every === 0) await page.screenshot({ path: `${out}/${String(f / every).padStart(5, '0')}.png`, type: 'png' });
+  if (encoder) {
+    const png = await page.screenshot({ type: 'png' });
+    if (!encoder.stdin.write(png)) await new Promise((r) => encoder.stdin.once('drain', r));
+    if (stills && f % stills === 0) writeFileSync(`${out}/${String(f).padStart(5, '0')}.png`, png);
+  }
   if (f % Math.round(fps / 2) === 0) {
     const st = await page
       .evaluate(() => {
@@ -75,3 +94,8 @@ for (let f = 0; f < total; f++) {
 }
 if (errors.length) console.log('ERRORS:\n' + [...new Set(errors)].slice(0, 20).join('\n'));
 await browser.close();
+if (encoder) {
+  encoder.stdin.end();
+  await new Promise((r) => encoder.on('close', r));
+  console.log(`wrote ${video}`);
+}

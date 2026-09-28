@@ -1,0 +1,163 @@
+1
+00:00:00,200 --> 00:00:08,720
+Nine out of ten deaf babies are born to
+hearing parents.
+
+2
+00:00:09,200 --> 00:00:12,507
+Overnight, those parents need a new
+language.
+
+3
+00:00:12,587 --> 00:00:15,065
+But learning from a video is hard.
+
+4
+00:00:15,145 --> 00:00:20,333
+The signer faces you, so you have to flip
+every movement in your head.
+
+5
+00:00:20,413 --> 00:00:23,720
+And nobody tells you if your hands are
+right.
+
+6
+00:00:24,200 --> 00:00:26,378
+So I built Signsprout.
+
+7
+00:00:26,458 --> 00:00:30,690
+It opens from a link in the Quest browser.
+
+8
+00:00:30,770 --> 00:00:35,720
+You stay seated, and all you need are your
+hands.
+
+9
+00:00:36,200 --> 00:00:38,542
+There's no wall of text.
+
+10
+00:00:38,622 --> 00:00:40,460
+Poke "Let's begin".
+
+11
+00:00:40,540 --> 00:00:44,599
+Hold up your hands, and Sprout sees them.
+
+12
+00:00:44,679 --> 00:00:47,526
+Pick the hand you write with.
+
+13
+00:00:47,606 --> 00:00:53,683
+Then touch your chin, so Signsprout knows
+where your face is,
+
+14
+00:00:53,763 --> 00:00:57,720
+and every sign lands in the right place.
+
+15
+00:00:58,200 --> 00:01:01,229
+Every sign has four steps.
+
+16
+00:01:01,309 --> 00:01:02,784
+First, watch.
+
+17
+00:01:02,864 --> 00:01:09,720
+Sprout signs face to face, mirrored, so
+it's easy to copy.
+
+18
+00:01:10,200 --> 00:01:16,409
+Then, glowing guide hands appear right
+where your hands are.
+
+19
+00:01:16,489 --> 00:01:20,916
+Put your hands inside them, and sign
+along.
+
+20
+00:01:20,996 --> 00:01:29,720
+Signsprout reads twenty-five joints on
+each hand, and tells you exactly what to
+fix.
+
+21
+00:01:30,200 --> 00:01:35,435
+Now it's your turn, from memory.
+
+22
+00:01:35,515 --> 00:01:45,734
+It checks the handshape, the place, the
+palm and the movement,
+
+23
+00:01:45,814 --> 00:01:49,720
+the way a teacher would.
+
+24
+00:01:50,200 --> 00:02:01,720
+Get it right, and a new plant sprouts in
+your garden.
+
+25
+00:02:02,200 --> 00:02:04,662
+Your garden is your progress.
+
+26
+00:02:04,742 --> 00:02:08,868
+Plants grow as signs move into long-term
+memory,
+
+27
+00:02:08,948 --> 00:02:12,724
+and droop a little when it's time to
+review.
+
+28
+00:02:12,804 --> 00:02:17,720
+Sessions take five minutes, so they fit
+before bath time.
+
+29
+00:02:18,200 --> 00:02:24,806
+On your phone, tell Sprout what you need,
+like "words for bath time".
+
+30
+00:02:24,886 --> 00:02:30,522
+The AI coach builds a plan from signs
+Signsprout can check,
+
+31
+00:02:30,602 --> 00:02:33,720
+and it's waiting in your headset.
+
+32
+00:02:34,200 --> 00:02:35,471
+Left-handed?
+
+33
+00:02:35,551 --> 00:02:37,386
+Every sign flips.
+
+34
+00:02:37,466 --> 00:02:45,720
+Limited finger movement, high contrast,
+calm motion: they're all built in.
+
+35
+00:02:46,200 --> 00:02:47,013
+Signsprout.
+
+36
+00:02:47,093 --> 00:02:51,720
+Learn to sign with your own two hands,
+five minutes a day.

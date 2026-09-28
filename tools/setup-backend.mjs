@@ -104,6 +104,26 @@ await api('PATCH', `/projects/${ref}/config/auth`, {
 });
 console.log(`Auth redirects allowed for ${SITE_URL}`);
 
+// The companion site signs people in with a typed 6-digit code (a magic link
+// opened on another device can't finish sign-in), so both emails include it.
+const email = (title) => `<div style="font-family:system-ui,sans-serif;max-width:480px;margin:auto;padding:24px;color:#16232B">
+<h2 style="font-family:Georgia,serif;margin:0 0 12px">${title}</h2>
+<p>Your Signsprout code is</p>
+<p style="font-size:32px;font-weight:700;letter-spacing:6px;margin:8px 0 20px">{{ .Token }}</p>
+<p>Or <a href="{{ .ConfirmationURL }}">sign in with this link</a> on this device.</p>
+<p style="color:#6b7c85;font-size:13px">If you didn't ask for this, you can ignore this email.</p></div>`;
+try {
+  await api('PATCH', `/projects/${ref}/config/auth`, {
+    mailer_subjects_magic_link: 'Your Signsprout sign-in code',
+    mailer_templates_magic_link_content: email('Welcome back to Signsprout'),
+    mailer_subjects_confirmation: 'Your Signsprout sign-in code',
+    mailer_templates_confirmation_content: email('Welcome to Signsprout'),
+  });
+  console.log('Sign-in emails include a code.');
+} catch (err) {
+  console.warn(`Could not update email templates (${err.message}). Add {{ .Token }} to the Magic Link and Confirm signup templates in the dashboard.`);
+}
+
 // 6. Public keys for the web builds ----------------------------------------------
 const keys = await api('GET', `/projects/${ref}/api-keys`);
 const anon = keys.find((k) => k.name === 'anon' || k.type === 'publishable')?.api_key;

@@ -16,7 +16,7 @@ import { onLocalChange, progress, store } from '../app/store.js';
 
 const URL = import.meta.env.VITE_SUPABASE_URL as string | undefined;
 const KEY = import.meta.env.VITE_SUPABASE_ANON_KEY as string | undefined;
-const WEB = (import.meta.env.VITE_WEB_URL as string | undefined) ?? 'signsprout.app/pair';
+const WEB = (import.meta.env.VITE_WEB_URL as string | undefined) ?? 'signsprout.surge.sh/#/pair';
 
 export interface AccountState {
   signedIn: boolean;
