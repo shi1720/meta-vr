@@ -99,7 +99,7 @@ export default function Share() {
             <p className="eyebrow">{d.label ? `Shared with ${d.label}` : 'Shared garden'}</p>
             <h1>{d.name}’s signing garden</h1>
             <p className="lede">
-              {d.name} is learning American Sign Language, five minutes at a time. Every flower is a sign they can use.
+              {d.name} is learning ASL signs, five minutes at a time. Every flower is a sign they can use.
             </p>
           </div>
         </header>

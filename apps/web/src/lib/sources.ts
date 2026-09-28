@@ -47,7 +47,7 @@ export const SOURCES: Source[] = [
     id: 'shield',
     label: 'Shield & Meier (2018), Frontiers in Psychology',
     detail:
-      'Hearing non-signers copying a face-to-face model erred on 24.3% of sideways movements; with a model matched to their perspective, errors fell from 20.6% to 0.9%.',
+      'Hearing non-signers copying a face-to-face model erred on 24.3% of sideways movements; in a second study, a model that matched their mirroring cut those errors from 20.6% to 0.9%.',
     url: 'https://pmc.ncbi.nlm.nih.gov/articles/PMC5988899/',
   },
   {

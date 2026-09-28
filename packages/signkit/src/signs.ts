@@ -197,7 +197,7 @@ const MOTHER = oneHanded(
     category: 'family',
     difficulty: 1,
     howTo: 'Spread your hand open and tap your thumb on your chin, twice.',
-    hint: 'Female signs are made near the chin.',
+    hint: 'Many signs for women in the family (MOTHER, GRANDMOTHER) are made near the chin.',
   },
   K({ shape: '5', at: 'chin', contact: 'thumb-tip', palm: 'contra', fingers: 'up' }),
   { path: 'tap', direction: 'out', amplitude: 0.03, repeat: 2 },
@@ -947,6 +947,23 @@ export const SIGNS: SignDef[] = [
 ].map((s) => withNotes(s));
 
 export const ALL_SIGNS: SignDef[] = [...SIGNS, ...LETTERS, ...NUMBERS];
+
+/**
+ * Onboarding demonstration, not a sign: the index fingertip touches the chin
+ * and holds (used to calibrate face landmarks). Not part of the catalog.
+ */
+export const CHIN_TOUCH: SignDef = oneHanded(
+  {
+    id: 'chin-touch',
+    gloss: 'CHIN TOUCH',
+    english: 'touch your chin',
+    category: 'greetings',
+    difficulty: 1,
+    howTo: 'Touch your chin with your index finger and hold it there for a moment.',
+  },
+  K({ shape: '1', at: 'chin', contact: 'index-tip', palm: 'in', fingers: 'up' }),
+  { path: 'hold', dur: 1.2 },
+);
 
 const BY_ID = new Map(ALL_SIGNS.map((s) => [s.id, s]));
 

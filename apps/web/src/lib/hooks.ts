@@ -24,7 +24,9 @@ export function useReducedMotion(): boolean {
 /** Sets document.title for the current page. */
 export function useTitle(title: string): void {
   useEffect(() => {
-    document.title = title ? `${title} · Signsprout` : 'Signsprout · Learn sign language with your own two hands';
+    document.title = title
+      ? `${title} · Signsprout`
+      : 'Signsprout · Learn your first ASL signs with your own two hands';
   }, [title]);
 }
 

@@ -11,7 +11,7 @@ export function Footer() {
         <div className="footer-brand">
           <Wordmark size={40} />
           <p className="muted">
-            Learn American Sign Language with your own two hands: glowing guide hands, per-finger feedback and a garden
+            Learn your first ASL signs with your own two hands: glowing guide hands, per-finger feedback and a garden
             that grows with every sign.
           </p>
           <p className="footer-credit">
@@ -35,8 +35,8 @@ export function Footer() {
           <Link to="/?s=responsible">Built responsibly</Link>
           <Link to="/privacy">Privacy &amp; ethics</Link>
         </nav>
-        <nav className="footer-col" aria-label="ASL references">
-          <h2>Learn from Deaf signers</h2>
+        <nav className="footer-col" aria-label="ASL and family resources">
+          <h2>Keep learning</h2>
           <a href="https://www.handspeak.com/" target="_blank" rel="noreferrer">
             Handspeak
           </a>
@@ -48,6 +48,16 @@ export function Footer() {
           </a>
           <a href="https://handsandvoices.org/" target="_blank" rel="noreferrer">
             Hands &amp; Voices
+          </a>
+          <a
+            href="https://idrpp.usu.edu/projects/ski-hi/deaf-hard-of-hearing/deaf-mentors"
+            target="_blank"
+            rel="noreferrer"
+          >
+            SKI-HI Deaf Mentor program
+          </a>
+          <a href="https://www.gallaudet.edu/asl-connect/" target="_blank" rel="noreferrer">
+            Gallaudet ASL Connect
           </a>
         </nav>
       </div>

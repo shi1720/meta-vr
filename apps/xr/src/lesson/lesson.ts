@@ -16,6 +16,8 @@
 import {
   bodyFrameFromHead,
   compileSign,
+  bodyToWorld,
+  contactBody,
   contactWorld,
   createBodyFrame,
   createHandState,
@@ -30,6 +32,7 @@ import {
 import type {
   BodyFrame,
   HandshapeMatch,
+  Quat,
   SessionItem,
   SignDef,
   Vec3,
@@ -111,7 +114,31 @@ export class LessonController {
   private failStreak = 0;
   private lastPhase = '';
   private quality = 0;
-  paused = false;
+  private pausedFlag = false;
+  private pausedAt = 0;
+
+  get paused(): boolean {
+    return this.pausedFlag;
+  }
+
+  /**
+   * Pause or resume. Paused time doesn't count towards hints, time-outs or
+   * practice minutes, and the attempt restarts cleanly on resume.
+   */
+  setPaused(on: boolean, now: number): void {
+    if (on === this.pausedFlag) return;
+    this.pausedFlag = on;
+    if (on) {
+      this.pausedAt = now;
+      return;
+    }
+    const gap = Math.max(0, now - this.pausedAt);
+    this.stepStart += gap;
+    this.itemStart += gap;
+    this.sessionStart += gap;
+    this.lastFbAt += gap;
+    this.verifier?.reset();
+  }
   active = false;
   /** When set, the controller never auto-advances past "watch" (demo mode). */
   firstRun = false;
@@ -297,9 +324,27 @@ export class LessonController {
 
   // --- Frame update -------------------------------------------------------------
 
+  /**
+   * The learner's body heading, fixed when the stage recenters. The signing
+   * space follows the head's position but not where the learner is looking,
+   * so glancing at the panel doesn't swing the targets or the guide hands.
+   */
+  private bodyYaw: Quat | null = null;
+
+  setBodyYaw(yaw: Quat): void {
+    this.bodyYaw = [yaw[0], yaw[1], yaw[2], yaw[3]];
+  }
+
   private updateFrame(smoothing: number): void {
     const s = settings.peek();
     bodyFrameFromHead(this.learner, tracking.head.pos, tracking.head.quat, smoothing);
+    if (this.bodyYaw) {
+      const y = this.learner.yaw;
+      y[0] = this.bodyYaw[0];
+      y[1] = this.bodyYaw[1];
+      y[2] = this.bodyYaw[2];
+      y[3] = this.bodyYaw[3];
+    }
     this.learner.mirror = s.dominantHand === 'left';
   }
 
@@ -417,11 +462,20 @@ export class LessonController {
   startHalo(): Vec3 | null {
     if (!this.active || (this.step !== 'together' && this.step !== 'try')) return null;
     if (this.lastFb && this.lastFb.phase !== 'place' && this.lastFb.phase !== 'shape') return null;
-    const c = compileSign(this.sign);
-    const st = createHandState();
-    sampleTrack(c.dominant, 0, st);
-    return contactWorld(st, 'right', c.dominant.start.key.contact ?? 'palm', this.learner);
+    // The start contact in body space only changes with the sign; the world
+    // position follows the learner's frame every frame (no allocation).
+    if (this.haloFor !== this.sign) {
+      const c = compileSign(this.sign);
+      const st = createHandState();
+      sampleTrack(c.dominant, 0, st);
+      contactBody(st, 'right', c.dominant.start.key.contact ?? 'palm', this.haloBody);
+      this.haloFor = this.sign;
+    }
+    return bodyToWorld(this.learner, this.haloBody, this.haloWorld);
   }
+  private haloFor: SignDef | null = null;
+  private haloBody: Vec3 = [0, 0, 0];
+  private haloWorld: Vec3 = [0, 0, 0];
 
   /** Dotted path of the sign's movement in the learner's space. */
   guidePath(): Vec3[] | null {

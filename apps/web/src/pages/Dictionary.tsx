@@ -66,9 +66,8 @@ export default function Dictionary() {
           <p className="eyebrow">Sign dictionary</p>
           <h1>Every sign Signsprout teaches, in 3D.</h1>
           <p className="lede">
-            {COUNTS.words} everyday words, fingerspelling A–Z and numbers 1–10. Watch each one face to face, or switch
-            to
-            <em> my view</em> to see it from the signer’s eyes.
+            {COUNTS.words} everyday words, fingerspelling A–Z and numbers 1–10. Watch each one face to face in
+            <em> Sprout’s view</em>, or switch to <em>your view</em> to see it as if your own hands were signing.
           </p>
         </div>
       </header>

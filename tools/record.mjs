@@ -10,6 +10,7 @@
  * Usage:
  *   node tools/record.mjs --url "https://localhost:8081/?demo&fresh" --seconds 90 --fps 30 --out out/frames [--every 1] [--until summary]
  *   node tools/record.mjs --url ... --video out/clip.mp4 [--stills 15]   # encode with ffmpeg; also keep every 15th frame as a PNG
+ *   node tools/record.mjs --url ... --at 3 --eval "window.__app..."           # run a snippet in the page at t = 3 s
  */
 import { chromium } from 'playwright';
 import { spawn } from 'node:child_process';
@@ -64,9 +65,11 @@ for (let i = 0; i < 60; i++) {
   if (ready) break;
 }
 const total = Math.round(seconds * fps);
+const evalAt = args.at !== undefined ? Math.round(+args.at * fps) : -1;
 let lastState = '';
 const log = [];
 for (let f = 0; f < total; f++) {
+  if (f === evalAt && typeof args.eval === 'string') await page.evaluate(args.eval).catch((e) => console.log('eval failed:', e.message));
   await page.clock.runFor(1000 / fps);
   if (shots && f % every === 0) await page.screenshot({ path: `${out}/${String(f / every).padStart(5, '0')}.png`, type: 'png' });
   if (encoder) {

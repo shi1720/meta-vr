@@ -22,8 +22,9 @@ function rng(seed: number): () => number {
 /**
  * @param days how long the learner has been practising
  * @param awayDays days since the last session (plants droop when reviews are overdue)
+ * @param focus a coach plan to show as "Sprout's plan for you"
  */
-export function seededHistory(now: number, days = 30, awayDays = 0): ProgressDoc {
+export function seededHistory(now: number, days = 30, awayDays = 0, focus: string[] = []): ProgressDoc {
   const r = rng(20261118);
   const start = now - (days + awayDays) * DAY;
   let doc = createProgress(start);
@@ -46,5 +47,8 @@ export function seededHistory(now: number, days = 30, awayDays = 0): ProgressDoc
       t += (fresh ? 60 : 25) * 1000;
     }
   }
-  return { ...doc, onboarded: true, updatedAt: now };
+  // A coach plan waiting on the headset: those signs are still to learn.
+  const cards = { ...doc.cards };
+  for (const id of focus) delete cards[id];
+  return { ...doc, cards, focus, focusUpdatedAt: now, onboarded: true, updatedAt: now };
 }

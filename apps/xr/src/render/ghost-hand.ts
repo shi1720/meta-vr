@@ -28,8 +28,12 @@ import { clone as cloneSkinned } from 'three/examples/jsm/utils/SkeletonUtils.js
 import { JOINT_NAMES } from '@signsprout/signkit';
 import type { Handedness } from '@signsprout/signkit';
 
-const HAND_BASE =
-  'https://cdn.jsdelivr.net/npm/@webxr-input-profiles/assets@1.0.20/dist/profiles/generic-hand/';
+// Meta's WebXR generic hand models (MIT), shipped with the app; the CDN copy
+// is a fallback.
+const HAND_SOURCES = [
+  `${import.meta.env.BASE_URL}hands/`,
+  'https://cdn.jsdelivr.net/npm/@webxr-input-profiles/assets@1.0.20/dist/profiles/generic-hand/',
+];
 
 export interface GlowMaterial extends MeshPhongMaterial {
   userData: { uniforms?: { uRim: { value: Color }; uOpacity: { value: number }; uCore: { value: number } } };
@@ -102,7 +106,16 @@ export class GhostHand {
 
   async load(): Promise<this> {
     try {
-      const gltf = await AssetManager.loadGLTF(`${HAND_BASE}${this.handedness}.glb`, `ghost-hand-${this.handedness}`);
+      let gltf: Awaited<ReturnType<typeof AssetManager.loadGLTF>> | null = null;
+      for (const [i, base] of HAND_SOURCES.entries()) {
+        try {
+          gltf = await AssetManager.loadGLTF(`${base}${this.handedness}.glb`, `ghost-hand-${this.handedness}-${i}`);
+          break;
+        } catch {
+          /* try the next source */
+        }
+      }
+      if (!gltf) throw new Error('hand model unavailable');
       const armature = cloneSkinned(gltf.scene.children[0]);
       armature.traverse((o: Object3D) => {
         const sm = o as SkinnedMesh;

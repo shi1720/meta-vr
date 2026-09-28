@@ -87,7 +87,7 @@ const STEPS = [
   },
   {
     title: 'Sign it yourself',
-    body: 'The guide fades. Signsprout checks handshape, then location, then movement, with a tip for each finger.',
+    body: 'The guide fades. Signsprout checks handshape, then place, then movement, then the final handshape, with a tip for each finger.',
     ill: <FeedbackIllustration />,
     tone: 'coral',
   },
@@ -135,8 +135,13 @@ export function HowItWorks() {
 
 export function Science() {
   const bars = [
-    { label: 'Face-to-face model', sub: 'Their right is your left', value: 20.6, tone: 'muted' },
-    { label: 'Model matched to the learner’s view', sub: 'Left and right line up', value: 0.9, tone: 'sprout' },
+    { label: 'Face-to-face model (study 2)', sub: 'The model’s right is on your left', value: 20.6, tone: 'muted' },
+    {
+      label: 'Model flipped to match the learner’s mirroring (study 2)',
+      sub: 'Left and right line up',
+      value: 0.9,
+      tone: 'sprout',
+    },
   ];
   const max = 25;
   return (
@@ -145,11 +150,12 @@ export function Science() {
       <div className="container science-grid">
         <div>
           <p className="eyebrow">Why first-person</p>
-          <h2 id="science-title">Mirrors confuse beginners. So we took the mirror away.</h2>
+          <h2 id="science-title">Face to face, left and right flip. So the guide hands sit on your side.</h2>
           <p className="lede">
-            When a teacher faces you, their right hand is on your left. Fluent signers flip that without thinking;
-            beginners don’t. Hearing non-signers copying a face-to-face model got sideways movements wrong{' '}
-            <strong>24.3%</strong> of the time.
+            When a signer faces you, their right hand is on your left. Fluent signers flip that without thinking;
+            beginners don’t. In one study, hearing non-signers copying a face-to-face model got sideways movements wrong{' '}
+            <strong>24.3%</strong> of the time. In a second study, a model that matched their mirroring cut those errors
+            from 20.6% to 0.9%.
             <Cite id="shield" />
           </p>
           <p className="lede">
@@ -166,7 +172,7 @@ export function Science() {
         <figure className="chart-card" aria-labelledby="chart-title">
           <figcaption id="chart-title" className="chart-title">
             <strong>Errors on sideways movements</strong>
-            <span>Hearing non-signers, Shield &amp; Meier (2018)</span>
+            <span>Hearing non-signers, Shield &amp; Meier (2018), study 2</span>
           </figcaption>
           <div className="bars" role="list">
             {bars.map((b) => (
@@ -212,12 +218,12 @@ const FEATURES: { icon: IconName; title: string; body: string }[] = [
   {
     icon: 'fingers',
     title: 'Per-finger feedback',
-    body: 'Handshape, place and movement are checked in order. Each fingertip lights up green, gold or coral, with a plain tip like “fold your ring finger down”.',
+    body: 'Handshape, then place, then movement, then the final handshape. Each fingertip lights up green, gold or coral, with a plain tip like “fold your ring finger down”.',
   },
   {
     icon: 'book',
     title: `${COUNTS.words} signs, A–Z and 1–10`,
-    body: 'Family-first words for mealtime, bath and bedtime, feelings and little conversations, plus fingerspelling and numbers.',
+    body: 'First ASL vocabulary for families: mealtime, bath and bedtime, feelings and little conversations, plus fingerspelling and numbers.',
   },
   {
     icon: 'sprout',
@@ -227,7 +233,7 @@ const FEATURES: { icon: IconName; title: string; body: string }[] = [
   {
     icon: 'swap',
     title: 'Left-handed mode',
-    body: 'Every sign mirrors automatically, guide hands and checker included, so your dominant hand leads.',
+    body: 'Every sign mirrors automatically, guide hands and checker included, and the panel moves to the left, so your dominant hand leads.',
   },
   {
     icon: 'room',
@@ -237,7 +243,7 @@ const FEATURES: { icon: IconName; title: string; body: string }[] = [
   {
     icon: 'accessibility',
     title: 'Accessible by design',
-    body: 'Visual-first with captions always on, no sound needed, high contrast, and a gentle mode for limited finger range.',
+    body: 'Captions for every prompt, optional voice read-out, high contrast, calm motion, a limited-finger-range mode and “Continue with one hand”. Look-to-select (head gaze) and voice commands where the browser supports them.',
   },
   {
     icon: 'message',
@@ -323,7 +329,7 @@ export function Pricing() {
           </article>
 
           <article className="plan featured" aria-labelledby="plan-family">
-            <span className="plan-badge">Most loved</span>
+            <span className="plan-badge">Best for families</span>
             <header>
               <h3 id="plan-family">Family</h3>
               <p className="plan-for">For the whole household</p>
@@ -379,8 +385,8 @@ export function Pricing() {
             <Icon name="heart" size={22} />
           </span>
           <p>
-            <strong>Free for families of deaf children under 3</strong> through partner programs. Early intervention and
-            audiology teams: we cover the Family plan for the babies you serve.
+            <strong>Planned: free for families of deaf children under 3</strong>, funded through partner programs. Early
+            intervention and audiology teams: the plan is to cover the Family plan for the babies you serve.
           </p>
         </div>
         <p className="pricing-note muted">Planned launch pricing. Everything in this preview is free.</p>
@@ -397,35 +403,36 @@ export function Responsible() {
   const items: { icon: IconName; title: string; body: ReactNode }[] = [
     {
       icon: 'checkCircle',
-      title: 'Cross-checked signs',
+      title: 'Compared with trusted references',
       body: (
         <>
-          Every sign is checked against{' '}
+          We compared each sign with{' '}
           <a className="link" href="https://www.handspeak.com/" target="_blank" rel="noreferrer">
             Handspeak
           </a>{' '}
-          by Deaf signer Jolanta Lapiak and{' '}
+          (Jolanta Lapiak) and{' '}
           <a className="link" href="https://www.lifeprint.com/" target="_blank" rel="noreferrer">
             Lifeprint / ASL University
           </a>{' '}
-          by Dr. Bill Vicars. Each dictionary page links its sources.
+          (Dr. Bill Vicars). No Deaf signer has reviewed Signsprout yet; paid review by Deaf signers comes before
+          launch. Each dictionary page links its sources.
         </>
       ),
     },
     {
       icon: 'message',
       title: 'A learning aid, not a translator',
-      body: 'Signsprout never claims to interpret or translate. It helps you practise, and points you to Deaf teachers and community.',
+      body: 'Signsprout never claims to interpret or translate. It helps you practise, and this site links to Deaf-led resources and Deaf Mentor programs.',
     },
     {
       icon: 'face',
       title: 'Honest about limits',
-      body: 'Facial grammar matters in ASL, but hand tracking can’t see your face, so it isn’t scored. We show it as a tip on every sign.',
+      body: 'Facial grammar matters in ASL, but hand tracking can’t see your face, so it’s mentioned as a tip, not scored. For fingerspelled letters that hand tracking confuses (such as M, N, T, E, A, S), Signsprout is lenient and says so.',
     },
     {
       icon: 'globe',
-      title: 'Variants are welcome',
-      body: 'Signs vary by region and family. We show common variants instead of marking them wrong.',
+      title: 'Variants are real',
+      body: 'Signs vary by region and family. Common variants are listed; for now the checker accepts one form.',
     },
     {
       icon: 'lock',
@@ -435,7 +442,7 @@ export function Responsible() {
     {
       icon: 'users',
       title: 'Next: Deaf-led',
-      body: 'On our roadmap: Deaf-led review of every sign and paid Deaf teachers inside the app. Not advisors on a slide: leadership.',
+      body: 'The plan: paid review of every sign by Deaf signers before launch, and Deaf co-leadership of the content, with pay and a veto over what we teach. That isn’t in place yet.',
     },
   ];
   return (
@@ -496,15 +503,15 @@ const FAQS: { q: string; a: ReactNode }[] = [
   },
   {
     q: 'What if I’m left-handed?',
-    a: 'Turn on left-handed mode and every sign mirrors, including the guide hands and the checker. Your dominant hand leads, just as it would in ASL.',
+    a: 'Turn on left-handed mode and every sign mirrors, including the guide hands and the checker, and the panel moves to the left. Your dominant hand leads, just as it would in ASL.',
   },
   {
     q: 'Is this a replacement for a Deaf teacher?',
-    a: 'No. Signsprout is practice for the minutes between lessons. ASL is a full language, with grammar on the face and body and a rich culture. Learn it with Deaf teachers, Deaf mentors and the Deaf community; we point you to them throughout.',
+    a: 'No. Signsprout is practice for the minutes between lessons. ASL is a full language, with grammar on the face and body and a rich culture. Learn it with Deaf teachers, Deaf mentors and the Deaf community. The links at the bottom of this page, including Deaf Mentor programs and Gallaudet’s ASL Connect, are a good place to start.',
   },
   {
     q: 'Which sign language does it teach?',
-    a: 'American Sign Language (ASL). Sign languages differ around the world. Indian Sign Language (ISL) and British Sign Language (BSL) are on our roadmap, built with Deaf signers from those communities.',
+    a: 'American Sign Language (ASL). Signsprout covers first ASL vocabulary for families, not the whole language. Sign languages differ around the world. Indian Sign Language (ISL) and British Sign Language (BSL) are on our roadmap, built with Deaf signers from those communities.',
   },
   {
     q: 'What happens to my data?',

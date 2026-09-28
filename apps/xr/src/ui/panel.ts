@@ -5,16 +5,22 @@
 
 import { Group, PokeInteractable, RayInteractable, UIKitDocument, Vector3 } from '@iwsdk/core';
 import type { Entity, UIKit, World } from '@iwsdk/core';
+import { quietButtons } from './kit.js';
 
 export class Panel {
   readonly entity: Entity;
   readonly holder: Group;
   private doc: UIKitDocument | null = null;
+  private root: UIKit.Container | null = null;
   private widthM: number;
-  private fade = 1;
-  private targetFade = 1;
+  private look = new Vector3();
 
-  constructor(world: World, widthMeters: number, name: string, interactive = true) {
+  constructor(
+    world: World,
+    widthMeters: number,
+    name: string,
+    private readonly interactive = true,
+  ) {
     this.holder = new Group();
     this.holder.name = name;
     this.widthM = widthMeters;
@@ -25,8 +31,18 @@ export class Panel {
     }
   }
 
-  /** Replace the panel's content. */
+  /**
+   * Show content. Showing the root that is already mounted just reveals the
+   * panel: disposing a document also disposes its root, so a reused root
+   * (the coach bubble, the hands HUD) must never be remounted.
+   */
   show(root: UIKit.Container): void {
+    if (this.doc && this.root === root) {
+      this.holder.visible = true;
+      return;
+    }
+    this.root = root;
+    if (this.interactive) quietButtons(300);
     if (this.doc) {
       this.holder.remove(this.doc);
       this.doc.dispose();
@@ -49,9 +65,8 @@ export class Panel {
   place(pos: Vector3, face?: Vector3, tiltDeg = 0): void {
     this.holder.position.copy(pos);
     if (face) {
-      const t = new Vector3(face.x, pos.y, face.z);
       // Object3D.lookAt points +Z (the side uikit renders on) at the target.
-      this.holder.lookAt(t);
+      this.holder.lookAt(this.look.set(face.x, pos.y, face.z));
       if (tiltDeg) this.holder.rotateX((-tiltDeg * Math.PI) / 180);
     }
   }

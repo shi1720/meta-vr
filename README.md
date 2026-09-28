@@ -4,11 +4,12 @@
 
 # Signsprout
 
-**Learn sign language with your own two hands.**
+**Learn your first ASL signs with your own two hands.**
 
-Sprout signs face to face, glowing guide hands sit right where your hands
-are, and every sign you learn grows a plant in your garden.
-Five minutes a day, seated, hands only, on Meta Quest.
+Sprout demonstrates each sign face to face, glowing guide hands sit right where
+your hands are, and every sign you learn grows a plant in your garden.
+First ASL vocabulary for families: five minutes a day, seated, hands only, on
+Meta Quest.
 
 [**Try it on Quest**](https://signsprout.surge.sh/app/) ·
 [Companion site](https://signsprout.surge.sh/) ·
@@ -32,12 +33,15 @@ signing regularly at home
 Parents say the barriers are time, cost and having no one nearby to learn from.
 
 Videos make it harder than it needs to be. The signer faces you, so you have to
-mirror every movement in your head, and nothing tells you whether your own
-hands are right. Novices make most of their errors in exactly that mirroring
-step ([Shield & Meier 2018](https://pmc.ncbi.nlm.nih.gov/articles/PMC5988899/)).
+flip every movement in your head, and nothing tells you whether your own hands
+are right. Hearing non-signers copying a face-to-face model made errors on
+24.3% of sideways movements. In a second study, a model that matched their
+mirroring cut those errors from 20.6% to 0.9%
+([Shield & Meier 2018](https://pmc.ncbi.nlm.nih.gov/articles/PMC5988899/)).
 
-Signsprout removes both problems. The teacher's hands appear exactly where your
-hands are, and the headset can see every finger.
+Signsprout works on both problems. Guide hands appear exactly where your hands
+are, and the headset reads 25 joints per hand, so Signsprout can check each
+finger.
 
 ## What it does
 
@@ -45,9 +49,9 @@ Each sign takes about a minute and has four steps:
 
 | | Step | What happens |
 |---|---|---|
-| 👀 | **Watch** | Sprout signs it face to face, mirrored so it's easy to copy (switchable to the signer's view). |
+| 👀 | **Watch** | Sprout demonstrates it face to face, mirrored so it's easy to copy (switchable to the signer's view). |
 | 🤲 | **Together** | Glowing guide hands appear on your own hands. Put your hands inside them and sign along. |
-| ✋ | **Your turn** | Sign from memory. Signsprout checks handshape, place, palm and movement, and says exactly what to fix ("Fold your ring finger down more"). |
+| ✋ | **Your turn** | Sign from memory. Signsprout checks handshape, then place (including palm direction), then movement, then the final handshape, and says what to fix in plain words ("Fold your ring finger down more"). |
 | 🌱 | **Celebrate** | A new plant sprouts in your garden. |
 
 - **A garden that is your progress.** Plants grow as signs move into long-term
@@ -57,26 +61,43 @@ Each sign takes about a minute and has four steps:
   I-LOVE-YOU) with no account and no wall of text.
 - **87 signs in v1:** 51 family words (mealtime, bath and bedtime, feelings,
   manners, little conversations, pets), fingerspelling A–Z and numbers 1–10.
+  This is first ASL vocabulary, not the whole language.
+- **A mirror view for signs at the face.** A mirror beside Sprout shows your
+  hands against your face, so you can check that your hand is really at your
+  chin.
+- **Sprout's face helps too.** Sprout's expression changes for WH-questions and
+  sad signs. Facial grammar is mentioned as a tip, not scored.
 - **Sprout, the AI coach.** Tell it what you need ("words for bath time") on
-  your phone. It plans a session from signs Signsprout can verify, and the plan
+  your phone. It plans a session from signs Signsprout can check, and the plan
   is waiting in your headset.
 - **Phone pairing, no typing in VR.** The headset shows a 6-character code;
   approve it on your phone.
-- **A companion site** with a 3D sign dictionary ("their view" and "my view"),
-  a family dashboard and a read-only share link for grandparents.
+- **A companion site** with a 3D sign dictionary ("Sprout's view" and "your
+  view"), a family dashboard and a read-only share link for grandparents.
+
+Accounts, pairing, sync and the AI coach run on Supabase. The public preview
+works fully offline without them.
 
 ## Designed for the headset
 
 - **Hands only, end to end.** Every button works with a fingertip poke or a
-  pinch ray. No controller is ever needed.
+  pinch ray. No controller is ever needed. Buttons are about 2.8–4.5 cm tall
+  and show an icon plus a label. Look-to-select (head-gaze dwell) and optional
+  voice commands work where the browser supports them.
 - **Seated, within a two-foot radius.** The stage recenters on your head and the
   table follows your eye height.
 - **Easy in, easy out.** It's a link: no install, fast cold start, no sign-in
   required. Pause and resume follow the headset's visibility state.
-- **Accessible by default.** Visual-first with captions, left-handed mode (every
-  sign mirrors), adjustable strictness, a "limited finger range" option for
-  learners with less finger mobility, high contrast, calm motion, and feedback
-  that uses shape as well as colour.
+- **Accessible by default.** Captions for every prompt and an optional voice
+  read-out. Left-handed mode (every sign mirrors and the panel moves to the
+  left). Adjustable strictness and guide speed, and a "limited finger range"
+  option for learners with less finger mobility. High contrast (panels plus
+  bigger, saturated fingertip markers) and calm motion (no pollen, pulses,
+  sparkles or idle motion from Sprout). "Continue with one hand" on the hands
+  check. Feedback uses shape as well as colour.
+- **Honest about tracking limits.** For fingerspelled letters that hand
+  tracking confuses (such as M, N, T, E, A, S), Signsprout is lenient and says
+  so.
 
 ## Try it
 
@@ -114,12 +135,16 @@ oneHanded(
 
 That one definition drives Sprout's animation, the first-person guide hands,
 the dotted guide path, the written instructions, the checker, and left-handed
-mirroring. The checker reads 25 joints per hand every frame and verifies a sign
-the way a teacher would: shape, then place (relative to your face, calibrated by
-touching your chin), then movement, then the final shape. Every part comes with
-a plain-language hint.
+mirroring. The checker reads 25 joints per hand every frame and checks a sign in
+order: handshape, then place (relative to your face, calibrated by touching your
+chin), then movement, then the final handshape. Every part comes with a
+plain-language hint.
 
-**Tested with a simulated learner** (`packages/signkit/test`, `scripts/sim-*.ts`):
+**Tested with a simulated learner (synthetic hands, not yet real-user data)**
+(`packages/signkit/test`, `scripts/sim-*.ts`). The simulated learner is built
+from the same hand model the checker uses, so these results show the checker is
+consistent and tolerates noise and speed changes. They don't yet show how it
+does with real hands. On-device testing with real signers is next.
 
 | Scenario | Result |
 |---|---|
@@ -196,17 +221,27 @@ SUPABASE_ACCESS_TOKEN=sbp_... SITE_URL=https://signsprout.surge.sh node tools/se
 
 Hand-joint data never leaves the headset. Only the learner's progress (which
 signs, how well, when) is synced, and only after they choose to sign in.
-Hand tracking can't see faces, so facial grammar is taught but never scored.
+Hand tracking can't see faces, so facial grammar is mentioned as a tip, not
+scored.
 
 ## Respect for the Deaf community
 
 Signsprout is a practice partner for families, not a translator and not a
-replacement for Deaf teachers, Deaf mentors or the community. The v1 signs were
-cross-checked against [Handspeak](https://www.handspeak.com/) (by Deaf signer
-Jolanta Lapiak) and [Lifeprint / ASL University](https://www.lifeprint.com/)
-(Dr. Bill Vicars). The launch plan includes paid review of every sign by Deaf
-signers. Sign languages vary by region, so where a sign has common variants
-the plan is to show them rather than mark them wrong.
+replacement for Deaf teachers, Deaf mentors or the community.
+
+- We compared each sign with [Handspeak](https://www.handspeak.com/) (Jolanta
+  Lapiak) and [Lifeprint / ASL University](https://www.lifeprint.com/)
+  (Dr. Bill Vicars). No Deaf signer has reviewed Signsprout yet; paid review by
+  Deaf signers comes before launch.
+- The plan is Deaf co-leadership of the content, paid, with a veto over what
+  Signsprout teaches. That is not in place yet.
+- Signs vary by region and family. Common variants are listed; for now the
+  checker accepts one form.
+- The companion site links to Handspeak, Lifeprint, the
+  [American Society for Deaf Children](https://deafchildren.org/),
+  [Hands & Voices](https://handsandvoices.org/), the
+  [SKI-HI Deaf Mentor program](https://idrpp.usu.edu/projects/ski-hi/deaf-hard-of-hearing/deaf-mentors)
+  and [Gallaudet's ASL Connect](https://www.gallaudet.edu/asl-connect/).
 
 ## Credits
 

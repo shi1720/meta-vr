@@ -31,7 +31,12 @@ async function boot(): Promise<void> {
 
   world.registerSystem(HandInputSystem, { priority: -10 });
   // Demo/video: start from a six-week learner history instead of a new one.
-  if (params.get('seed') === 'garden') store.replace(seededHistory(Date.now(), 30, Number(params.get('away')) || 0));
+  if (params.get('seed') === 'garden') {
+    const plan = params.get('plan') === 'bath' ? ['bath', 'sleep', 'book'] : [];
+    store.replace(seededHistory(Date.now(), 30, Number(params.get('away')) || 0, plan));
+  }
+  // Demo/tests: turn on hands-free look-to-select.
+  if (params.has('gaze')) store.updateSettings({ lookToSelect: true });
   const app = new App(world);
   (window as unknown as { __app: App }).__app = app;
   await app.init();

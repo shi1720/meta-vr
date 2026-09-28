@@ -32,7 +32,7 @@ When cloud sync is on, add the site's URL to Supabase Auth's redirect URLs, with
 |---|---|
 | `#/` | Landing page: hero with the live 3D viewer, why, how it works, the first-person science, features, pricing, built responsibly, FAQ, sources |
 | `#/dictionary` | Searchable, unit-filtered grid of all 87 signs (`?q=`, `?unit=`) |
-| `#/dictionary/:id` | 3D viewer (play/pause, 0.5×/0.75×/1×, Their view / My view, left-handed, orbit) with how-to, handshape, memory hint, face & body, mistakes, variants, sources, prev/next |
+| `#/dictionary/:id` | 3D viewer (play/pause, 0.5×/0.75×/1×, Sprout’s view / Your view, left-handed, orbit) with how-to, handshape, memory hint, face & body, mistakes, variants, sources, prev/next |
 | `#/pair` | Mobile-first headset pairing: email code sign-in, then a 6-box code (`?headset=CODE` prefills it; `?demo=1` previews the flow offline) |
 | `#/dashboard` | Streak, learned and minutes tiles, SVG garden, 5-week calendar, needs practice, Ask Sprout, family share links (`?sample=1` shows sample data) |
 | `#/share/:token` | Public read-only family view |

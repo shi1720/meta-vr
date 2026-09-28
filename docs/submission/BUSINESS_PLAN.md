@@ -5,22 +5,26 @@ assumptions to be validated; everything else has a source.*
 
 ## 1. Summary
 
-Signsprout teaches sign language on Meta Quest with the learner's own hands:
-a teacher signs face to face, guide hands overlay the learner's hands, and the
-app checks every finger and tells them what to fix. It starts with the people
-who need it most, hearing parents of deaf babies, and grows into a practice
-tool for anyone learning ASL.
+Signsprout teaches first ASL vocabulary on Meta Quest with the learner's own
+hands: Sprout, a friendly practice buddy, demonstrates each sign face to face,
+guide hands overlay the learner's hands, and the app reads 25 joints per hand,
+checks each finger and says what to fix. It starts with the people who need it
+most, hearing parents of deaf babies, and grows into a practice tool for anyone
+learning ASL.
 
 - **Product:** a WebXR app (a link, no install) plus a phone companion.
-  Working today: 87 signs, spaced repetition, AI coach, pairing, sync.
-- **Model:** free core; a Family plan at **$7.99/month or $59/year**;
-  sponsored free access for families of deaf children under three; program
-  licences for early-intervention services and schools (from $39 per family
-  per year).
+  Built and tested: 87 signs, spaced repetition, the step-by-step checker and
+  the companion site (accounts, pairing, sync and the AI coach run on
+  Supabase; the public preview works fully offline). Not launched yet, with
+  no users, pilots or revenue so far.
+- **Model (planned):** free core; a Family plan at **$7.99/month or
+  $59/year**; sponsored free access for families of deaf children under three,
+  funded through partner programs; program licences for early-intervention
+  services and schools (from $39 per family per year).
 - **Costs:** static hosting and a managed database; under **$0.05 per active
   family per month** at the scale of the first year (estimate, §6).
-- **Ask:** Deaf partners to co-lead content, three pilot programs, and a Meta
-  VR Store listing in Q1 2027.
+- **Ask:** Deaf partners to co-lead content (paid, with a veto over what we
+  teach), three pilot programs, and a Meta VR Store listing in Q1 2027.
 
 ## 2. The problem
 
@@ -33,9 +37,10 @@ tool for anyone learning ASL.
   ([Lieberman et al. 2024](https://pmc.ncbi.nlm.nih.gov/articles/PMC10785677/),
   citing GRI 2013–14 data). Parents cite **time** and **cost**; rural families
   cite access.
-- Learning from video is hard for a specific reason: novices mirror the signer
-  and make **24.3%** errors on lateral movements; with a model that matches the
-  mirroring, lateral errors fell from **20.6% to 0.9%**
+- Learning from video is hard for a specific reason: hearing non-signers
+  copying a face-to-face model made errors on **24.3%** of sideways (lateral)
+  movements; in a second study, a model that matched their mirroring cut
+  lateral errors from **20.6% to 0.9%**
   ([Shield & Meier 2018](https://pmc.ncbi.nlm.nih.gov/articles/PMC5988899/)).
   And video can't tell you if your hands are right.
 
@@ -43,11 +48,13 @@ tool for anyone learning ASL.
 
 | Capability | Why it matters |
 |---|---|
-| Teacher face to face, mirrored by default | Removes the mental flip that causes novice errors |
+| Sprout demonstrates face to face, mirrored by default | Removes the mental flip behind many novice errors |
 | Guide hands on the learner's own hands | First-person demonstration; fades after two unaided successes to avoid dependence |
-| Per-finger, per-parameter feedback | "Fold your ring finger down more" instead of pass/fail |
+| A checker that goes in order: handshape, then place, then movement, then the final handshape | "Fold your ring finger down more" instead of pass/fail |
+| A mirror view beside Sprout | Shows your hands against your face for signs made at the face |
 | Five-minute sessions, spaced repetition, a garden | A habit that fits a parent's day; visible progress |
-| AI coach that plans from verified signs only | Personal ("bath time words") without inventing signs |
+| AI coach that plans only from signs Signsprout can check | Personal ("bath time words") without inventing signs |
+| Accessibility built in | Captions for every prompt, optional voice read-out, left-handed mode, adjustable strictness and guide speed, limited finger range, high contrast, calm motion, a one-hand option |
 | Phone pairing, family sharing | No typing in VR; grandparents and carers can follow along |
 | Web first | A link, no store approval, updates instantly, runs on Quest 2, 3, 3S and future VR glasses |
 
@@ -88,13 +95,14 @@ Signsprout is a web app with a phone companion and a lending model.
 |---|---|---|
 | **Free** | $0 | Everyone: the First words, Mealtime and Family units, fingerspelling A–Z and numbers, the garden |
 | **Family** | $7.99/month or $59/year, up to 4 family members | All signs and new units, AI coach, sync, family dashboard and share links |
-| **Family Pass** (sponsored) | $0 to the family | Families with a DHH child under 3, referred by early intervention, EHDI or a hospital, funded by programs and philanthropy |
+| **Family Pass** (sponsored, planned) | $0 to the family | Families with a DHH child under 3, referred by early intervention, EHDI or a hospital, funded by programs and philanthropy |
 | **Programs** | from $39 per family per year | Early-intervention services, audiology teams, schools for the deaf: seats, consented progress reports, headset lending kits, staff and Deaf-mentor onboarding |
 
-Pricing sits below Lingvano ($119.99/year) and ASL Bloom ($98.99/year), and
-near Duolingo Family ($119.99/year for six) per learner. **Families of deaf
-babies never pay**: that is both the mission and the channel, because program
-staff recommend tools they can hand out for free.
+All prices are planned launch pricing; the preview is free. Pricing sits below
+Lingvano ($119.99/year) and ASL Bloom ($98.99/year), and near Duolingo Family
+($119.99/year for six) per learner. **The plan is that families of deaf babies
+never pay**, funded through partner programs: that is both the mission and the
+channel, because program staff recommend tools they can hand out for free.
 
 Non-dilutive funding fits this product: NSF SBIR (Phase I up to $305,000),
 ED/IES SBIR ($250,000) and NIDILRR, all reauthorised through 2031.
@@ -121,16 +129,18 @@ review time rather than video production.
 | | Signsprout | NVIDIA Signs | Lingvano | PopSign | Quest ASL apps |
 |---|---|---|---|---|---|
 | Checks your own hands | ✅ 3D, 25 joints/hand | ✅ 2D webcam | Self-view camera | ✅ phone camera | ✅ (mostly letters) |
-| Teacher's hands on yours (first person) | ✅ | ❌ | ❌ | ❌ | ❌ |
+| Guide hands on yours (first person) | ✅ | ❌ | ❌ | ❌ | ❌ |
 | Explains what to fix | ✅ per finger and parameter | Real-time feedback (2D) | ❌ | ❌ | Limited |
 | Family curriculum + spaced repetition | ✅ | ❌ | ✅ | ✅ (game) | ❌ |
 | Price | Free core | Free | $119.99/yr | Free | Varies |
 
 **Moat.** (1) The sign engine: signs written as linguistic parameters, so one
-definition drives the teacher, the guide hands, instructions and checking,
+definition drives Sprout, the guide hands, instructions and checking,
 with no training data needed per sign. Adding a sign takes minutes, and new
-sign languages reuse the engine. (2) Trust: Deaf-led content review and a
-privacy stance (hand data never leaves the headset). (3) Distribution through
+sign languages reuse the engine. (2) Trust, which we still have to earn: paid
+review of every sign by Deaf signers before launch, Deaf co-leadership of
+content with pay and a veto (the plan, not yet in place), and a privacy stance
+(hand data never leaves the headset). (3) Distribution through
 early-intervention programs, which consumer apps rarely reach. (4) Progress
 data (which signs are hard, where) improves hints and the curriculum.
 
@@ -139,8 +149,9 @@ data (which signs are hard, where) improves hints and the curriculum.
 | Risk | Mitigation |
 |---|---|
 | Few families own a headset | Web app plus phone companion; program lending kits; the same engine can drive a phone-camera mode |
-| Hand-tracking limits (occlusion, similar handshapes) | Sign set chosen for reliable tracking; specific hints; skip always available; no over-claiming |
-| Community trust | Deaf co-leadership and paid review; a practice partner, never a translator; points families to Deaf mentors |
+| Checker accuracy on real hands is not yet measured | Tests so far use a simulated learner (synthetic hands built from the same hand model, not yet real-user data); on-device testing with real signers is next |
+| Hand-tracking limits (occlusion, similar handshapes) | For fingerspelled letters that hand tracking confuses (such as M, N, T, E, A, S), Signsprout is lenient and says so; specific hints; skip always available; no over-claiming |
+| Community trust | No Deaf signer has reviewed Signsprout yet: paid review by Deaf signers comes before launch, and Deaf co-leadership (paid, with a veto over content) is the plan; a practice partner, never a translator; the site links to Deaf-led resources and Deaf Mentor programs |
 | Headset market softness (IDC: VR headsets fell in 2025) | Web-first, runs on current and upcoming Meta devices, not tied to one store |
 
 ## 9. Roadmap
@@ -148,8 +159,8 @@ data (which signs are hard, where) improves hints and the curriculum.
 | When | Milestone |
 |---|---|
 | Nov 2026 | Competition build: 87 signs, coach, pairing, companion site |
-| Dec 2026 | Open web beta; recruit Deaf reviewers and three pilot programs |
-| Q1 2027 | Meta VR Store listing; Family plan; review of every sign by Deaf signers |
+| Dec 2026 | Open web beta; on-device testing with real signers; recruit paid Deaf reviewers and three pilot programs |
+| Q1 2027 | Paid review of every sign by Deaf signers, then the Meta VR Store listing and Family plan |
 | Q2 2027 | Facial-grammar lessons (taught with video, not scored); two-person practice |
 | H2 2027 | Phone-camera mode; BSL and ISL with local Deaf partners |
 

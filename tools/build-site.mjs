@@ -5,15 +5,15 @@
  *   /app/    the headset app (open this in Meta Quest Browser)
  */
 import { execSync } from 'node:child_process';
-import { cpSync, rmSync, writeFileSync } from 'node:fs';
+import { copyFileSync, rmSync, writeFileSync } from 'node:fs';
+import { resolve } from 'node:path';
 
+const out = resolve('dist');
 const run = (cmd) => execSync(cmd, { stdio: 'inherit' });
-run('npm run build --workspace apps/xr');
-run('npm run build --workspace apps/web');
-rmSync('dist', { recursive: true, force: true });
-cpSync('apps/web/dist', 'dist', { recursive: true });
-cpSync('apps/xr/dist', 'dist/app', { recursive: true });
+rmSync(out, { recursive: true, force: true });
+run(`npm run build --workspace apps/web -- --outDir "${out}" --emptyOutDir`);
+run(`npm run build --workspace apps/xr -- --outDir "${out}/app" --emptyOutDir`);
 // Static hosts that support it (e.g. Surge) serve this for unknown paths.
-cpSync('dist/index.html', 'dist/200.html');
-writeFileSync('dist/robots.txt', 'User-agent: *\nAllow: /\n');
+copyFileSync(`${out}/index.html`, `${out}/200.html`);
+writeFileSync(`${out}/robots.txt`, 'User-agent: *\nAllow: /\n');
 console.log('\nSite ready in ./dist (web at /, headset app at /app/).');

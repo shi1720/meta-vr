@@ -1,7 +1,8 @@
 # Signsprout architecture
 
-Signsprout is a hands-first WebXR app for Meta Quest that teaches sign language
-(ASL first) with the learner's own hands. This document explains how it works.
+Signsprout is a hands-first WebXR app for Meta Quest that teaches first ASL
+vocabulary to families with the learner's own hands. This document explains how
+it works.
 
 ```
 ┌──────────────────────────── Meta Quest Browser (WebXR) ────────────────────────────┐
@@ -12,7 +13,7 @@ Signsprout is a hands-first WebXR app for Meta Quest that teaches sign language
 │        ▼                                                                            │
 │  LessonController ──► SignVerifier (signkit) ──► per-finger feedback, hints         │
 │        │                    ▲                                                      │
-│        ├─► GhostPlayer (teacher, face to face)   ◄── SignPerformer (signkit)       │
+│        ├─► GhostPlayer (Sprout, face to face)    ◄── SignPerformer (signkit)       │
 │        ├─► GhostPlayer (first person, "put your hands in mine")                     │
 │        ├─► Garden (one plant per sign, grows with spaced repetition)                │
 │        └─► Spatial UI panels (poke + pinch-ray), coach bubble, hands HUD           │
@@ -54,7 +55,7 @@ tip position and direction, fingertip contacts and finger crossing.
 combines the scores into a weighted geometric mean gated by the weakest part.
 Every part carries a status (good / close / fix) and a plain-language hint
 ("Tuck your thumb in", "Fold your ring finger down more"). That explanation is
-what turns recognition into teaching.
+what turns recognition into feedback a learner can act on.
 
 ### Signs as linguistics, not video
 A sign is described by the parameters sign-language linguists use (Stokoe and
@@ -77,17 +78,21 @@ oneHanded(
   chosen contact point (fingertips, thumb tip, palm…) on the location. Movements
   (line, arc, circle, tap, squeeze, wiggle, shake/wag, nod) are generated
   procedurally.
-- **One definition, many uses:** the teacher animation, the first-person guide,
+- **One definition, many uses:** Sprout's animation, the first-person guide,
   the dotted guide path, the verifier and the written instructions all come from
   the same data. Left-handed learners get every sign mirrored automatically.
 - The v1 library covers 51 family-focused signs, fingerspelling A–Z and numbers
-  1–10. Each sign was cross-checked against Handspeak (by Deaf signer Jolanta
-  Lapiak) and Lifeprint / ASL University (Dr. Bill Vicars).
+  1–10: first ASL vocabulary, not the whole language. We compared each sign
+  with Handspeak (Jolanta Lapiak) and Lifeprint / ASL University (Dr. Bill
+  Vicars). No Deaf signer has reviewed Signsprout yet; paid review by Deaf
+  signers comes before launch. Common variants are listed; for now the checker
+  accepts one form.
 
 ### Verification of a known target
 Open-set recognition ("which of 500 signs is this?") is fragile on consumer hand
 tracking. Signsprout always knows which sign is being attempted, so
-`SignVerifier` checks it step by step, the way a teacher would:
+`SignVerifier` checks it in order: handshape, then place, then movement, then
+the final handshape.
 
 1. **Shape**: the dominant (and helper) handshape, with a specific hint.
 2. **Place**: the contact point is within a location-dependent radius and the
@@ -101,13 +106,17 @@ tracking. Signsprout always knows which sign is being attempted, so
 
 The result includes a 0–1 quality score that feeds spaced repetition.
 
+For fingerspelled letters that hand tracking confuses (such as M, N, T, E, A,
+S), the checker is lenient, and the app tells the learner so.
+
 ### A simulated learner
 `SignPerformer` synthesizes a person signing: a lead-in from rest, a hold, the
 sign itself, human-like jitter, and optional deliberate mistakes (wrong shape,
 wrong place, no movement, one finger flipped). It powers the automated tests,
 the in-browser demo mode and the emulator-driven video capture.
 
-Test results (`packages/signkit/test`, `scripts/sim-*.ts`):
+Tested with a simulated learner (synthetic hands, not yet real-user data;
+`packages/signkit/test`, `scripts/sim-*.ts`):
 
 | Scenario | Result |
 |---|---|
@@ -116,6 +125,11 @@ Test results (`packages/signkit/test`, `scripts/sim-*.ts`):
 | 8° joint jitter + 4 mm position noise | 98.5% accepted |
 | Signing 0.6× and 1.5× speed | 100% accepted |
 | A single finger flipped (subtle slip) | 94% caught |
+
+The simulated learner is built from the same hand model as the checker's
+templates, so these results show that the checker is consistent and tolerates
+jitter and speed changes. They are not a measure of accuracy on real hands.
+On-device testing with real signers is next.
 
 ### Learning science
 - **Spaced repetition** (`srs.ts`) grades an attempt from how it went: verifier
@@ -155,8 +169,20 @@ no store downloads: the app is a link.
   garden (instanced plants on a sunflower spiral, with per-plant hit targets for
   poke and pinch-ray).
 - `ui/`: panels built with UIKit, driven by pokes (`PokeInteractable`) and
-  pinch-rays (`RayInteractable`). Targets are at least about 4 cm and every
-  action has an icon and a label.
+  pinch-rays (`RayInteractable`). Buttons are about 2.8–4.5 cm tall and every
+  action has an icon and a label. Look-to-select (head-gaze dwell) and optional
+  voice commands work where the browser supports them.
+- The mirror: a reflection beside Sprout shows the learner's tracked hands
+  against an outline of their head, with the start spot marked, for signs made
+  at the face (chin, forehead, cheek), where the learner's own hands leave their view.
+- Sprout's face changes for WH-questions and sad signs. Facial grammar is
+  mentioned as a tip, not scored.
+- Accessibility settings: captions for every prompt, optional voice read-out,
+  left-handed mode (every sign mirrors and the panel moves to the left),
+  adjustable strictness and guide speed, "limited finger range", high contrast
+  (panels plus bigger, saturated fingertip markers), calm motion (stops pollen,
+  pulses, sparkles and Sprout's idle motion), and "Continue with one hand" on
+  the hands check.
 - Seated by design: the stage recenters on the learner's head, the table height
   follows eye height, and everything is within a two-foot radius.
 - Pause and resume follow the XR visibility state. Passthrough ("see my room")
@@ -176,7 +202,7 @@ The backend is optional: the app is fully usable without an account.
   `auth.verifyOtp`. Codes expire in 10 minutes and are single-use.
 - **`coach`** is an agentic planner using Claude tool use (`search_signs`,
   `get_learner_progress`, `propose_plan`). It can only choose signs that exist in
-  the verified catalog and are validated server-side. It uses server-side refusal
+  the sign catalog and are validated server-side. It uses server-side refusal
   fallbacks, and a deterministic rules planner takes over when no key is
   configured or the model declines. The resulting plan is queued into the
   learner's synced progress and appears on the headset as "Sprout's plan for
@@ -185,12 +211,14 @@ The backend is optional: the app is fully usable without an account.
 
 ## 4. Companion web (`apps/web`)
 
-Landing page, a public 3D sign dictionary (the same ghost hands, in "their
-view" and "my view"), phone pairing, a parent dashboard with the coach, and
-family sharing.
+Landing page, a public 3D sign dictionary (the same ghost hands, in "Sprout's
+view" and "your view"), phone pairing, a parent dashboard with the coach, and
+family sharing. The public preview is built without the cloud backend and
+works fully offline; accounts, pairing, sync and the coach switch on once
+Supabase keys are configured.
 
 ## 5. Privacy
 
 Hand-joint data never leaves the device; only the learner's progress document
 is synced, and only when they choose to sign in. Hand tracking cannot see faces,
-so facial grammar is prompted, never scored.
+so facial grammar is mentioned as a tip, not scored.

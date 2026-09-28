@@ -7,6 +7,7 @@ import type { UIKit } from '@iwsdk/core';
 import { ALL_UNITS, getHandshape, getSign, MASTERY_LABELS, UNITS } from '@signsprout/signkit';
 import type { Card, LearnerSettings, SessionPlan, SignDef, Unit } from '@signsprout/signkit';
 import type { LessonView, SessionSummary } from '../lesson/lesson.js';
+import { voiceSupported } from '../app/voice.js';
 import {
   box,
   button,
@@ -162,7 +163,7 @@ export function lessonCard(v: LessonView, a: LessonActions): LessonRefs {
     icon('info', { color: palette.ink }),
     hint,
   );
-  const status = caption('', { fontSize: 24 });
+  const status = caption('', { fontSize: 27 });
   const isReview = v.item.kind === 'review';
   const showGloss = !(isReview && v.step === 'try');
   const sign = v.sign;
@@ -205,7 +206,15 @@ export function lessonCard(v: LessonView, a: LessonActions): LessonRefs {
       ? card(
           { backgroundColor: palette.sproutDeep, alignItems: 'center' },
           row({ gap: 14 }, icon('sprout', { width: 56, height: 56, color: palette.paper }), text('Planted in your garden!', { fontSize: 40, fontWeight: 'bold' })),
-          row({ gap: 8 }, ...[0, 1, 2].map((i) => icon('star', { width: 44, height: 44, color: i < Math.round(v.quality * 3) ? palette.honey : '#3E6B5A' }))),
+          row(
+            { gap: 10 },
+            ...[0, 1, 2].map((i) =>
+              box(
+                { width: 56, height: 56, borderRadius: 28, alignItems: 'center', justifyContent: 'center', backgroundColor: i < Math.round(v.quality * 3) ? palette.honey : '#2E5A4A' },
+                icon('star', { width: 32, height: 32, color: i < Math.round(v.quality * 3) ? palette.ink : '#4F7C6A' }),
+              ),
+            ),
+          ),
         )
       : col(
           { gap: 16 },
@@ -219,7 +228,7 @@ export function lessonCard(v: LessonView, a: LessonActions): LessonRefs {
         ),
     v.step === 'celebrate' ? null : controls,
     sign.nonManual && showGloss && v.step !== 'celebrate'
-      ? caption(`Face: ${sign.nonManual}`, { fontSize: 22 })
+      ? caption(`Face: ${sign.nonManual}`, { fontSize: 27 })
       : null,
   );
   return { root, instruction, hint, hintBox, status };
@@ -284,7 +293,7 @@ export function libraryScreen(
         row(
           { gap: 16, flexShrink: 1 },
           box({ width: 22, height: 64, borderRadius: 11, backgroundColor: p.unit.color }),
-          col({ gap: 2, flexShrink: 1 }, text(p.unit.title, { fontSize: 32, fontWeight: 'bold' }), caption(p.unit.subtitle, { fontSize: 24 })),
+          col({ gap: 2, flexShrink: 1 }, text(p.unit.title, { fontSize: 32, fontWeight: 'bold' }), caption(p.unit.subtitle, { fontSize: 27 })),
         ),
         row({ gap: 10 }, text(`${p.learned}/${p.total}`, { fontSize: 28, color: palette.muted }), icon('chevron', { color: palette.muted })),
       ) as never,
@@ -321,7 +330,7 @@ export function unitScreen(
           onClick: () => a.one(id),
         },
         text(gloss(s), { fontSize: 26, fontWeight: 'bold' }),
-        caption(learned ? MASTERY_LABELS[c!.mastery] : 'Not yet', { fontSize: 20 }),
+        caption(learned ? MASTERY_LABELS[c!.mastery] : 'Not yet', { fontSize: 27 }),
       ) as never,
     );
   }
@@ -357,10 +366,10 @@ export function gardenScreen(
       ? card(
           { borderWidth: 3, borderColor: palette.honey },
           row({ gap: 12 }, icon('flower', { color: palette.honey }), text(gloss(selected), { fontSize: 40, fontWeight: 'bold' })),
-          caption(`“${selected.english}” — ${selected.howTo}`, { fontSize: 24 }),
+          caption(`“${selected.english}” — ${selected.howTo}`, { fontSize: 27 }),
           button({ label: 'Practise this sign', icon: 'play', variant: 'primary', onClick: () => a.replay(selected.id) }),
         )
-      : caption('Tip: point at a plant and pinch (or poke it) to see its sign again.', { fontSize: 24, color: palette.honey }),
+      : caption('Tip: point at a plant and pinch (or poke it) to see its sign again.', { fontSize: 27, color: palette.honey }),
     counts.thirsty.length
       ? card(
           {},
@@ -389,7 +398,7 @@ export function settingsScreen(
   const seg = <T extends string | number | boolean>(label: string, current: T, options: [T, string][], key: keyof LearnerSettings) =>
     col(
       { gap: 10 },
-      caption(label, { fontSize: 24 }),
+      caption(label, { fontSize: 27 }),
       row(
         { gap: 10 },
         ...options.map(([val, lab]) =>
@@ -411,9 +420,20 @@ export function settingsScreen(
       button({ label: 'Calm motion', icon: 'access', size: 'sm', grow: true, selected: s.reducedMotion, onClick: () => a.set({ reducedMotion: !s.reducedMotion }) }),
     ),
     seg('Sprout faces me as a…', s.mirrorTeacher, [[true, 'Mirror (easier to copy)'], [false, 'Signer (as others see it)']], 'mirrorTeacher'),
+    col(
+      { gap: 10 },
+      caption('Hands-free', { fontSize: 26 }),
+      row(
+        { gap: 10 },
+        button({ label: 'Look to select', icon: 'eye', size: 'sm', grow: true, selected: s.lookToSelect, onClick: () => a.set({ lookToSelect: !s.lookToSelect }), id: 'look-to-select' }),
+        voiceSupported()
+          ? button({ label: 'Voice commands', icon: 'chat', size: 'sm', grow: true, selected: s.voiceCommands, onClick: () => a.set({ voiceCommands: !s.voiceCommands }), id: 'voice-commands' })
+          : caption('Voice commands aren’t available in this browser.', { fontSize: 24 }),
+      ),
+    ),
     row(
       { gap: 10 },
-      button({ label: s.passthrough ? 'See my room: on' : 'See my room: off', icon: 'glasses', size: 'sm', grow: true, selected: s.passthrough, onClick: () => a.set({ passthrough: !s.passthrough }) }),
+      button({ label: s.passthrough ? 'See my room (beta): on' : 'See my room (beta): off', icon: 'glasses', size: 'sm', grow: true, selected: s.passthrough, onClick: () => a.set({ passthrough: !s.passthrough }) }),
       button({ label: 'Recenter', icon: 'repeat', size: 'sm', grow: true, onClick: a.recenter }),
     ),
     row(
@@ -424,14 +444,44 @@ export function settingsScreen(
   );
 }
 
+export function pauseScreen(a: { resume(): void; end(): void; settings(): void }): UIKit.Container {
+  return surface(
+    PANEL_PX,
+    row({ gap: 16 }, icon('pause', { width: 60, height: 60, color: palette.honey }), title('Paused', { fontSize: 60 })),
+    text('Your progress is saved. Carry on whenever you’re ready.', { fontSize: 32 }),
+    button({ label: 'Resume', icon: 'play', variant: 'primary', size: 'lg', onClick: a.resume, id: 'resume' }),
+    row(
+      { gap: 16 },
+      button({ label: 'Settings', icon: 'settings', grow: true, onClick: a.settings, id: 'pause-settings' }),
+      button({ label: 'End session', icon: 'home', grow: true, onClick: a.end, id: 'end-session' }),
+    ),
+  );
+}
+
+export function confirmScreen(
+  o: { title: string; body: string; confirm: string },
+  a: { yes(): void; no(): void },
+): UIKit.Container {
+  return surface(
+    PANEL_PX,
+    title(o.title, { fontSize: 52 }),
+    text(o.body, { fontSize: 32 }),
+    row(
+      { gap: 16 },
+      button({ label: 'Cancel', icon: 'back', size: 'lg', grow: true, onClick: a.no, id: 'confirm-no' }),
+      button({ label: o.confirm, icon: 'close', variant: 'danger', size: 'lg', grow: true, onClick: a.yes, id: 'confirm-yes' }),
+    ),
+  );
+}
+
 export function aboutScreen(a: { back(): void }): UIKit.Container {
   return surface(
     PANEL_PX,
     row({ gap: 14 }, button({ icon: 'back', size: 'sm', variant: 'ghost', onClick: a.back }), title('About Signsprout', { fontSize: 48 })),
     text('Signsprout teaches American Sign Language (ASL) with your own two hands. Glowing guide hands show each sign from your own point of view, and live feedback tells you what to adjust.', { fontSize: 28 }),
-    caption('Signs are the standard dictionary forms, cross-checked against Handspeak (by Deaf signer Jolanta Lapiak) and Lifeprint / ASL University (Dr. Bill Vicars). Regional and family variants exist — learn from the Deaf people in your life too.', { fontSize: 24 }),
-    caption('Hand tracking can’t see facial expressions, which are part of ASL grammar. We remind you when they matter, but we don’t score them.', { fontSize: 24 }),
-    caption('Made by Shivam Gupta. Built with Meta’s Immersive Web SDK.', { fontSize: 24, color: palette.sprout }),
+    caption('We compared each sign with Handspeak and Lifeprint / ASL University. No Deaf signer has reviewed Signsprout yet; paid review by Deaf signers comes before launch. Signs vary by region and family, so learn from the Deaf people in your life too.', { fontSize: 27 }),
+    caption('Hand tracking can’t see facial expressions, which are part of ASL grammar. We remind you when they matter, but we don’t score them.', { fontSize: 27 }),
+    caption('Made by Shivam Gupta. Built with Meta’s Immersive Web SDK.', { fontSize: 27, color: palette.sprout }),
   );
 }
 
@@ -443,20 +493,21 @@ export function welcomeScreen(a: { next(): void; demo?: () => void }): UIKit.Con
   return surface(
     PANEL_PX,
     row({ gap: 16 }, icon('sprout', { width: 72, height: 72, color: palette.sprout }), title('Welcome to Signsprout', { fontSize: 60 })),
-    text('Learn sign language with your own two hands — five minutes a day.', { fontSize: 34 }),
+    text('Learn your first ASL signs with your own two hands — five minutes a day.', { fontSize: 34 }),
     card(
       {},
-      row({ gap: 14 }, icon('eye', { color: palette.ghost }), text('Watch Sprout sign a word', { fontSize: 30 })),
+      row({ gap: 14 }, icon('eye', { color: palette.ghost }), text('Watch Sprout show a sign', { fontSize: 30 })),
       row({ gap: 14 }, icon('hand', { color: palette.ghost }), text('Put your hands inside the glowing hands', { fontSize: 30 })),
       row({ gap: 14 }, icon('sprout', { color: palette.ghost }), text('Sign it yourself — and watch your garden grow', { fontSize: 30 })),
     ),
     button({ label: 'Let’s begin', icon: 'play', variant: 'primary', size: 'lg', onClick: a.next, id: 'begin' }),
-    caption('No account needed. You can save your garden later.', { fontSize: 22 }),
+    caption('No account needed. You can save your garden later.', { fontSize: 27 }),
   );
 }
 
 export function handsScreen(seen: { left: boolean; right: boolean }, a: { next(): void }): UIKit.Container {
   const both = seen.left && seen.right;
+  const one = seen.left !== seen.right;
   return surface(
     PANEL_PX,
     title(both ? 'I can see both hands!' : 'Show me your hands', { fontSize: 56 }),
@@ -472,6 +523,9 @@ export function handsScreen(seen: { left: boolean; right: boolean }, a: { next()
       chip(seen.right ? 'Right hand: ready' : 'Right hand…', seen.right ? palette.sproutDeep : palette.inkLine, palette.paper, 'hand'),
     ),
     both ? button({ label: 'Continue', icon: 'chevron', variant: 'primary', size: 'lg', onClick: a.next, id: 'continue' }) : null,
+    // One hand busy (holding a baby) or only one hand to sign with: never a dead end.
+    one ? button({ label: 'Continue with one hand', icon: 'chevron', size: 'md', onClick: a.next, id: 'continue-one' }) : null,
+    one ? caption('Many signs use just one hand, and you can skip any sign.', { fontSize: 27 }) : null,
   );
 }
 
@@ -482,8 +536,8 @@ export function handedScreen(a: { pick(h: 'right' | 'left'): void }): UIKit.Cont
     text('That’s your main signing hand. Left-handed? Every sign flips to match you.', { fontSize: 30 }),
     row(
       { gap: 16 },
-      button({ label: 'Left', icon: 'hand', size: 'lg', grow: true, onClick: () => a.pick('left'), id: 'left' }),
-      button({ label: 'Right', icon: 'hand', size: 'lg', grow: true, variant: 'primary', onClick: () => a.pick('right'), id: 'right' }),
+      button({ label: 'Left hand', icon: 'hand', size: 'lg', grow: true, onClick: () => a.pick('left'), id: 'left' }),
+      button({ label: 'Right hand', icon: 'hand', size: 'lg', grow: true, onClick: () => a.pick('right'), id: 'right' }),
     ),
   );
 }
@@ -537,13 +591,13 @@ export function pairScreen(
               ),
             ),
           ),
-          caption(st.status, { fontSize: 24 }),
+          caption(st.status, { fontSize: 27 }),
           button({ label: 'New code', icon: 'repeat', size: 'sm', variant: 'ghost', onClick: a.refresh }),
         )
       : col(
           { gap: 14 },
           text('Cloud sync isn’t configured on this build. Your garden is saved on this headset.', { fontSize: 30 }),
-          caption('Everything works offline; progress is stored locally.', { fontSize: 24 }),
+          caption('Everything works offline; progress is stored locally.', { fontSize: 27 }),
         ),
   );
 }
@@ -591,7 +645,7 @@ export function spellScreen(
 // ---------------------------------------------------------------------------
 
 export function coachBubble(msg: string): { root: UIKit.Container; label: UIKit.Text } {
-  const label = text(msg, { fontSize: 34, color: palette.ink, fontWeight: 'bold', textAlign: 'center' });
+  const label = text(msg, { fontSize: 44, color: palette.ink, fontWeight: 'bold', textAlign: 'center' });
   const root = col(
     { width: 900, padding: 30, borderRadius: 48, backgroundColor: palette.paper, alignItems: 'center', gap: 8 },
     label,

@@ -313,6 +313,8 @@ export class SignVerifier {
   private shapeScores: number[] = [];
   private placeScores: number[] = [];
   private lostShapeFor = 0;
+  private lostSince = -1;
+  private mirrored = false;
   private lastT = -1;
   private lastC: Vec3 = v3();
   private speed = 0;
@@ -362,6 +364,7 @@ export class SignVerifier {
     this.shapeScores.length = 0;
     this.placeScores.length = 0;
     this.lostShapeFor = 0;
+    this.lostSince = -1;
     this.lastT = -1;
     this.speed = 0;
     this.lastFeedback = this.blankFeedback();
@@ -399,6 +402,20 @@ export class SignVerifier {
     };
 
     if (!dom || (needsHelper && !help)) {
+      // Tracking lost mid-attempt: after a short grace period, start the
+      // attempt over rather than resuming from a stale position (the jump when
+      // the hand reappears could otherwise complete or time out a movement).
+      if (this.lostSince < 0) this.lostSince = live.time;
+      else if (live.time - this.lostSince > 0.3 && this.armedAt >= 0) {
+        this.armedAt = -1;
+        this.setupSince = -1;
+        this.samples.length = 0;
+        this.moveDone = false;
+        this.moveDoneAt = -1;
+        this.lostShapeFor = 0;
+        this.lastT = -1;
+        this.phase = 'shape';
+      }
       fb.phase = this.phase === 'waiting' ? 'waiting' : this.phase;
       fb.step = needsHelper ? 'Show me both hands' : `Show me your ${domHand} hand`;
       fb.hint = !dom
@@ -408,6 +425,9 @@ export class SignVerifier {
       this.lastFeedback = fb;
       return fb;
     }
+
+    this.lostSince = -1;
+    this.mirrored = frame.mirror;
 
     // --- Features --------------------------------------------------------------
     const fD = extractFeatures(dom.positions, domHand, this.featDom);
@@ -629,7 +649,9 @@ export class SignVerifier {
     const where = locationWords(k);
     if (ay >= ax && ay >= az) return d[1] > 0 ? `Move your hand up, to ${where}` : `Move your hand down, to ${where}`;
     if (az >= ax) return d[2] > 0 ? `Bring your hand closer — to ${where}` : `Move your hand further out — ${where}`;
-    return d[0] > 0 ? `Move your hand a little to your ${'right'}` : `Move your hand a little to your ${'left'}`;
+    // Body space is mirrored for left-handed signers, so +x is their left.
+    const right = d[0] > 0 !== this.mirrored;
+    return `Move your hand a little to your ${right ? 'right' : 'left'}`;
   }
 
   private facingHint(have: Vec3, want: Vec3): string {

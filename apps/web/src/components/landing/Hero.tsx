@@ -63,7 +63,7 @@ function HeroStage() {
         </div>
         <span className="view-chip hero-view-chip" aria-hidden="true">
           <Icon name={mine ? 'hand' : 'eye'} size={16} />
-          {mine ? 'My view' : 'Their view'}
+          {mine ? 'Your view' : 'Sprout’s view'}
         </span>
       </div>
       <figcaption className="hero-stage-caption" aria-live="polite">
@@ -94,13 +94,13 @@ export function Hero() {
       <div className="hero-bg" aria-hidden="true" />
       <div className="container hero-grid">
         <div className="hero-copy rise">
-          <p className="eyebrow">American Sign Language · Meta Quest</p>
+          <p className="eyebrow">First ASL signs for families · Meta Quest</p>
           <h1 id="hero-title">
-            Learn sign language with <em>your own two hands.</em>
+            Learn your first ASL signs with <em>your own two hands.</em>
           </h1>
           <p className="hero-sub">
-            Sprout signs a word. Then glowing guide hands appear right where yours are: put your hands inside them, and
-            Signsprout checks every finger as you sign it yourself. Five minutes a day.
+            Sprout shows you a sign. Then glowing guide hands appear right where yours are: put your hands inside them,
+            and Signsprout checks each finger as you sign it yourself. Five minutes a day.
           </p>
           <div className="hero-ctas">
             <a className="btn btn-primary btn-lg" href={APP_URL}>

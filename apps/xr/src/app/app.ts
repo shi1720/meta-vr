@@ -4,12 +4,14 @@
  */
 
 import { Group, PokeInteractable, Quaternion, RayInteractable, SessionMode, Vector3, VisibilityState } from '@iwsdk/core';
-import type { Entity, World } from '@iwsdk/core';
+import type { Entity, Object3D, World } from '@iwsdk/core';
 import {
   bodyFrameFromHead,
   calibrateFromChin,
+  CHIN_TOUCH,
   createBodyFrame,
   getSign,
+  J,
   minutesThisWeek,
   PATH,
   planSession,
@@ -19,10 +21,9 @@ import {
   weakestSigns,
   wilt,
   worldToBody,
-  J,
 } from '@signsprout/signkit';
 import type { BodyFrame, SessionItem, SignDef, Unit, Vec3 } from '@signsprout/signkit';
-import { say, setMuted, setVoiceEnabled, sfx, startAmbient, unlockAudio } from '../audio/sfx.js';
+import { say, setMuted, setVoiceEnabled, sfx, startAmbient, stopAmbient, unlockAudio } from '../audio/sfx.js';
 import { tracking } from './hands.js';
 import { progress, settings, store } from './store.js';
 import { COLORS } from './theme.js';
@@ -32,7 +33,12 @@ import { GhostPlayer } from '../render/ghost-player.js';
 import { createEnvironment } from '../scene/environment.js';
 import type { Environment } from '../scene/environment.js';
 import { Garden } from '../scene/garden.js';
-import { Teacher } from '../scene/teacher.js';
+import { Mirror, startsAtFace } from '../render/mirror.js';
+import { GazeSelect } from '../render/gaze.js';
+import { VoiceCommands, voiceSupported } from './voice.js';
+import type { VoiceCommand } from './voice.js';
+import { motion } from './motion.js';
+import { Teacher, type Expression } from '../scene/teacher.js';
 import { LessonController } from '../lesson/lesson.js';
 import type { LessonRefs } from '../ui/screens.js';
 import * as S from '../ui/screens.js';
@@ -60,11 +66,26 @@ const DAY = 86_400_000;
 
 
 const PREVIEW_CAM = new URLSearchParams(location.search).get('cam');
+
+/** Signs whose meaning or grammar lives partly on the face. */
+const FACE: Record<string, Expression> = {
+  what: 'wh-question',
+  where: 'wh-question',
+  sad: 'sad',
+  sorry: 'sad',
+  hurt: 'sad',
+  bad: 'sad',
+  tired: 'sad',
+};
 export class App {
   readonly stage = new Group();
   stageEntity!: Entity;
   env!: Environment;
   garden = new Garden();
+  mirror = new Mirror();
+  gaze = new GazeSelect();
+  private voice = new VoiceCommands((cmd, heard) => this.onVoice(cmd, heard));
+  private pauseActions: { resume(): void; end(): void } | null = null;
   teacher = new Teacher();
   teacherGhost = new GhostPlayer(COLORS.ghost, COLORS.ghostRim);
   myGhost = new GhostPlayer('#9EF0FF', '#E8FDFF');
@@ -91,6 +112,8 @@ export class App {
   private lastHudText = '';
   private lastHudHint = '';
   private recentered = false;
+  private lastSession: XRSession | null = null;
+  private resetHooked = false;
   private handsSeenAt = { left: -1, right: -1 };
   /** Demo/autopilot hook: notified on each screen change. */
   onScreen: (screen: Screen) => void = () => {};
@@ -111,11 +134,13 @@ export class App {
       },
       {
         playTeacher: (sign, speed) => {
+          this.teacher.setExpression(FACE[sign.id] ?? 'happy');
           this.teacherGhost.play(sign, this.teacherFrame, { speed, loop: true, gap: 0.8 });
           this.teacherGhost.fadeTo(0.9);
         },
         stopTeacher: () => {
           this.teacherGhost.stop();
+          this.teacher.setExpression('happy');
         },
         playMine: (sign, frame, speed, opacity) => {
           this.myGhost.play(sign, frame, { speed, loop: true, gap: 0.5, hideIdleHand: true });
@@ -143,7 +168,19 @@ export class App {
     gardenEntity.addComponent(RayInteractable);
     gardenEntity.addComponent(PokeInteractable);
     w.createTransformEntity(this.teacher.root, { persistent: true });
-    await Promise.all([this.teacherGhost.load(), this.myGhost.load(), this.learnerHands.right.load(), this.learnerHands.left.load()]);
+    await Promise.all([
+      this.teacherGhost.load(),
+      this.myGhost.load(),
+      this.learnerHands.right.load(),
+      this.learnerHands.left.load(),
+      this.mirror.load(),
+    ]);
+    for (const h of [this.mirror.hands.right, this.mirror.hands.left]) {
+      h.material.depthWrite = true;
+      if (h.material.userData.uniforms) h.material.userData.uniforms.uCore.value = 0.92;
+    }
+    w.createTransformEntity(this.mirror.root, { persistent: true });
+    w.createTransformEntity(this.gaze.root, { persistent: true });
     for (const g of [this.teacherGhost.right, this.teacherGhost.left, this.myGhost.right, this.myGhost.left]) {
       w.createTransformEntity(g.root, { persistent: true });
     }
@@ -156,7 +193,7 @@ export class App {
     w.createTransformEntity(this.feedback.root, { persistent: true });
 
     this.main = new Panel(w, 0.46, 'main-panel');
-    this.bubble = new Panel(w, 0.36, 'coach-bubble', false);
+    this.bubble = new Panel(w, 0.4, 'coach-bubble', false);
     this.hud = new Panel(w, 0.3, 'hands-hud', false);
     this.bubble.show(this.bubbleRefs.root);
     this.bubble.hide();
@@ -173,13 +210,13 @@ export class App {
 
     this.world.visibilityState.subscribe((st) => {
       const away = st === VisibilityState.Hidden || st === VisibilityState.VisibleBlurred;
-      this.lesson.paused = away;
-      this.teacherGhost.paused = away;
-      this.myGhost.paused = away;
+      this.away = away;
+      this.applyPause();
       if (st === VisibilityState.Visible) {
         unlockAudio();
         startAmbient();
-        this.recentered = false;
+      } else if (away) {
+        stopAmbient();
       }
     });
 
@@ -190,8 +227,12 @@ export class App {
 
   private applySettings(): void {
     const s = settings.peek();
-    if (this.teacherFrame.mirror !== s.mirrorTeacher && this.main) this.layout();
+    if ((this.teacherFrame.mirror !== s.mirrorTeacher || this.layoutHand !== s.dominantHand) && this.main) this.layout();
     setHighContrast(s.highContrast);
+    motion.calm = s.reducedMotion;
+    this.gaze.enabled = s.lookToSelect;
+    this.voice.setEnabled(s.voiceCommands && voiceSupported());
+    this.feedback?.setHighContrast(s.highContrast);
     setVoiceEnabled(s.voice);
     this.env?.setPassthrough(s.passthrough && !!this.world.session && this.world.session.environmentBlendMode !== 'opaque');
   }
@@ -209,10 +250,13 @@ export class App {
     const q = new Quaternion(f.yaw[0], f.yaw[1], f.yaw[2], f.yaw[3]);
     this.stage.quaternion.copy(q);
     this.stageYaw = 2 * Math.atan2(f.yaw[1], f.yaw[3]);
+    this.lesson.setBodyYaw(f.yaw);
     this.env.fitToHead(this.eye);
     this.garden.root.position.copy(this.env.bed.position).add(this.env.stage.position);
     this.layout();
   }
+
+  private layoutHand: 'left' | 'right' = 'right';
 
   private layout(): void {
     this.stage.updateMatrixWorld(true);
@@ -228,7 +272,11 @@ export class App {
     this.teacher.place(tf);
 
     const head = new Vector3(learner.origin[0], eye, learner.origin[2]);
-    this.main.place(this.stage.localToWorld(new Vector3(0.38, eye - 0.05, -0.56)), head);
+    // Beside the signing space on the dominant-hand side, a little below eye
+    // level and tilted up, so pokes don't mean reaching up to shoulder height.
+    this.layoutHand = settings.peek().dominantHand;
+    const side = this.layoutHand === 'left' ? -1 : 1;
+    this.main.place(this.stage.localToWorld(new Vector3(0.37 * side, eye - 0.12, -0.54)), head, 12);
     if (!this.world.session) {
       // Desktop preview: a slightly pulled-back, wider view of the same seat.
       // `?cam=garden` frames the planter for screenshots and video.
@@ -239,7 +287,10 @@ export class App {
       cam.fov = garden ? 50 : 62;
       cam.updateProjectionMatrix();
     }
-    this.bubble.place(new Vector3(tf.origin[0], eye + 0.3, tf.origin[2]), head);
+    // The mirror stands beside Sprout, on the side away from the panel.
+    this.mirror.place(learner, worldPoint(learner, [-0.52 * side, -0.06, -1.0]));
+    // Just above Sprout's head, so it's in view while you watch Sprout.
+    this.bubble.place(new Vector3(tf.origin[0], eye + 0.24, tf.origin[2]), head);
   }
 
   // ---------------------------------------------------------------------------
@@ -267,6 +318,7 @@ export class App {
         break;
       case 'hands':
         this.handsSeenAt = { left: -1, right: -1 };
+        this.bothHandsSeen = false;
         this.renderHands();
         break;
       case 'handed':
@@ -276,7 +328,7 @@ export class App {
         this.calib = { since: -1, done: false, startedAt: this.now };
         this.main.show(S.calibrateScreen(false, { skip: () => this.finishCalibration(false) }));
         this.say('Touch your chin, like this.');
-        this.teacherGhost.play(getSign('mother'), this.teacherFrame, { speed: 0.7, loop: true });
+        this.teacherGhost.play(CHIN_TOUCH, this.teacherFrame, { speed: 0.7, loop: true, gap: 0.6 });
         this.teacherGhost.fadeTo(0.9);
         break;
       default:
@@ -285,11 +337,14 @@ export class App {
   }
 
   private renderHands(): void {
-    const seen = { left: tracking.left.valid, right: tracking.right.valid };
+    // Once both hands have been seen, Continue stays (lowering one to poke is fine).
+    if (tracking.left.valid && tracking.right.valid) this.bothHandsSeen = true;
+    const seen = this.bothHandsSeen ? { left: true, right: true } : { left: tracking.left.valid, right: tracking.right.valid };
     this.main.show(S.handsScreen(seen, { next: () => this.go('handed') }));
     if (seen.left && seen.right) this.say('I can see your hands! Poke Continue with a fingertip.');
     else this.say('Hold both hands up in front of you.');
   }
+  private bothHandsSeen = false;
 
   private pickHanded(h: 'right' | 'left'): void {
     store.updateSettings({ dominantHand: h });
@@ -307,7 +362,10 @@ export class App {
       () => {
         store.setOnboarded();
         // The first session: three signs you'll use every day.
-        this.startSession(['hello', 'thank-you', 'i-love-you'].map((id) => ({ signId: id, kind: 'new' as const })), true);
+        // I-LOVE-YOU first: a held handshape in front of the chest, the easiest
+        // for hand tracking, so the first plant comes quickly. Then signs at
+        // the face, once the chin calibration has been done.
+        this.startSession(['i-love-you', 'thank-you', 'hello'].map((id) => ({ signId: id, kind: 'new' as const })), true);
       },
       measured ? 1400 : 100,
     );
@@ -425,11 +483,95 @@ export class App {
       skip: () => this.lesson.skip(this.now),
       ready: () => this.lesson.ready(this.now),
       hint: () => this.lesson.showHint(this.now),
-      home: () => this.goHome(),
+      home: () => this.pauseLesson(),
     });
     this.main.show(this.lessonRefs.root);
     this.lastHudText = '';
     this.lastHudHint = '';
+  }
+
+  /** Paused by the learner (Pause button) or by the headset (menu, headset off). */
+  private away = false;
+  private userPaused = false;
+
+  private applyPause(): void {
+    const on = this.away || this.userPaused;
+    this.lesson.setPaused(on, this.now);
+    this.teacherGhost.paused = on;
+    this.myGhost.paused = on;
+  }
+
+  private pauseLesson(): void {
+    this.userPaused = true;
+    this.applyPause();
+    this.say('Take your time. I’ll be right here.');
+    const resume = (): void => {
+      this.userPaused = false;
+      this.pauseActions = null;
+      this.applyPause();
+      this.renderLesson(this.lesson.view());
+    };
+    const end = (): void => {
+      this.userPaused = false;
+      this.pauseActions = null;
+      this.applyPause();
+      this.goHome();
+    };
+    this.pauseActions = { resume, end };
+    this.main.show(
+      S.pauseScreen({
+        resume,
+        end,
+        settings: () => {
+          this.userPaused = false;
+          this.applyPause();
+          this.showSettings();
+        },
+      }),
+    );
+  }
+
+  private get gazeTargets(): Object3D[] {
+    this.gazeList[0] = this.main.holder;
+    return this.gazeList;
+  }
+  private gazeList: Object3D[] = [];
+
+  /** Voice commands: act on the current screen, and always say what was heard. */
+  private onVoice(cmd: VoiceCommand, heard: string): void {
+    this.say(`Heard: “${heard}”`, 1.8);
+    const now = this.now;
+    if (this.screen === 'lesson' && this.pauseActions) {
+      if (cmd === 'resume' || cmd === 'continue' || cmd === 'ready') this.pauseActions.resume();
+      else if (cmd === 'home') this.pauseActions.end();
+      return;
+    }
+    if (this.screen === 'lesson') {
+      if (cmd === 'again') this.lesson.replay(now);
+      else if (cmd === 'slower') this.lesson.toggleSlow(now);
+      else if (cmd === 'show') this.lesson.showHint(now);
+      else if (cmd === 'skip') this.lesson.skip(now);
+      else if (cmd === 'ready' || cmd === 'continue') this.lesson.ready(now);
+      else if (cmd === 'pause' || cmd === 'home') this.pauseLesson();
+      return;
+    }
+    if (cmd === 'home') {
+      this.goHome();
+      return;
+    }
+    const byCommand: Partial<Record<VoiceCommand, string[]>> = {
+      continue: ['begin', 'continue', 'continue-one', 'start', 'resume'],
+      ready: ['begin', 'continue', 'start'],
+      resume: ['resume'],
+      left: ['left'],
+      right: ['right'],
+    };
+    for (const id of byCommand[cmd] ?? []) {
+      if (this.main.findWorld(id)) {
+        this.clickButton(id);
+        return;
+      }
+    }
   }
 
   private updateLessonFeedback(v: ReturnType<LessonController['view']>): void {
@@ -497,6 +639,9 @@ export class App {
   }
 
   private pickPlant(id: string): void {
+    // Plants are only pickable from the garden, home and summary screens,
+    // never mid-lesson (a hand resting on the planter mustn't swap Sprout's sign).
+    if (this.screen !== 'garden' && this.screen !== 'home' && this.screen !== 'summary') return;
     const sign = getSign(id);
     this.selectedPlant = sign;
     this.teacherGhost.play(sign, this.teacherFrame, { speed: 0.9, loop: true });
@@ -538,11 +683,20 @@ export class App {
           this.showSettings();
         },
         recenter: () => this.recenter(),
-        reset: () => {
-          store.reset();
-          this.garden.sync({}, Date.now());
-          this.go('welcome');
-        },
+        reset: () =>
+          this.main.show(
+            S.confirmScreen(
+              { title: 'Start over?', body: 'This clears your garden, streak and settings on this headset.', confirm: 'Start over' },
+              {
+                yes: () => {
+                  store.reset();
+                  this.garden.sync({}, Date.now());
+                  this.go('welcome');
+                },
+                no: () => this.showSettings(),
+              },
+            ),
+          ),
         back: () => this.goHome(),
         about: () => this.main.show(S.aboutScreen({ back: () => this.showSettings() })),
       }),
@@ -634,6 +788,26 @@ export class App {
 
   update(dt: number, time: number): void {
     this.now = time;
+    // Recenter when a session starts, and when the headset resets its
+    // reference space (holding the Meta button). Not after every system menu:
+    // the learner may be looking at the panel when they come back.
+    const session = this.world.session ?? null;
+    if (session !== this.lastSession) {
+      // Leaving the headset mid-lesson pauses it rather than carrying on in 2D.
+      if (this.lastSession && !session && this.screen === 'lesson' && !this.userPaused) this.pauseLesson();
+      this.lastSession = session;
+      this.recentered = false;
+      this.resetHooked = false;
+      // A new session may be passthrough (AR) or not: re-apply settings.
+      this.applySettings();
+    }
+    if (session && !this.resetHooked) {
+      const space = this.world.renderer.xr.getReferenceSpace();
+      if (space) {
+        space.addEventListener('reset', () => (this.recentered = false));
+        this.resetHooked = true;
+      }
+    }
     // Recenter once the head pose is real (a seated eye is well above 0.6 m).
     if (!this.recentered && tracking.head.valid && tracking.head.pos[1] > 0.6 && (this.world.session || time > 0.5)) {
       this.recenter();
@@ -659,12 +833,22 @@ export class App {
       this.teacherGhost.playing ? this.teacherGhost.wrist('left') : null,
     );
 
-    // Learner hands drawn by us only when not in real XR (preview / autopilot)
-    const showMine = tracking.source === 'autopilot';
+    // The learner's own hands: drawn by us (warm, solid) in the headset too,
+    // instead of the SDK's outline hands, so they read clearly inside the
+    // glowing guide hands.
+    // (The SDK sets its hand model visible every frame, so hide its meshes.)
+    if (this.world.session && ++this.handVisualCheck % 30 === 0) {
+      const adapters = this.world.input.xr?.visualAdapters?.hand;
+      for (const a of [adapters?.left, adapters?.right]) {
+        a?.visual?.model.traverse((o) => {
+          if ((o as { isMesh?: boolean }).isMesh) o.visible = false;
+        });
+      }
+    }
     for (const hand of ['left', 'right'] as const) {
       const h = tracking[hand];
       const g = this.learnerHands[hand];
-      if (showMine && h.valid) {
+      if (h.valid) {
         g.setJoints(h.positions, h.orientations);
         g.setOpacity(0.97);
       } else g.setOpacity(0);
@@ -692,33 +876,49 @@ export class App {
     }
     this.feedback.update(dt, time, tracking.head.pos);
 
+    // Look to select (head gaze + dwell) on the main panel.
+    if (this.world.session) this.gaze.update(dt, tracking.head, this.gazeTargets);
+
+    // The mirror, for signs made at the face (out of your own view).
+    const step = this.lesson.currentStep;
+    const signing = inLesson && (step === 'together' || step === 'try');
+    const sign = this.lesson.currentSign;
+    this.mirror.show(signing && !!sign && startsAtFace(sign.dominant.start.at));
+    this.mirror.update(dt, tracking.left, tracking.right, signing ? this.lesson.startHalo() : null);
+
     // While the learner is signing, a pinch-like handshape (MORE, F, 9...)
     // must not "click" whatever the far ray points at. Buttons stay pokeable.
-    const step = this.lesson.currentStep;
     this.setFarRays(!(inLesson && !this.lesson.paused && (step === 'together' || step === 'try')));
 
     if (this.bubble.visible && time > this.bubbleUntil) this.bubble.hide();
   }
 
   private farRays = true;
+  private handVisualCheck = 0;
 
   private setFarRays(on: boolean): void {
+    const pointers = this.world.input.xr?.multiPointers;
+    if (!pointers || !this.world.session) {
+      this.farRays = true; // re-apply once a session starts
+      return;
+    }
     if (this.farRays === on) return;
     this.farRays = on;
-    const pointers = this.world.input.xr?.multiPointers;
-    if (!pointers) return;
     pointers.left.toggleSubPointer('ray', on);
     pointers.right.toggleSubPointer('ray', on);
   }
 
   private pathDirty = '';
+  private hudPos = new Vector3();
+  private hudFace = new Vector3();
 
   private updateHud(): void {
     const v = this.lesson.view();
     const f = this.lesson.learnerFrame;
-    // A caption just below the signing space, tilted up towards the eyes.
-    const p = worldPoint(f, [0, -0.5, -0.4]);
-    this.hud.place(new Vector3(p[0], p[1], p[2]), new Vector3(f.origin[0], f.origin[1], f.origin[2]), 48);
+    // A caption just below and beyond the signing space (about 35° down),
+    // tilted up towards the eyes, where a glance from your hands finds it.
+    const p = worldPoint(f, [0, -0.42, -0.6]);
+    this.hud.place(this.hudPos.set(p[0], p[1], p[2]), this.hudFace.set(f.origin[0], f.origin[1], f.origin[2]), 36);
     const label = v.step === 'celebrate' ? 'Beautiful!' : v.feedback?.step ?? v.instruction;
     const hint = v.step === 'celebrate' ? '' : v.hint ?? '';
     if (label !== this.lastHudText) {
@@ -734,6 +934,7 @@ export class App {
   }
 
   private tickHandsCheck(): void {
+    if (this.bothHandsSeen) return;
     const seen = { left: tracking.left.valid, right: tracking.right.valid };
     const key = `${seen.left}${seen.right}`;
     if (key !== this.handsKey) {

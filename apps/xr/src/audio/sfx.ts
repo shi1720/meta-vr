@@ -109,9 +109,23 @@ export const sfx = {
 
 let birdTimer: ReturnType<typeof setTimeout> | undefined;
 
+let ambientOn = false;
+let suspendTimer: ReturnType<typeof setTimeout> | undefined;
+
 export function startAmbient(): void {
   const c = ac();
-  if (!c || !master || ambientGain) return;
+  if (!c || !master || ambientOn) return;
+  ambientOn = true;
+  clearTimeout(suspendTimer);
+  if (c.state === 'suspended') void c.resume();
+  if (ambientGain) {
+    // Already built: fade back in (never stack a second set of oscillators).
+    ambientGain.gain.cancelScheduledValues(c.currentTime);
+    ambientGain.gain.setValueAtTime(Math.max(0.0001, ambientGain.gain.value), c.currentTime);
+    ambientGain.gain.exponentialRampToValueAtTime(0.5, c.currentTime + 2);
+    scheduleBirds();
+    return;
+  }
   ambientGain = c.createGain();
   ambientGain.gain.value = 0.0001;
   const filter = c.createBiquadFilter();
@@ -141,6 +155,11 @@ export function startAmbient(): void {
     lfo.start();
   }
   ambientGain.gain.exponentialRampToValueAtTime(0.5, c.currentTime + 4);
+  scheduleBirds();
+}
+
+function scheduleBirds(): void {
+  clearTimeout(birdTimer);
   const chirp = () => {
     if (!muted && ctx && ctx.state === 'running') {
       const base = 2400 + Math.random() * 1400;
@@ -153,10 +172,19 @@ export function startAmbient(): void {
   birdTimer = setTimeout(chirp, 4000);
 }
 
+/** Fade the ambience out and, once silent, suspend audio (headset off or menu open). */
 export function stopAmbient(): void {
+  if (!ambientOn) return;
+  ambientOn = false;
   clearTimeout(birdTimer);
-  if (ambientGain && ctx) ambientGain.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + 1);
-  ambientGain = null;
+  const c = ctx;
+  if (!ambientGain || !c) return;
+  ambientGain.gain.cancelScheduledValues(c.currentTime);
+  ambientGain.gain.setValueAtTime(Math.max(0.0001, ambientGain.gain.value), c.currentTime);
+  ambientGain.gain.exponentialRampToValueAtTime(0.0001, c.currentTime + 1);
+  suspendTimer = setTimeout(() => {
+    if (!ambientOn && c.state === 'running') void c.suspend();
+  }, 1200);
 }
 
 // ---------------------------------------------------------------------------

@@ -11,6 +11,7 @@ import {
   AdditiveBlending,
   BufferAttribute,
   BufferGeometry,
+  CanvasTexture,
   Color,
   ConeGeometry,
   CylinderGeometry,
@@ -33,10 +34,12 @@ import {
   Quaternion,
   RingGeometry,
   SphereGeometry,
+  SRGBColorSpace,
   TorusGeometry,
   Vector3,
 } from '@iwsdk/core';
 import type { Scene } from '@iwsdk/core';
+import { motion } from '../app/motion.js';
 
 // Deterministic randomness so the garden looks the same every visit.
 function rng(seed: number) {
@@ -147,7 +150,7 @@ export function createEnvironment(scene: Scene): Environment {
     new MeshLambertMaterial({ color: new Color('#6B4A34') }),
   );
   soil.position.y = 0.032;
-  planter.add(box, soil);
+  planter.add(box, soil, soilDetail(r));
   stage.add(planter);
 
   const bed = new Group();
@@ -185,6 +188,8 @@ export function createEnvironment(scene: Scene): Environment {
       top.visible = !on;
     },
     update(time: number) {
+      pollen.visible = !motion.calm;
+      if (motion.calm) return;
       // Pollen drifts slowly (calm, low-amplitude motion).
       const a = pollenPos.array as Float32Array;
       for (let i = 0; i < a.length; i += 3) {
@@ -197,7 +202,7 @@ export function createEnvironment(scene: Scene): Environment {
       (pollen.material as PointsMaterial).opacity = 0.55 + 0.15 * Math.sin(time * 0.7);
       lanterns.children.forEach((l, i) => {
         const glow = l.getObjectByName('glow') as Mesh | undefined;
-        if (glow) (glow.material as MeshBasicMaterial).opacity = 0.3 + 0.08 * Math.sin(time * 1.3 + i);
+        if (glow) (glow.material as MeshBasicMaterial).opacity = 0.14 + 0.04 * Math.sin(time * 1.3 + i);
       });
     },
   };
@@ -312,6 +317,42 @@ function bushes(r: () => number): InstancedMesh {
   return mesh;
 }
 
+/**
+ * Pebbles and moss around the rim of the planter, so a new garden looks
+ * tended rather than like an empty bowl. Plants grow in the middle.
+ */
+function soilDetail(r: () => number): Group {
+  const g = new Group();
+  const m = new Matrix4();
+  const q = new Quaternion();
+  const p = new Vector3();
+  const s = new Vector3();
+  const c = new Color();
+  const pebbles = new InstancedMesh(new DodecahedronGeometry(1, 0), new MeshLambertMaterial({ color: new Color('#ffffff'), flatShading: true }), 16);
+  const stones = ['#CFC6B8', '#B8AE9F', '#E4DCCD', '#A99C8A'];
+  for (let i = 0; i < 16; i++) {
+    const a = (i / 16) * Math.PI * 2 + r() * 0.3;
+    const d = 0.235 + r() * 0.03;
+    p.set(Math.cos(a) * d, 0.04, Math.sin(a) * d);
+    q.setFromAxisAngle(s.set(r(), r(), r()).normalize(), r() * Math.PI);
+    const k = 0.009 + r() * 0.008;
+    pebbles.setMatrixAt(i, m.compose(p, q, s.set(k * 1.3, k * 0.6, k)));
+    pebbles.setColorAt(i, c.set(stones[i % stones.length]));
+  }
+  const moss = new InstancedMesh(new IcosahedronGeometry(1, 1), new MeshLambertMaterial({ color: new Color('#ffffff'), flatShading: true }), 12);
+  const greens = ['#6FA35E', '#7DB36A', '#5E914F'];
+  for (let i = 0; i < 12; i++) {
+    const a = (i / 12) * Math.PI * 2 + 0.4 + r() * 0.3;
+    const d = 0.22 + r() * 0.035;
+    p.set(Math.cos(a) * d, 0.038, Math.sin(a) * d);
+    const k = 0.014 + r() * 0.01;
+    moss.setMatrixAt(i, m.compose(p, q.identity(), s.set(k * 1.4, k * 0.45, k)));
+    moss.setColorAt(i, c.set(greens[i % greens.length]));
+  }
+  g.add(pebbles, moss);
+  return g;
+}
+
 function meadowFlowers(r: () => number): Group {
   const count = 180;
   const g = new Group();
@@ -320,35 +361,49 @@ function meadowFlowers(r: () => number): Group {
     new MeshLambertMaterial({ color: new Color('#5E9B4F') }),
     count,
   );
+  // Five-petal blossoms, tilted towards the terrace so they read as flowers
+  // from a seated eye height rather than edge-on.
   const blooms = new InstancedMesh(
-    new ConeGeometry(0.05, 0.09, 6).rotateX(Math.PI).translate(0, 0.03, 0),
+    new CylinderGeometry(0.042, 0.026, 0.014, 5, 1),
     new MeshLambertMaterial({ color: new Color('#ffffff'), flatShading: true }),
     count,
   );
+  const hearts = new InstancedMesh(new SphereGeometry(0.014, 6, 4), new MeshLambertMaterial({ color: new Color('#FFE08A') }), count);
   const m = new Matrix4();
   const q = new Quaternion();
+  const tilt = new Quaternion();
+  const pos = new Vector3();
+  const top = new Vector3();
+  const axis = new Vector3();
+  const up = new Vector3(0, 1, 0);
+  const one = new Vector3(1, 1, 1);
+  const size = new Vector3();
+  const color = new Color();
   const palette = ['#FFD166', '#FF9F80', '#FFF4E0', '#C9B6FF', '#FF8FAB', '#FF7A59'];
   for (let i = 0; i < count; i++) {
     const a = r() * Math.PI * 2;
     const d = 2.7 + r() * 11;
     const h = 0.18 + r() * 0.22;
-    const x = Math.sin(a) * d;
-    const z = Math.cos(a) * d;
-    q.setFromAxisAngle(new Vector3(r() - 0.5, 0, r() - 0.5).normalize(), (r() - 0.5) * 0.3);
-    m.compose(new Vector3(x, 0, z), q, new Vector3(1, h, 1));
-    stems.setMatrixAt(i, m);
-    m.compose(new Vector3(x, 0, z).add(new Vector3(0, h, 0).applyQuaternion(q)), q, new Vector3(1, 1, 1));
-    blooms.setMatrixAt(i, m);
-    blooms.setColorAt(i, new Color(palette[i % palette.length]));
+    pos.set(Math.sin(a) * d, 0, Math.cos(a) * d);
+    q.setFromAxisAngle(axis.set(r() - 0.5, 0, r() - 0.5).normalize(), (r() - 0.5) * 0.3);
+    stems.setMatrixAt(i, m.compose(pos, q, size.set(1, h, 1)));
+    top.set(0, h, 0).applyQuaternion(q).add(pos);
+    axis.set(-pos.x, 0, -pos.z).normalize().cross(up).negate();
+    tilt.setFromAxisAngle(axis, 0.7);
+    const s = 0.8 + r() * 0.5;
+    blooms.setMatrixAt(i, m.compose(top, tilt, size.set(s, s, s)));
+    blooms.setColorAt(i, color.set(palette[i % palette.length]));
+    top.add(axis.set(0, 0.009 * s, 0).applyQuaternion(tilt));
+    hearts.setMatrixAt(i, m.compose(top, tilt, one.set(s, s * 0.6, s)));
   }
-  g.add(stems, blooms);
+  g.add(stems, blooms, hearts);
   return g;
 }
 
 function lanternRing(): Group {
   const g = new Group();
   const poleMat = new MeshLambertMaterial({ color: new Color('#5B4636') });
-  const bulbMat = new MeshBasicMaterial({ color: new Color('#FFE6A8') });
+  const bulbMat = new MeshBasicMaterial({ color: new Color('#F7E7C4') });
   for (let i = 0; i < 8; i++) {
     const a = (i / 8) * Math.PI * 2 + Math.PI / 8;
     const l = new Group();
@@ -358,7 +413,7 @@ function lanternRing(): Group {
     bulb.position.y = 1.36;
     const glow = new Mesh(
       new SphereGeometry(0.1, 12, 8),
-      new MeshBasicMaterial({ color: new Color('#FFD27A'), transparent: true, opacity: 0.35, depthWrite: false, blending: AdditiveBlending }),
+      new MeshBasicMaterial({ color: new Color('#FFD27A'), transparent: true, opacity: 0.14, depthWrite: false, blending: AdditiveBlending }),
     );
     glow.name = 'glow';
     glow.position.y = 1.36;
@@ -369,12 +424,28 @@ function lanternRing(): Group {
   return g;
 }
 
+/** A soft round glow, so points read as pollen rather than square pixels. */
+function softDot(): CanvasTexture {
+  const c = document.createElement('canvas');
+  c.width = c.height = 64;
+  const g = c.getContext('2d')!;
+  const grad = g.createRadialGradient(32, 32, 0, 32, 32, 32);
+  grad.addColorStop(0, 'rgba(255,255,255,1)');
+  grad.addColorStop(0.3, 'rgba(255,255,255,0.6)');
+  grad.addColorStop(1, 'rgba(255,255,255,0)');
+  g.fillStyle = grad;
+  g.fillRect(0, 0, 64, 64);
+  const t = new CanvasTexture(c);
+  t.colorSpace = SRGBColorSpace;
+  return t;
+}
+
 function pollenField(r: () => number): Points {
   const n = 160;
   const pos = new Float32Array(n * 3);
   for (let i = 0; i < n; i++) {
     const a = r() * Math.PI * 2;
-    const d = 1.2 + r() * 8;
+    const d = 2 + r() * 8;
     pos[i * 3] = Math.sin(a) * d;
     pos[i * 3 + 1] = 0.4 + r() * 2.6;
     pos[i * 3 + 2] = Math.cos(a) * d;
@@ -383,9 +454,10 @@ function pollenField(r: () => number): Points {
   geo.setAttribute('position', new BufferAttribute(pos, 3));
   const mat = new PointsMaterial({
     color: new Color('#FFF1B8'),
-    size: 0.035,
+    map: softDot(),
+    size: 0.05,
     transparent: true,
-    opacity: 0.6,
+    opacity: 0.75,
     depthWrite: false,
     blending: AdditiveBlending,
     sizeAttenuation: true,

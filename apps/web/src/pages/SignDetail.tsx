@@ -119,7 +119,7 @@ export default function SignDetail() {
                 <div className="stage-overlay-top">
                   <span className="view-chip">
                     <Icon name={view === 'mine' ? 'hand' : 'eye'} size={16} />
-                    {view === 'mine' ? 'My view' : 'Their view'}
+                    {view === 'mine' ? 'Your view' : 'Sprout’s view'}
                   </span>
                   <button
                     type="button"
@@ -176,11 +176,11 @@ export default function SignDetail() {
                       onClick={() => setView('theirs')}
                     >
                       <Icon name="eye" size={16} />
-                      Their view
+                      Sprout’s view
                     </button>
                     <button type="button" role="radio" aria-checked={view === 'mine'} onClick={() => setView('mine')}>
                       <Icon name="hand" size={16} />
-                      My view
+                      Your view
                     </button>
                   </div>
                   <label className="switch">
@@ -192,13 +192,13 @@ export default function SignDetail() {
                 <p className="view-explainer">
                   {view === 'mine' ? (
                     <>
-                      <strong>My view:</strong> from just behind the signer’s head. Left and right match your own hands,
-                      like the guide hands in the headset.
+                      <strong>Your view:</strong> as if you were signing it, from just behind Sprout’s head. Left and
+                      right match your own hands, like the guide hands in the headset.
                     </>
                   ) : (
                     <>
-                      <strong>Their view:</strong> how Sprout looks from across the table. Their right hand is on your
-                      left, like a mirror.
+                      <strong>Sprout’s view:</strong> how Sprout looks from across the table. Sprout faces you, so
+                      Sprout’s right hand is on your left.
                     </>
                   )}
                 </p>
@@ -292,6 +292,7 @@ export default function SignDetail() {
             {sign.variants && (
               <InfoBlock icon="globe" title="Variants">
                 <p>{sign.variants}</p>
+                <p className="muted small">Common variants are listed here; for now the checker accepts one form.</p>
               </InfoBlock>
             )}
 
@@ -308,7 +309,8 @@ export default function SignDetail() {
                   ))}
                 </ul>
                 <p className="muted small">
-                  Descriptions are our own. Please learn from these Deaf-led and expert references too.
+                  Descriptions are our own, and these references haven’t reviewed Signsprout. Please learn from these
+                  Deaf-led and expert references too.
                 </p>
               </InfoBlock>
             )}

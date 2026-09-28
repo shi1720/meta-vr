@@ -28,11 +28,17 @@ import {
 import { FINGERS, TIP_OF } from '@signsprout/signkit';
 import type { Finger, HandshapeMatch, Vec3 } from '@signsprout/signkit';
 import { COLORS } from '../app/theme.js';
+import { motion } from '../app/motion.js';
 
 const STATUS_COLOR = {
   good: new Color(COLORS.good),
   close: new Color(COLORS.close),
   fix: new Color(COLORS.fix),
+};
+const STATUS_COLOR_HC = {
+  good: new Color('#00FF88'),
+  close: new Color('#FFFF00'),
+  fix: new Color('#FF3355'),
 };
 
 const m = new Matrix4();
@@ -40,6 +46,7 @@ const q = new Quaternion();
 const v = new Vector3();
 const s = new Vector3();
 const HIDDEN = new Vector3(0, -100, 0);
+const UP = new Vector3(0, 1, 0);
 
 export class Feedback {
   readonly root = new Group();
@@ -54,7 +61,9 @@ export class Feedback {
   private haloOn = false;
   private pathPts = 0;
   private pathT = 0;
-  highContrast = false;
+  private highContrast = false;
+  private head = new Vector3(0, 1.2, 0);
+  private face = new Matrix4();
 
   constructor() {
     this.root.name = 'feedback';
@@ -113,15 +122,20 @@ export class Feedback {
       this.hideFingers();
       return;
     }
+    // High contrast: bigger markers and saturated colours.
+    const big = this.highContrast ? 1.8 : 1;
+    const colors = this.highContrast ? STATUS_COLOR_HC : STATUS_COLOR;
     FINGERS.forEach((f: Finger, i: number) => {
       const tip = TIP_OF[f];
       v.set(positions[tip * 3], positions[tip * 3 + 1], positions[tip * 3 + 2]);
       const st = match.parts[f].status;
-      const pulse = st === 'fix' ? 1 + 0.35 * Math.sin(time * 9) : 1;
+      const pulse = (st === 'fix' && !motion.calm ? 1 + 0.35 * Math.sin(time * 9) : 1) * big;
       this.beacons.setMatrixAt(i, m.compose(v, q.identity(), s.set(pulse, pulse, pulse)));
-      this.beacons.setColorAt(i, STATUS_COLOR[st]);
+      this.beacons.setColorAt(i, colors[st]);
       if (st === 'fix') {
-        this.rings.setMatrixAt(i, m.compose(v, q.identity(), s.set(pulse, pulse, pulse)));
+        // The ring faces the learner so it reads as a circle, not a line.
+        q.setFromRotationMatrix(this.face.lookAt(this.head, v, UP));
+        this.rings.setMatrixAt(i, m.compose(v, q, s.set(pulse, pulse, pulse)));
       } else {
         this.rings.setMatrixAt(i, m.compose(HIDDEN, q, s.set(1, 1, 1)));
       }
@@ -178,18 +192,24 @@ export class Feedback {
       this.sparkVel[i * 3 + 2] = Math.sin(ph) * Math.sin(th) * sp;
     }
     attr.needsUpdate = true;
-    this.sparkLife = 1.2;
+    this.sparkLife = motion.calm ? 0 : 1.2;
+  }
+
+  setHighContrast(on: boolean): void {
+    this.highContrast = on;
   }
 
   update(dt: number, time: number, head: Vec3): void {
+    this.head.set(head[0], head[1], head[2]);
     if (this.haloOn) {
       // Keep the halo at most ~6° across: start positions at the chin or
       // forehead are only a hand's width from the eyes.
       const d = Math.hypot(this.halo.position.x - head[0], this.halo.position.y - head[1], this.halo.position.z - head[2]);
-      const k = (1 + 0.12 * Math.sin(time * 4)) * Math.min(1, (d * 0.11) / 0.05);
+      const beat = motion.calm ? 0 : Math.sin(time * 4);
+      const k = (1 + 0.12 * beat) * Math.min(1, (d * 0.11) / 0.05);
       this.halo.scale.set(k, k, k);
       this.halo.lookAt(head[0], head[1], head[2]);
-      (this.halo.material as MeshBasicMaterial).opacity = 0.55 + 0.25 * Math.sin(time * 4);
+      (this.halo.material as MeshBasicMaterial).opacity = 0.55 + 0.25 * beat;
     }
     if (this.pathPts > 1) {
       this.pathT = (this.pathT + dt * 0.6) % 1;

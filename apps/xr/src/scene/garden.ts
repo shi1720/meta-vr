@@ -26,6 +26,7 @@ import {
 } from '@iwsdk/core';
 import { ALL_UNITS, unitOf, wilt } from '@signsprout/signkit';
 import type { Card } from '@signsprout/signkit';
+import { motion } from '../app/motion.js';
 
 const GOLDEN = Math.PI * (3 - Math.sqrt(5));
 const BED_R = 0.25;
@@ -47,7 +48,17 @@ const q = new Quaternion();
 const q2 = new Quaternion();
 const p = new Vector3();
 const sc = new Vector3();
-const X = new Vector3(1, 0, 0);
+const q3 = new Quaternion();
+const lq = new Quaternion();
+const base = new Vector3();
+const tip = new Vector3();
+const lp = new Vector3();
+const grey = new Color();
+const leafColor = new Color();
+const WILTED = new Color('#9C9C8A');
+const LEAF = new Color('#5DB36A');
+const LEAF_WILTED = new Color('#A7A68A');
+const HEIGHTS = [0.0, 0.022, 0.04, 0.055, 0.065, 0.075];
 const Y = new Vector3(0, 1, 0);
 const Z = new Vector3(0, 0, 1);
 const HIDE = new Matrix4().makeScale(0, 0, 0);
@@ -94,6 +105,8 @@ export class Garden {
     for (const mesh of [this.stems, this.leaves, this.buds, this.petals, this.centers, this.mounds, this.selRing]) {
       mesh.frustumCulled = false;
       mesh.count = 0;
+      // Only the invisible per-plant hit targets take pokes and rays.
+      mesh.raycast = () => {};
       this.root.add(mesh as unknown as Object3D);
     }
     this.root.add(this.hits);
@@ -172,57 +185,63 @@ export class Garden {
 
   private rebuild(): void {
     this.ensureHits(this.plants.length);
+    // A young garden's few plants are drawn larger so the first sprouts read
+    // clearly; the scale settles to 1 as the planter fills.
+    const k0 = Math.min(1.8, Math.max(1, 1.8 - this.plants.length / 30));
     let li = 0;
     let pi = 0;
     let bi = 0;
     let ci = 0;
     this.plants.forEach((pl, i) => {
-      slotPos(pl.slot, p);
-      const base = p.clone();
+      slotPos(pl.slot, base);
       const g = pl.grow;
       const stage = pl.shownMastery + (pl.mastery - pl.shownMastery) * g;
-      const heightFor = [0.0, 0.022, 0.04, 0.055, 0.065, 0.075];
-      const h = lerpArr(heightFor, stage);
+      const h = lerpArr(HEIGHTS, stage) * k0;
       // droop when wilting
       const droop = pl.wilt * 0.7;
       q.setFromAxisAngle(Z, droop * (i % 2 ? 1 : -1)).multiply(q2.setFromAxisAngle(Y, i * 1.7));
-      const grey = new Color().copy(pl.color).lerp(new Color('#9C9C8A'), pl.wilt * 0.6);
+      grey.copy(pl.color).lerp(WILTED, pl.wilt * 0.6);
 
-      this.mounds.setMatrixAt(i, m.compose(base, q2.identity(), sc.set(1, 1, 1)));
+      this.mounds.setMatrixAt(i, m.compose(base, q2.identity(), sc.setScalar(k0)));
       const hit = this.hits.children[i];
       if (hit) {
         hit.position.set(base.x, 0.03, base.z);
         hit.scale.set(1, 1.6, 1);
       }
       if (h > 0.002) {
-        this.stems.setMatrixAt(i, m.compose(base, q, sc.set(1, h, 1)));
+        this.stems.setMatrixAt(i, m.compose(base, q, sc.set(k0, h, k0)));
       } else {
         this.stems.setMatrixAt(i, HIDE);
       }
-      const tip = new Vector3(0, h, 0).applyQuaternion(q).add(base);
+      tip.set(0, h, 0).applyQuaternion(q).add(base);
       // leaves
       const nLeaves = stage < 0.5 ? 0 : stage < 1.5 ? 2 : 4;
-      const leafSize = 0.006 + Math.min(stage, 3) * 0.0022;
+      const leafSize = (0.006 + Math.min(stage, 3) * 0.0022) * k0;
+      leafColor.copy(LEAF).lerp(LEAF_WILTED, pl.wilt * 0.6);
       for (let k = 0; k < nLeaves; k++) {
         const along = k < 2 ? 0.55 : 0.3;
-        const lp = new Vector3(0, h * along, 0).applyQuaternion(q).add(base);
-        const lq = q.clone().multiply(q2.setFromAxisAngle(Y, k * Math.PI + (k > 1 ? 0.9 : 0))).multiply(new Quaternion().setFromAxisAngle(Z, 0.35 + pl.wilt * 0.5));
+        lp.set(0, h * along, 0).applyQuaternion(q).add(base);
+        lq.copy(q)
+          .multiply(q2.setFromAxisAngle(Y, k * Math.PI + (k > 1 ? 0.9 : 0)))
+          .multiply(q3.setFromAxisAngle(Z, 0.35 + pl.wilt * 0.5));
         this.leaves.setMatrixAt(li, m.compose(lp, lq, sc.set(leafSize, leafSize, leafSize)));
-        this.leaves.setColorAt(li++, new Color('#5DB36A').lerp(new Color('#A7A68A'), pl.wilt * 0.6));
+        this.leaves.setColorAt(li++, leafColor);
       }
       // bud or flower
       if (stage >= 2.5 && stage < 3.5) {
-        this.buds.setMatrixAt(bi, m.compose(tip, q, sc.setScalar(0.8 + (stage - 2.5) * 0.4)));
+        this.buds.setMatrixAt(bi, m.compose(tip, q, sc.setScalar((0.8 + (stage - 2.5) * 0.4) * k0)));
         this.buds.setColorAt(bi++, grey);
       } else if (stage >= 3.5) {
-        const size = 0.009 + (stage - 3.5) * 0.004;
+        const size = (0.009 + (stage - 3.5) * 0.004) * k0;
         const open = Math.min(1, stage - 3.4);
         for (let k = 0; k < 6; k++) {
-          const pq = q.clone().multiply(q2.setFromAxisAngle(Y, (k / 6) * Math.PI * 2)).multiply(new Quaternion().setFromAxisAngle(Z, 0.9 - open * 0.8));
-          this.petals.setMatrixAt(pi, m.compose(tip, pq, sc.set(size, size, size)));
+          lq.copy(q)
+            .multiply(q2.setFromAxisAngle(Y, (k / 6) * Math.PI * 2))
+            .multiply(q3.setFromAxisAngle(Z, 0.9 - open * 0.8));
+          this.petals.setMatrixAt(pi, m.compose(tip, lq, sc.set(size, size, size)));
           this.petals.setColorAt(pi++, grey);
         }
-        this.centers.setMatrixAt(ci++, m.compose(tip, q, sc.setScalar(0.8 + stage * 0.08)));
+        this.centers.setMatrixAt(ci++, m.compose(tip, q, sc.setScalar((0.8 + stage * 0.08) * k0)));
       }
     });
     this.mounds.count = this.plants.length;
@@ -235,7 +254,6 @@ export class Garden {
       mesh.instanceMatrix.needsUpdate = true;
       if (mesh.instanceColor) mesh.instanceColor.needsUpdate = true;
     }
-    void X;
   }
 
   /** Animate growth; returns true while something is still growing. */
@@ -243,7 +261,7 @@ export class Garden {
     let animating = false;
     for (const pl of this.plants) {
       if (pl.grow < 1) {
-        pl.grow = Math.min(1, pl.grow + dt * 0.8);
+        pl.grow = motion.calm ? 1 : Math.min(1, pl.grow + dt * 0.8);
         animating = true;
         if (pl.grow >= 1) pl.shownMastery = pl.mastery;
       } else if (pl.shownMastery !== pl.mastery) {

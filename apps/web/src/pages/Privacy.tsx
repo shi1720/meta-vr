@@ -47,8 +47,8 @@ export default function Privacy() {
           <p className="eyebrow">Privacy &amp; ethics</p>
           <h1>Plain-language promises.</h1>
           <p className="lede">
-            Signsprout is used by families, often in the first, tender months after a baby’s diagnosis. That deserves
-            care, so here is exactly what we collect, and what we believe.
+            Signsprout is used by families, often in the first, tender months after learning their baby is deaf. That
+            deserves care, so here is exactly what we collect, and what we believe.
           </p>
         </div>
       </header>
@@ -72,26 +72,30 @@ export default function Privacy() {
           <h2 id="ethics-t">How we approach ASL</h2>
           <p>
             American Sign Language is a complete language with its own grammar, poetry and history, and it belongs to
-            the Deaf community. Signsprout is a practice tool, not a teacher, and we try to act like one:
+            the Deaf community. Signsprout is a practice tool for first ASL vocabulary, not a teacher, and we try to act
+            like one:
           </p>
           <ul>
             <li>
-              <strong>A learning aid, not a translator.</strong> We never claim to interpret or translate, and we point
-              learners toward Deaf teachers, Deaf mentors and Deaf-led organisations.
+              <strong>A learning aid, not a translator.</strong> We never claim to interpret or translate. This site
+              links to Deaf-led resources, family organisations, the SKI-HI Deaf Mentor program and Gallaudet’s ASL
+              Connect.
             </li>
             <li>
-              <strong>Honest scoring.</strong> We check handshape, location and movement. Facial grammar, mouthing and
-              body shifts are essential to ASL but can’t be seen by hand tracking, so we show them as tips and don’t
-              score them.
+              <strong>Honest scoring.</strong> We check handshape, then place, then movement, then the final handshape.
+              Facial grammar, mouthing and body shifts are essential to ASL but can’t be seen by hand tracking, so
+              they’re mentioned as tips, not scored. For fingerspelled letters that hand tracking confuses (such as M,
+              N, T, E, A, S), Signsprout is lenient and says so.
             </li>
             <li>
-              <strong>Checked signs, credited sources.</strong> Every sign is cross-checked against Handspeak, by Deaf
-              signer Jolanta Lapiak, and Lifeprint / ASL University, by Dr. Bill Vicars. Each dictionary page links its
-              references, and our descriptions are our own.
+              <strong>Compared signs, credited sources.</strong> We compared each sign with Handspeak (Jolanta Lapiak)
+              and Lifeprint / ASL University (Dr. Bill Vicars). No Deaf signer has reviewed Signsprout yet; paid review
+              by Deaf signers comes before launch. Each dictionary page links its references, and our descriptions are
+              our own.
             </li>
             <li>
-              <strong>Variants are valid.</strong> Signs differ between regions and families. We show common variants
-              rather than marking them wrong.
+              <strong>Variants are valid.</strong> Signs differ between regions and families. Common variants are
+              listed; for now the checker accepts one form.
             </li>
             <li>
               <strong>Language choice is the family’s.</strong> Many families use hearing technology and spoken language
@@ -100,8 +104,9 @@ export default function Privacy() {
           </ul>
           <h2>What’s next</h2>
           <p>
-            Our roadmap puts Deaf people in charge of the content: Deaf-led review of every sign, paid Deaf teachers
-            inside the app, and fair pay for any Deaf signer whose work we use. If we ever collect data to improve
+            Our plan is Deaf co-leadership of the content, with pay and a veto over what Signsprout teaches. That isn’t
+            in place yet. Before launch, Deaf signers will be paid to review every sign. We also plan paid Deaf teachers
+            inside the app and fair pay for any Deaf signer whose work we use. If we ever collect data to improve
             recognition, it will be opt-in, revocable, hand-joints only, and governed with the Deaf community.
           </p>
           <h2>Questions or requests</h2>

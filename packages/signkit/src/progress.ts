@@ -35,6 +35,10 @@ export interface LearnerSettings {
    * left/right errors (Shield & Meier, 2018).
    */
   mirrorTeacher: boolean;
+  /** Hands-free: rest your gaze (head direction) on a button to press it. */
+  lookToSelect: boolean;
+  /** Hands-free: short spoken commands ("again", "slower", "skip"), where supported. */
+  voiceCommands: boolean;
   /** Child's name, used for personalised phrases & fingerspelling practice. */
   childName?: string;
   /** Daily goal in minutes. */
@@ -77,6 +81,8 @@ export const DEFAULT_SETTINGS: LearnerSettings = {
   highContrast: false,
   passthrough: false,
   mirrorTeacher: true,
+  lookToSelect: false,
+  voiceCommands: false,
   dailyGoal: 5,
 };
 

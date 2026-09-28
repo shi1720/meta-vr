@@ -125,7 +125,7 @@ export class Sprout {
   }
 
   /**
-   * Opacity of the body, the head and the face. The "my view" camera looks
+   * Opacity of the body, the head and the face. The "your view" camera looks
    * through a see-through Sprout from behind, where a face would be confusing.
    */
   setOpacity(body: number, head = body, face = head): void {

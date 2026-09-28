@@ -5,6 +5,7 @@
  */
 
 import { UIKit } from '@iwsdk/core';
+import type { Object3D } from '@iwsdk/core';
 import {
   ArrowLeft,
   BookOpen,
@@ -139,7 +140,7 @@ export function title(t: string, props: AnyProps = {}): UIKit.Text {
 }
 
 export function caption(t: string, props: AnyProps = {}): UIKit.Text {
-  return text(t, { fontSize: 24, color: palette.muted, ...props });
+  return text(t, { fontSize: 27, color: palette.muted, ...props });
 }
 
 export function icon(name: IconName, props: AnyProps = {}): UIKit.Component {
@@ -165,6 +166,16 @@ export interface ButtonOpts {
 export const buttonRegistry = new Map<string, () => void>();
 const lastClick = new Map<string, number>();
 
+/**
+ * Real presses are ignored for 350 ms after any press and after a screen
+ * change, so a lingering fingertip can't also press whatever button appears
+ * under it on the next screen.
+ */
+let quietUntil = 0;
+export function quietButtons(ms = 350): void {
+  quietUntil = Math.max(quietUntil, performance.now() + ms);
+}
+
 /** Fire a registered button, ignoring it if it was clicked for real just now. */
 export function clickRegistered(id: string): boolean {
   const fn = buttonRegistry.get(id);
@@ -172,6 +183,12 @@ export function clickRegistered(id: string): boolean {
   if (performance.now() - (lastClick.get(id) ?? -1e9) < 1200) return true;
   fn();
   return true;
+}
+
+/** The pressable button an object (a button, or its label or icon) belongs to. */
+export function pressableOf(o: Object3D | null): Object3D | null {
+  for (let n = o; n; n = n.parent) if ((n.userData as { press?: unknown }).press) return n;
+  return null;
 }
 
 export function button(o: ButtonOpts): UIKit.Container {
@@ -192,6 +209,18 @@ export function button(o: ButtonOpts): UIKit.Container {
   const hover =
     variant === 'primary' ? '#5BD8A4' : variant === 'danger' ? '#FF9A80' : variant === 'ghost' ? palette.inkSoft : '#3A5566';
   const fg = variant === 'primary' || variant === 'danger' ? palette.ink : palette.paper;
+  // One guarded press for pokes, pinch rays and look-to-select alike.
+  const press = (): void => {
+    const t = performance.now();
+    if (t < quietUntil) return;
+    if (o.id) {
+      if (t - (lastClick.get(o.id) ?? -1e9) < 400) return;
+      lastClick.set(o.id, t);
+    }
+    quietButtons();
+    sfx.tick();
+    o.onClick?.();
+  };
   const b = box({
     flexDirection: 'row',
     alignItems: 'center',
@@ -201,24 +230,19 @@ export function button(o: ButtonOpts): UIKit.Container {
     backgroundColor: o.selected ? palette.lilac : bg,
     borderWidth: variant === 'ghost' ? 3 : 0,
     borderColor: palette.inkLine,
-    minHeight: size === 'lg' ? 104 : size === 'md' ? 80 : 60,
+    // 1100 px = 0.46 m on the main panel: about 2.8 cm, 3.7 cm and 4.5 cm.
+    minHeight: size === 'lg' ? 108 : size === 'md' ? 88 : 68,
     flexGrow: o.grow ? 1 : 0,
     width: o.width,
     hover: { backgroundColor: o.selected ? '#A99CFF' : hover },
-    active: { transformScaleX: 0.97, transformScaleY: 0.97 },
-    onClick: () => {
-      if (o.id) {
-        const t = performance.now();
-        if (t - (lastClick.get(o.id) ?? -1e9) < 400) return;
-        lastClick.set(o.id, t);
-      }
-      sfx.tick();
-      o.onClick?.();
-    },
+    // Pressing visibly sinks and brightens the button.
+    active: { transformScaleX: 0.93, transformScaleY: 0.93, backgroundColor: o.selected ? '#B8AEFF' : hover },
+    onClick: () => press(),
     onPointerEnter: () => sfx.hover(),
     ...pad,
     ...(o.id ? { id: o.id } : {}),
   });
+  (b as unknown as Object3D).userData.press = press;
   if (o.id)
     buttonRegistry.set(o.id, () => {
       lastClick.set(o.id!, performance.now());
@@ -242,7 +266,7 @@ export function stat(ic: IconName, value: string, label: string, color: string):
   return col(
     { gap: 6, alignItems: 'center', flexGrow: 1, paddingY: 18, borderRadius: 28, backgroundColor: palette.inkSoft },
     row({ gap: 10 }, icon(ic, { width: 34, height: 34, color }), text(value, { fontSize: 40, fontWeight: 'bold' })),
-    caption(label, { fontSize: 22 }),
+    caption(label, { fontSize: 26 }),
   );
 }
 

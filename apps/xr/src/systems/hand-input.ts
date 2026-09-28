@@ -11,6 +11,9 @@ import { JOINT_NAMES } from '@signsprout/signkit';
 import { previewSeat, tracking } from '../app/hands.js';
 import type { HandSample } from '../app/hands.js';
 
+
+/** Seconds a hand stays 'seen' after tracking drops out. */
+const HOLD_S = 0.2;
 export type AutopilotFn = (time: number, left: HandSample, right: HandSample) => void;
 
 let autopilot: AutopilotFn | null = null;
@@ -69,8 +72,10 @@ export class HandInputSystem extends createSystem({}) {
 
     const frame = this.xrFrame as XRFrame | undefined;
     const ref = this.world.xrReferenceSpace;
-    tracking.left.valid = false;
-    tracking.right.valid = false;
+    // Hold the last pose through brief dropouts (a frame or two while a hand
+    // passes the other, or near the face) so feedback doesn't flicker.
+    tracking.left.valid = tracking.left.valid && tracking.left.lostFor < HOLD_S;
+    tracking.right.valid = tracking.right.valid && tracking.right.lostFor < HOLD_S;
     if (!frame || !ref || !inXR) {
       tracking.source = 'none';
       return;

@@ -4,10 +4,12 @@
  * data and synthesis the headset uses.
  *
  * Two cameras tell the product's story:
- *  - "theirs": face to face, the way you'd watch a teacher (a mirror image);
- *  - "mine":   from just behind the signer's head, so left and right match
- *              your own hands — what the headset does by putting the guide
- *              hands inside your own space.
+ *  - "theirs" (labelled "Sprout's view"): face to face, as you'd watch a
+ *              signer across a table. Sprout faces you, so Sprout's right
+ *              hand is on your left;
+ *  - "mine" (labelled "Your view"): from just behind the signer's head, so
+ *              left and right match your own hands — what the headset does by
+ *              putting the guide hands inside your own space.
  */
 
 import {
@@ -399,7 +401,7 @@ export class SignViewer {
       this.controls.update();
     }
 
-    // Sprout becomes see-through in "my view" so it never hides the hands.
+    // Sprout becomes see-through in "your view" so it never hides the hands.
     const mine = this.view === 'mine';
     const k = this.opts.reducedMotion ? 1 : Math.min(1, dt * 5);
     this.bodyOpacity += ((mine ? 0.16 : 1) - this.bodyOpacity) * k;
