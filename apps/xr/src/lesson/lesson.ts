@@ -1,5 +1,5 @@
 /**
- * LessonController — runs a practice session, one sign at a time.
+ * LessonController. runs a practice session, one sign at a time.
  *
  *   New sign:  WATCH (Sprout signs it, face to face)
  *           →  TOGETHER (glowing hands appear inside the learner's own space;
@@ -278,7 +278,7 @@ export class LessonController {
       case 'try':
         return this.items[this.index]?.kind === 'review'
           ? `Sign “${this.sign.english}”`
-          : 'Your turn — sign it on your own';
+          : 'Your turn. sign it on your own';
       case 'celebrate':
         return 'Beautiful!';
     }
@@ -310,7 +310,7 @@ export class LessonController {
     this.withGhost = true;
     const speed = settings.peek().ghostSpeed * 0.8;
     this.ghosts.playMine(this.sign, this.learner, speed, 0.45);
-    this.hooks.coach('Here’s a little help — follow the glowing hands.');
+    this.hooks.coach('Here’s a little help. follow the glowing hands.');
     this.hooks.onStep(this.view());
     void now;
   }
@@ -400,7 +400,7 @@ export class LessonController {
     }
     if (this.step === 'together' && t > 45) {
       // Don't let anyone get stuck: offer to move on.
-      this.hooks.coach('This one is tricky! Try it slower, or skip it for now — we’ll come back to it.');
+      this.hooks.coach('This one is tricky! Try it slower, or skip it for now. we’ll come back to it.');
       this.stepStart = now - 20;
     }
   }

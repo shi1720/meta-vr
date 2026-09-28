@@ -1,6 +1,6 @@
 # Signsprout business plan
 
-*Prepared by Shivam Gupta, November 2026. Figures marked "estimate" are
+*Prepared by Shivam Gupta, September 2026. Figures marked "estimate" are
 assumptions to be validated; everything else has a source.*
 
 ## 1. Summary
@@ -14,7 +14,7 @@ learning ASL.
 
 - **Product:** a WebXR app (a link, no install) plus a phone companion.
   Built and tested: 87 signs, spaced repetition, the step-by-step checker and
-  the companion site (accounts, pairing, sync and the AI coach run on
+  the companion site (accounts, pairing, sync and the practice coach run on
   Supabase; the public preview works fully offline). Not launched yet, with
   no users, pilots or revenue so far.
 - **Model (planned):** free core; a Family plan at **$7.99/month or
@@ -53,7 +53,7 @@ learning ASL.
 | A checker that goes in order: handshape, then place, then movement, then the final handshape | "Fold your ring finger down more" instead of pass/fail |
 | A mirror view beside Sprout | Shows your hands against your face for signs made at the face |
 | Five-minute sessions, spaced repetition, a garden | A habit that fits a parent's day; visible progress |
-| AI coach that plans only from signs Signsprout can check | Personal ("bath time words") without inventing signs |
+| practice coach that plans only from signs Signsprout can check | Personal ("bath time words") without inventing signs |
 | Accessibility built in | Captions for every prompt, optional voice read-out, left-handed mode, adjustable strictness and guide speed, limited finger range, high contrast, calm motion, a one-hand option |
 | Phone pairing, family sharing | No typing in VR; grandparents and carers can follow along |
 | Web first | A link, no store approval, updates instantly, runs on Quest 2, 3, 3S and future VR glasses |
@@ -94,7 +94,7 @@ Signsprout is a web app with a phone companion and a lending model.
 | Plan | Price | Who |
 |---|---|---|
 | **Free** | $0 | Everyone: the First words, Mealtime and Family units, fingerspelling A–Z and numbers, the garden |
-| **Family** | $7.99/month or $59/year, up to 4 family members | All signs and new units, AI coach, sync, family dashboard and share links |
+| **Family** | $7.99/month or $59/year, up to 4 family members | All signs and new units, practice coach, sync, family dashboard and share links |
 | **Family Pass** (sponsored, planned) | $0 to the family | Families with a DHH child under 3, referred by early intervention, EHDI or a hospital, funded by programs and philanthropy |
 | **Programs** | from $39 per family per year | Early-intervention services, audiology teams, schools for the deaf: seats, consented progress reports, headset lending kits, staff and Deaf-mentor onboarding |
 
@@ -116,8 +116,8 @@ mostly fixed.
 |---|---|---|
 | Hosting (static, CDN) | $0 | $0–20/month |
 | Supabase (auth, Postgres, functions) | $0 (free plan) | $25/month (Pro) plus usage |
-| AI coach (Gemini) | Rules planner, $0 | A few cents per plan, capped at 20 plans per user per day; most families make one or two a week |
-| Email (sign-in links) | Supabase built-in | About $15/month |
+| practice coach (Gemini) | Rules planner, $0 | A few cents per plan, capped at 20 plans per user per day; most families make one or two a week |
+| Google sign-in | Included in Supabase free tier limits | Included in the applicable auth plan |
 | **Total** | **$0** | **Roughly $100–500/month**, under $0.05 per family |
 
 Hand tracking runs on the headset, so there are no per-user inference costs for

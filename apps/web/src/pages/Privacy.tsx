@@ -29,7 +29,7 @@ const PROMISES: { icon: IconName; title: string; body: string }[] = [
   {
     icon: 'message',
     title: 'What Sprout, the coach, sees',
-    body: 'When you ask Sprout for a plan, your goal and a short progress summary (signs learned, signs you find tricky) are sent to our AI provider, Google’s Gemini API, to write the plan. No names, emails or hand data are sent, so please leave personal details out of your goal. Sprout can only suggest signs from our checked catalogue.',
+    body: 'The hosted app uses a built-in planner. Your goal and a short progress summary are processed by our backend to select signs from the checked catalogue. No goal is sent to an external AI provider in this mode. Optional Gemini integration is available for independently configured deployments. Please leave personal details out of your goal.',
   },
   {
     icon: 'shield',

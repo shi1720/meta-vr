@@ -1,9 +1,9 @@
 /**
  * Sign definitions.
  *
- * Signs are described the way sign-language linguists describe them — by
+ * Signs are described the way sign-language linguists describe them. by
  * handshape, location, palm orientation and movement (Stokoe/Battison
- * parameters) — rather than as recorded video or motion capture. A few lines
+ * parameters). rather than as recorded video or motion capture. A few lines
  * of data per sign drive the ghost-teacher animation, the verifier and the
  * written instructions, so adding a sign (or a whole sign language) is data
  * entry, not animation work.
@@ -113,7 +113,7 @@ export interface SignDef {
   /** Memory aid (why the sign looks the way it does). */
   hint?: string;
   mistakes?: string[];
-  /** Facial expression / non-manual markers. Not scored — shown as a tip. */
+  /** Facial expression / non-manual markers. Not scored. shown as a tip. */
   nonManual?: string;
   /** Notes on common regional or family variants. */
   variants?: string;

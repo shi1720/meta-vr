@@ -4,7 +4,7 @@
  * `compileSign` resolves every key (handshape + location + orientation) into
  * a concrete wrist position/rotation in body space and a HandPose. `sampleTrack`
  * then evaluates any moment of the sign, and `trackJointsToWorld` places the
- * 25 joints in the world for a given signer body frame — used to render the
+ * 25 joints in the world for a given signer body frame. used to render the
  * ghost teacher both in first person (inside the learner's own body frame)
  * and in third person (a teacher frame facing the learner).
  */

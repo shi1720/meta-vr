@@ -281,7 +281,7 @@ const THUMB_KEYS: (keyof ThumbPose)[] = ['yaw', 'pitch', 'mcp', 'ip'];
 /**
  * Find thumb parameters that put the thumb tip at `target` (wrist-local,
  * left hand), staying close to `preferred`. Deterministic coordinate descent
- * with shrinking steps — fast enough to run at startup for every handshape.
+ * with shrinking steps. fast enough to run at startup for every handshape.
  */
 export function solveThumbIK(
   target: Readonly<Vec3>,

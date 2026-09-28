@@ -18,7 +18,7 @@ const SUB = join(ROOT, 'docs/submission');
 const only = process.argv[2];
 
 const browser = await chromium.launch({
-  executablePath: process.env.CHROME_PATH ?? '/opt/pw-browsers/chromium-1194/chrome-linux/chrome',
+  executablePath: process.env.CHROME_PATH,
   args: ['--allow-file-access-from-files'],
 });
 

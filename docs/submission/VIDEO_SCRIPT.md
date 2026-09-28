@@ -1,8 +1,8 @@
 # Signsprout: demo video script
 
-**Length:** 2:52 (the limit is 3:00)
-**Voice:** Shivam, first person, warm and unhurried (about 140 words a minute)
-**Music:** soft acoustic bed at -24 LUFS under the voice, lifting at 2:40
+**Published cut:** approximately 2:01. The table below uses the original 2:52 footage timecodes.
+**Voice:** Google Cloud Chirp 3 HD Charon, natural synthetic narration. No voice cloning.
+**Music:** original quiet music bed mixed below narration.
 **Captions:** burned in (the SRT file is `video-captions.srt`). A video about
 learning ASL should be fully captioned.
 
@@ -29,10 +29,10 @@ the end of the sentence; the edit has a little air after each block.
 | 1:12–1:30 | Your turn, from memory; then THANK-YOU and HELLO, with the mirror beside Sprout showing the learner's hand at their chin and forehead. | Now it's your turn, from memory. It checks the handshape, then the place, then the movement. And for signs at your face, a mirror shows you your hands. | "3 Your turn" · "Signs at your face? A mirror shows your hands." |
 | 1:30–1:40 | Celebrate: sparkles, a sprout pops up in the planter; the session summary. | Get it right, and a new plant sprouts in your garden. | "4 Celebrate" |
 | 1:40–1:56 | A month later: the home screen with a full planter, then a close-up of flowers, buds and new sprouts, a few drooping. | Your garden is your progress. Plants grow as signs move into long-term memory, and droop a little when it's time to review. Five minutes a day fits before bath time. | "Spaced repetition. 5-minute sessions." |
-| 1:56–2:12 | Phone companion: typing "Words for bath time and bedtime", the plan appears; cut to the headset home with "Sprout's plan for you". | On your phone, tell Sprout what you need, like words for bath time. The AI coach plans from signs Signsprout can check, and the plan waits in your headset. | "AI coach: plans only from signs Signsprout can check" |
+| 1:56–2:12 | Phone companion: typing "Words for bath time and bedtime", the plan appears; cut to the headset home with "Sprout's plan for you". | On your phone, tell Sprout what you need, like words for bath time. The built-in coach plans from signs Signsprout can check, and the plan waits in your headset. | "Built-in coach: plans only from signs Signsprout can check" |
 | 2:12–2:30 | Settings in the headset; a head-gaze ring fills on a button and presses it; the companion site's 3D dictionary switching to "Your view". | Left-handed? Every sign flips. There's a limited finger range, high contrast and calm motion, and you can press any button just by looking at it. | "Left-handed · limited finger range · high contrast · calm motion · look to select" |
 | 2:30–2:44 | Sprout beside the grown garden; the companion site's "Built responsibly" section. | Signsprout is a practice partner, not a translator. It's here to help families find their first signs, and then their way to Deaf teachers and community. | |
-| 2:44–2:52 | End card: logo, link, credit. | Signsprout. Your first ASL signs, with your own two hands. | "Signsprout / shi1720.github.io/meta-vr/app / Made by Shivam Gupta" |
+| 2:44–2:52 | End card: logo, link, credit. | Signsprout. Your first ASL signs, with your own two hands. | "Signsprout / signsprout.web.app/app / Made by Shivam Gupta" |
 
 **Word count:** 304 words of voiceover.
 
@@ -81,3 +81,9 @@ tools/add-voiceover.sh out/video/signsprout-demo.mp4 my-voice.m4a signsprout-fin
 
 `video-captions.srt` contains the voiceover as English subtitles, timed to the
 table above. Upload it to YouTube as well, even though captions are burned in.
+
+## Final narrated cut
+
+Published video: https://youtu.be/SIwjK_3FvE8
+
+`video-captions.srt` now matches the final narrated edit. To reproduce it, place the original share video at the repository root as `signsprout-demo-share.mp4`. Run `GOOGLE_CLOUD_PROJECT=your-project python3 tools/video/narrate.py` with an authenticated gcloud account and Cloud Text-to-Speech enabled. Then run `python3 tools/video/narrated_cut.py`. Requires FFmpeg with libass and drawtext; set FFMPEG and VIDEO_FONT for your machine. Output: `out/video/signsprout-final.mp4`. Generated speech may incur provider charges.

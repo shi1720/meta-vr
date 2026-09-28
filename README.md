@@ -11,8 +11,8 @@ your hands are, and every sign you learn grows a plant in your garden.
 First ASL vocabulary for families: five minutes a day, seated, hands only, on
 Meta Quest.
 
-[**Try it on Quest**](https://shi1720.github.io/meta-vr/app/) ·
-[Companion site](https://shi1720.github.io/meta-vr/) ·
+[**Try it on Quest**](https://signsprout.web.app/app/) ·
+[Companion site](https://signsprout.web.app/) ·
 [Demo video](docs/submission/VIDEO_SCRIPT.md) ·
 [How it works](docs/ARCHITECTURE.md)
 
@@ -80,7 +80,7 @@ Each sign takes about a minute and has four steps:
   chin.
 - **Sprout's face helps too.** Sprout's expression changes for WH-questions and
   sad signs. Facial grammar is mentioned as a tip, not scored.
-- **Sprout, the AI coach.** Tell it what you need ("words for bath time") on
+- **Sprout, the practice coach.** Tell it what you need ("words for bath time") on
   your phone. It plans a session from signs Signsprout can check, and the plan
   is waiting in your headset.
 - **Phone pairing, no typing in VR.** The headset shows a 6-character code;
@@ -88,8 +88,8 @@ Each sign takes about a minute and has four steps:
 - **A companion site** with a 3D sign dictionary ("Sprout's view" and "your
   view"), a family dashboard and a read-only share link for grandparents.
 
-Accounts, pairing, sync and the AI coach run on Supabase. The public preview
-works fully offline without them.
+Accounts, pairing, sync and the practice coach run on Supabase. The public preview
+works offline after its first complete online load.
 
 ## Designed for the headset
 
@@ -116,7 +116,7 @@ works fully offline without them.
 
 | Where | How |
 |---|---|
-| **Meta Quest** | Open **https://shi1720.github.io/meta-vr/app/** in the Quest browser and tap **Start learning**. Put your controllers down. |
+| **Meta Quest** | Open **https://signsprout.web.app/app/** in the Quest browser and tap **Start learning**. Put your controllers down. |
 | **Desktop** | Open the same link and choose **Watch the demo**: a simulated learner goes through the first lesson. |
 | **Desktop, emulated headset** | Add `?emulate&demo&fresh&autoxr` to run the real WebXR path in Meta's Immersive Web Emulator. |
 
@@ -227,15 +227,15 @@ coach need a Supabase project; see [docs/SETUP.md](docs/SETUP.md). With a
 Supabase access token, one command sets it all up:
 
 ```bash
-SUPABASE_ACCESS_TOKEN=sbp_... SITE_URL=https://shi1720.github.io/meta-vr node tools/setup-backend.mjs
+SUPABASE_ACCESS_TOKEN=sbp_... SITE_URL=https://signsprout.web.app node tools/setup-backend.mjs
 ```
 
 ## Privacy
 
 Hand-joint data never leaves the headset. Only the learner's progress (which
 signs, how well, when) is synced, and only after they choose to sign in.
-When a parent asks the coach for a plan, their goal and a summary of the signs
-the learner knows go to the Gemini API: no names, emails or hand data.
+The hosted practice planner runs without an external AI provider. Optional Gemini
+integration sends a goal and sign progress summary, never names, emails or hand data.
 Hand tracking can't see faces, so facial grammar is mentioned as a tip, not
 scored.
 

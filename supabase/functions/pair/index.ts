@@ -32,6 +32,7 @@ Deno.serve(async (req) => {
   } catch {
     return json({ error: 'invalid JSON' }, 400);
   }
+  if (!body || typeof body !== 'object' || (body.code !== undefined && typeof body.code !== 'string') || (body.secret !== undefined && typeof body.secret !== 'string')) return json({ error: 'invalid request' }, 400);
   const code = (body.code ?? '').toUpperCase().replace(/[^A-Z0-9]/g, '');
 
   switch (body.action) {
@@ -56,11 +57,13 @@ Deno.serve(async (req) => {
       // Mint a one-time sign-in token for this user; the headset redeems it.
       const { data: link, error } = await sb.auth.admin.generateLink({ type: 'magiclink', email: user.email });
       if (error || !link?.properties?.hashed_token) return json({ error: 'could not create a sign-in token' }, 500);
-      await sb
+      const { data: approved, error: saveError } = await sb
         .from('pairings')
         .update({ status: 'approved', user_id: user.id, token_hash: link.properties.hashed_token })
         .eq('code', code)
-        .eq('status', 'pending');
+        .eq('status', 'pending').select('code').maybeSingle();
+      if (saveError) return json({ error: 'Could not approve the code. Please try again.' }, 503);
+      if (!approved) return json({ error: 'That code was already approved.' }, 409);
       return json({ ok: true });
     }
 
@@ -70,7 +73,9 @@ Deno.serve(async (req) => {
       if (!row || row.secret_hash !== (await sha256(body.secret))) return json({ status: 'unknown' }, 404);
       if (new Date(row.expires_at) < new Date()) return json({ status: 'expired' });
       if (row.status === 'approved' && row.token_hash) {
-        await sb.from('pairings').update({ status: 'consumed', token_hash: null }).eq('code', code);
+        const { data: consumed, error } = await sb.from('pairings').update({ status: 'consumed', token_hash: null }).eq('code', code).eq('status', 'approved').select('code').maybeSingle();
+        if (error) return json({ error: 'Please retry.' }, 503);
+        if (!consumed) return json({ status: 'consumed' });
         return json({ status: 'approved', token_hash: row.token_hash });
       }
       return json({ status: row.status });

@@ -1,7 +1,7 @@
 /**
  * The learner's garden: one plant per sign, arranged on a sunflower spiral in
  * the planter on the table. Plants grow with mastery (seed → full bloom) and
- * droop a little when a review is overdue — a gentle, visible reason to come
+ * droop a little when a review is overdue. a gentle, visible reason to come
  * back. Poke a plant to see its sign again: the garden is also a dictionary.
  *
  * Rendered with a few InstancedMeshes, so ~90 plants cost a handful of draw

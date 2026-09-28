@@ -419,8 +419,8 @@ export class SignVerifier {
       fb.phase = this.phase === 'waiting' ? 'waiting' : this.phase;
       fb.step = needsHelper ? 'Show me both hands' : `Show me your ${domHand} hand`;
       fb.hint = !dom
-        ? `I can't see your ${domHand} hand — hold it up in front of you`
-        : `I can't see your ${helpHand} hand — this sign uses both hands`;
+        ? `I can't see your ${domHand} hand. hold it up in front of you`
+        : `I can't see your ${helpHand} hand. this sign uses both hands`;
       fb.progress = this.lastFeedback.progress;
       this.lastFeedback = fb;
       return fb;
@@ -512,7 +512,7 @@ export class SignVerifier {
         this.shapeScores.push(shape.score);
         this.placeScores.push(1 - placeErr / radius);
         fb.phase = 'place';
-        fb.step = 'Good — hold it…';
+        fb.step = 'Good. hold it…';
         fb.progress = 0.5;
         if (t - this.setupSince >= o.holdTime) {
           if (this.move.kind === 'none') {
@@ -608,7 +608,7 @@ export class SignVerifier {
       this.phase = 'place';
       fb.phase = 'place';
       fb.step = `Start again ${locationWords(start)}`;
-      fb.hint = `${this.move.description} — a little bigger`;
+      fb.hint = `${this.move.description}. a little bigger`;
     }
     this.lastFeedback = fb;
     return fb;
@@ -648,7 +648,7 @@ export class SignVerifier {
     const az = Math.abs(d[2]);
     const where = locationWords(k);
     if (ay >= ax && ay >= az) return d[1] > 0 ? `Move your hand up, to ${where}` : `Move your hand down, to ${where}`;
-    if (az >= ax) return d[2] > 0 ? `Bring your hand closer — to ${where}` : `Move your hand further out — ${where}`;
+    if (az >= ax) return d[2] > 0 ? `Bring your hand closer. to ${where}` : `Move your hand further out. ${where}`;
     // Body space is mirrored for left-handed signers, so +x is their left.
     const right = d[0] > 0 !== this.mirrored;
     return `Move your hand a little to your ${right ? 'right' : 'left'}`;
@@ -707,7 +707,7 @@ export class SignVerifier {
         if (progress < 1) {
           const d = sub3(v3(), last.p, first.p);
           const dl = len3(d);
-          if (dl > 0.03 && dot3(d, dir) / dl < 0.3) hint = `Other way — ${m.description.toLowerCase()}`;
+          if (dl > 0.03 && dot3(d, dir) / dl < 0.3) hint = `Other way. ${m.description.toLowerCase()}`;
         }
         return { progress, quality: clamp01(0.5 + 0.5 * bestCos) * clamp01(0.6 + best * 0.4), hint };
       }

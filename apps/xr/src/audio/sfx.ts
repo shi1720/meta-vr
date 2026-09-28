@@ -1,7 +1,7 @@
 /**
  * Sound: tiny synthesized cues (no audio files), a gentle ambient bed, and
  * optional spoken prompts. Every sound is paired with a visual cue, so the
- * experience is complete without audio — essential for Deaf and hard-of-
+ * experience is complete without audio. essential for Deaf and hard-of-
  * hearing learners, and for anyone practising with the sound off.
  */
 
@@ -94,7 +94,7 @@ export const sfx = {
     o.stop(t0 + 0.35);
   },
   gentle(): void {
-    // "not quite" — soft, never punishing
+    // "not quite". soft, never punishing
     tone(523, 0, 0.18, 0.05, 'sine');
     tone(494, 0.12, 0.25, 0.04, 'sine');
   },
@@ -225,6 +225,6 @@ export function say(text: string): void {
     u.volume = 0.9;
     speechSynthesis.speak(u);
   } catch {
-    /* no TTS on this device — captions cover it */
+    /* no TTS on this device. captions cover it */
   }
 }

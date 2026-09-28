@@ -11,7 +11,9 @@
     "test": "npm run test --workspaces --if-present && vitest run supabase/tests",
     "typecheck": "npm run typecheck --workspaces --if-present",
     "build": "npm run build --workspace apps/xr && npm run build --workspace apps/web",
-    "build:site": "node tools/build-site.mjs"
+    "build:site": "node tools/build-site.mjs",
+    "deploy": "node tools/deploy-firebase.mjs",
+    "test:e2e": "playwright test"
   },
   "engines": {
     "node": ">=20.19.0"
@@ -19,5 +21,9 @@
   "overrides": {
     "sharp": "0.35.4",
     "three": "npm:super-three@0.181.0"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.63.0",
+    "vitest": "^4.1.11"
   }
 }

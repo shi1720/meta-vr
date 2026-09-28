@@ -1,5 +1,5 @@
 /**
- * @signsprout/signkit — the sign-language engine behind Signsprout.
+ * @signsprout/signkit. the sign-language engine behind Signsprout.
  *
  * Hand skeleton + forward kinematics, a handshape library, explainable
  * handshape matching, a phonological sign engine (handshape · location ·

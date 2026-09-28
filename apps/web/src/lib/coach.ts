@@ -12,7 +12,7 @@ import type { CoachPlan } from './supabase';
 export const GOAL_SUGGESTIONS: { label: string; goal: string }[] = [
   { label: 'Bath & bedtime', goal: 'Bath time and bedtime words' },
   { label: 'Mealtime', goal: 'Signs for mealtime: more, milk, all done' },
-  { label: 'Daycare starts Monday', goal: 'Daycare starts Monday — hello, goodbye, help and friends' },
+  { label: 'Daycare starts Monday', goal: 'Daycare starts Monday. hello, goodbye, help and friends' },
   { label: 'Big feelings', goal: 'Words for feelings, so we can talk about tantrums' },
   { label: 'Family names', goal: 'Mom, dad, baby and fingerspelling our names' },
 ];

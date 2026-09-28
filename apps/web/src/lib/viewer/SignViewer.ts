@@ -1,6 +1,6 @@
 /**
  * SignViewer: a small three.js stage where Sprout performs a sign with
- * glowing ghost hands, driven by signkit's SignPerformer — the exact same
+ * glowing ghost hands, driven by signkit's SignPerformer. the exact same
  * data and synthesis the headset uses.
  *
  * Two cameras tell the product's story:
@@ -8,7 +8,7 @@
  *              signer across a table. Sprout faces you, so Sprout's right
  *              hand is on your left;
  *  - "mine" (labelled "Your view"): from just behind the signer's head, so
- *              left and right match your own hands — what the headset does by
+ *              left and right match your own hands. what the headset does by
  *              putting the guide hands inside your own space.
  */
 

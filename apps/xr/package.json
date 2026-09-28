@@ -9,7 +9,8 @@
     "typecheck": "tsc --noEmit",
     "build": "tsc --noEmit && vite build",
     "preview": "vite preview --port 8443",
-    "test": "vitest run"
+    "test": "vitest run",
+    "dev:runtime": "vite"
   },
   "dependencies": {
     "@iwer/devui": "^2.5.0",

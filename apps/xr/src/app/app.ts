@@ -410,7 +410,7 @@ export class App {
       ),
     );
     this.garden.sync(doc.cards, now);
-    if (st.streak.current > 1) this.say(`Welcome back! ${st.streak.current} days in a row — your garden missed you.`);
+    if (st.streak.current > 1) this.say(`Welcome back! ${st.streak.current} days in a row. your garden missed you.`);
     else this.say('Welcome back! Ready to grow your garden?');
   }
 
@@ -606,7 +606,7 @@ export class App {
     this.garden.sync(doc.cards, now);
     this.say(
       summary.learned.length
-        ? `Look — ${summary.learned.length} new ${summary.learned.length === 1 ? 'sprout' : 'sprouts'} in your garden! See you tomorrow?`
+        ? `Look. ${summary.learned.length} new ${summary.learned.length === 1 ? 'sprout' : 'sprouts'} in your garden! See you tomorrow?`
         : 'Your garden is looking healthier already!',
       7,
     );
@@ -646,7 +646,7 @@ export class App {
     this.selectedPlant = sign;
     this.teacherGhost.play(sign, this.teacherFrame, { speed: 0.9, loop: true });
     this.teacherGhost.fadeTo(0.9);
-    this.say(`${sign.gloss.replace(/-/g, ' ')} — “${sign.english}”`);
+    this.say(`${sign.gloss.replace(/-/g, ' ')}. “${sign.english}”`);
     if (this.screen === 'garden') this.showGarden();
   }
 

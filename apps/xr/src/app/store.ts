@@ -18,14 +18,17 @@ import {
 import type { AttemptResult, LearnerSettings, ProgressDoc } from '@signsprout/signkit';
 
 const KEY = 'signsprout.progress.v1';
+const params = new URLSearchParams(location.search);
+export const previewMode = ['demo', 'seed', 'screen'].some((key) => params.has(key));
 
 function load(): ProgressDoc {
   const now = Date.now();
+  if (previewMode) return createProgress(now);
   try {
     const raw = localStorage.getItem(KEY);
     if (raw) return parseProgress(JSON.parse(raw), now);
   } catch {
-    /* private mode or corrupted — start fresh */
+    /* private mode or corrupted. start fresh */
   }
   return createProgress(now);
 }
@@ -49,16 +52,24 @@ export function onLocalChange(fn: Listener): () => void {
 }
 
 let saveTimer: ReturnType<typeof setTimeout> | undefined;
+function persist(): void {
+  clearTimeout(saveTimer);
+  if (previewMode) return;
+  try {
+    localStorage.setItem(KEY, JSON.stringify(progress.peek()));
+  } catch {
+    /* Storage may be unavailable. Keep the active session usable. */
+  }
+}
+// A learner may close the tab immediately after finishing a sign.
+window.addEventListener('pagehide', persist);
+document.addEventListener('visibilitychange', () => {
+  if (document.visibilityState === 'hidden') persist();
+});
 function commit(doc: ProgressDoc): void {
   progress.value = doc;
   clearTimeout(saveTimer);
-  saveTimer = setTimeout(() => {
-    try {
-      localStorage.setItem(KEY, JSON.stringify(doc));
-    } catch {
-      /* storage full or unavailable: progress still lives in memory */
-    }
-  }, 150);
+  saveTimer = setTimeout(persist, 150);
   for (const l of listeners) l(doc);
 }
 
@@ -85,6 +96,7 @@ export const store = {
   mergeRemote(remote: ProgressDoc): void {
     const merged = mergeProgress(progress.peek(), remote);
     progress.value = merged;
+    if (previewMode) return;
     try {
       localStorage.setItem(KEY, JSON.stringify(merged));
     } catch {

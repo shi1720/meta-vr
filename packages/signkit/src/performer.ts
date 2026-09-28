@@ -1,8 +1,8 @@
 /**
  * SignPerformer: synthesizes a person performing a sign.
  *
- * It produces world-space joints for both hands over time — exactly what a
- * headset's hand tracking would report — including a natural lead-in from a
+ * It produces world-space joints for both hands over time. exactly what a
+ * headset's hand tracking would report. including a natural lead-in from a
  * resting position, human-like jitter, and (optionally) deliberate mistakes.
  *
  * Used for: automated tests of the verifier, the in-app "watch a learner"
@@ -57,7 +57,7 @@ const WRONG_SHAPE: Record<string, string> = {};
 function wrongShapeFor(id: string): string {
   if (WRONG_SHAPE[id]) return WRONG_SHAPE[id];
   const hs = getHandshape(id);
-  // A fist becomes an open hand and vice versa — an unmistakable error.
+  // A fist becomes an open hand and vice versa. an unmistakable error.
   const extended = LONG_FINGERS.filter((f) => hs.pose[f].mcp < 30 && hs.pose[f].pip < 30).length;
   return extended >= 2 ? 'S' : '5';
 }

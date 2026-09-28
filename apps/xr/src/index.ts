@@ -1,5 +1,5 @@
 /**
- * Signsprout — WebXR entry point.
+ * Signsprout. WebXR entry point.
  *
  * Boot order matters: the optional emulator must be installed before
  * World.create (IWSDK offers the XR session during initialisation).

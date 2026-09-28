@@ -28,7 +28,7 @@ export function initLauncher(o: LauncherOpts): void {
   void o.xrSupported().then((ok) => {
     if (ok) {
       enterBtn.style.display = 'inline-flex';
-      if (hint) hint.textContent = 'Put your controllers down — your hands are all you need.';
+      if (hint) hint.textContent = 'Put your controllers down. Your hands are all you need.';
     } else {
       enterBtn.style.display = 'none';
       demoBtn.classList.add('primary');
@@ -40,8 +40,10 @@ export function initLauncher(o: LauncherOpts): void {
 
   enterBtn.addEventListener('click', () => o.enter());
   demoBtn.addEventListener('click', () => {
-    el.classList.add('minimised');
-    o.demo();
+    const url = new URL(location.href);
+    url.searchParams.set('demo', '');
+    url.searchParams.set('fresh', '');
+    location.assign(url);
   });
 
   o.world.visibilityState.subscribe((s) => {

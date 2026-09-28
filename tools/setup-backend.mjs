@@ -9,7 +9,7 @@
  *
  * Usage:
  *   SUPABASE_ACCESS_TOKEN=sbp_... \
- *   SITE_URL=https://shi1720.github.io/meta-vr \
+ *   SITE_URL=https://signsprout.web.app \
  *   [SUPABASE_PROJECT_REF=abcd1234]   # reuse an existing project
  *   [GEMINI_API_KEY=...]              # optional: the coach falls back to rules without a model key
  *   [ANTHROPIC_API_KEY=sk-ant-...]    # optional alternative to Gemini
@@ -37,7 +37,7 @@ if (!TOKEN) {
   process.exit(1);
 }
 if (!SITE_URL) {
-  console.error('Set SITE_URL to where the web app is hosted, e.g. https://shi1720.github.io/meta-vr');
+  console.error('Set SITE_URL to where the web app is hosted, e.g. https://signsprout.web.app');
   process.exit(1);
 }
 
@@ -66,7 +66,7 @@ if (!ref) {
     region: process.env.SUPABASE_REGION ?? 'us-east-1',
   });
   ref = project.id ?? project.ref;
-  console.log(`Created project ${ref}. Database password (keep it somewhere safe): ${dbPass}`);
+  console.log(`Created project ${ref}. Database password generated securely; use the dashboard to rotate it if needed.`);
 }
 process.stdout.write(`Waiting for project ${ref} to be ready`);
 for (let i = 0; i < 90; i++) {

@@ -22,80 +22,48 @@ noted where the form has limits.
 
 ## Build link
 
-`https://shi1720.github.io/meta-vr/app/` (headset app, opens in Meta Quest Browser)
-`https://shi1720.github.io/meta-vr/` (companion site: 3D sign dictionary, phone pairing, family dashboard)
+`https://signsprout.web.app/app/` (headset app, opens in Meta Quest Browser)
+`https://signsprout.web.app/` (companion site: 3D sign dictionary, phone pairing, family dashboard)
 
 ## Video
 
-`https://youtu.be/<video-id>` **(add after upload)**, length 2:52
+https://youtu.be/SIwjK_3FvE8, length approximately 2:01
 
 ---
 
-## Description (under 500 words; this draft is 477, or 490 with the headings)
+## Project story
 
-### Inspiration
+## Inspiration
 
-More than 90% of deaf children are born to hearing parents. Most have never
-signed, and the first months are when their baby most needs an accessible
-language. Yet only about one in four families regularly signs at home. Parents
-cite time, cost and no one nearby to learn from.
+Learning a sign from a flat video leaves a simple question unanswered: are my hands doing the right thing? For hearing families learning their first ASL words, that uncertainty can turn a small daily habit into a frustrating task. We wanted practice to feel like sitting across from a patient teacher, with help exactly where your hands are.
 
-A signer in a video faces you, so you must flip every movement in your head:
-novices copying a face-to-face model made errors on 24.3% of sideways
-movements (Shield & Meier 2018). And nobody tells you whether your hands are
-right. What if guide hands sat exactly where
-yours are, and something could check your fingers?
+## What it does
 
-### What it does
+Signsprout is a seated, hands-first learning experience for Meta Quest. Sprout demonstrates a sign, glowing guide hands help you follow it, and then you try from memory. The checker gives specific hints about handshape, position and movement. Each completed sign grows a plant in your garden, with spaced reviews helping you return to what needs practice.
 
-Signsprout is a seated, hands-only Quest app that teaches first ASL vocabulary
-to families in five-minute sessions. Each sign has four steps:
+The first lesson introduces HELLO, THANK-YOU and I-LOVE-YOU without an account. The catalog contains 87 vocabulary, fingerspelling and number signs. A companion site offers an interactive 3D dictionary, headset pairing, synced progress, revocable family sharing and a built-in planner for everyday goals such as bath time.
 
-1. **Watch:** Sprout, a friendly seedling, demonstrates the sign face to face.
-2. **Together:** glowing guide hands appear exactly where your hands are. Sign
-   along inside them.
-3. **Your turn:** sign it from memory. Signsprout checks handshape, then place,
-   then movement, then the final handshape, and tells you what to fix: "Fold
-   your ring finger down more."
-4. **Celebrate:** a new plant sprouts in your garden.
+## How we built it
 
-For signs made at the face, a mirror view beside Sprout shows your hands
-against your face. Plants droop when a review is due (spaced repetition).
+The headset app uses Meta's Immersive Web SDK, WebXR hand input and Three.js. Our TypeScript sign engine describes each sign through handshape, location, orientation and movement. One definition drives the teacher, guide hands, feedback and left-handed mirroring.
 
-The first five minutes teach HELLO, THANK-YOU and I-LOVE-YOU with no wall of
-text and no account. Version 1 covers 51 family signs, fingerspelling and
-numbers 1 to 10.
+React powers the companion site. Supabase handles accounts, protected progress and pairing; Firebase Hosting serves the app. The deployed planner works without a paid AI service. Gemini integration remains optional.
 
-Tell Sprout, the AI coach, what you need ("words for bath time"); it plans
-from signs Signsprout can check and queues the plan on the headset. A phone
-companion adds pairing, progress and a 3D sign dictionary.
+## Challenges we ran into
 
-### How we built it
+Face-to-face demonstrations reverse a learner's perspective. Tracking also becomes less reliable near the face or when fingers overlap. First-person guides, chin calibration, a mirror view, adjustable strictness and a visible skip option help learners keep moving. We also isolated demo progress, fixed pairing races and protected progress from being overwritten when a new practice plan arrives.
 
-Meta's Immersive Web SDK 1.0 and WebXR Hand Input; the app is a link. Our
-dependency-free engine, signkit, writes signs as linguistic parameters, not
-videos, so one definition drives Sprout, the guide hands, the tips, the checker
-and left-handed mirroring. A simulated learner (synthetic hands from the same
-hand model, not yet real-user data) tests all 87 signs: correct attempts are
-accepted; wrong handshapes, places or movements are rejected. On-device
-testing with real signers is next. Accounts, pairing, sync and the AI coach
-(Gemini function calling) run on Supabase; the public preview works fully
-offline.
+## Accomplishments that we're proud of
 
-### Accessibility and respect
+A learner can complete a short lesson through hand interactions. The experience connects guided practice, specific feedback and a growing garden. Automated checks cover the sign engine, browser flows and live backend permissions. The demo shows the actual app running in Meta's emulator, with simulated hands clearly identified.
 
-Captions for every prompt, optional voice read-out, left-handed mode,
-adjustable strictness and guide speed, limited finger range, high contrast,
-calm motion, a one-hand option, and poke, pinch or look-to-select for every
-button. Signsprout is a practice partner, not a translator. We compared each
-sign with Handspeak and Lifeprint. No Deaf signer has reviewed Signsprout yet;
-paid review by Deaf signers comes before launch. The companion site links to
-Deaf-led resources and Deaf Mentor programs.
+## What we learned
 
-### What's next
+Useful feedback is small and specific. Accessibility belongs in the core interaction: captions, left-handed signing, calm motion and adjustable guide speed all matter. Synthetic tests establish consistency, but they cannot establish accuracy with real signers.
 
-Paid Deaf review of every sign, Deaf co-leadership of content (paid, with a
-veto), facial-grammar lessons, two-person practice and more sign languages.
+## What's next
+
+Paid review with Deaf educators and testing on physical Quest devices come before a wider launch. We want to validate sign accuracy, tracking and comfort with real learners, then improve facial-grammar guidance and shared practice. Signsprout is a practice partner, not a substitute for Deaf teachers or community.
 
 ---
 

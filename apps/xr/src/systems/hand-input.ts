@@ -1,5 +1,5 @@
 /**
- * HandInputSystem — reads the 25 WebXR hand joints for both hands every frame
+ * HandInputSystem. reads the 25 WebXR hand joints for both hands every frame
  * with `XRFrame.fillPoses` and publishes them (plus the head pose) to the
  * shared `tracking` state. In demo/autopilot mode, a synthetic performer
  * supplies the joints instead (and, inside the WebXR emulator, is injected

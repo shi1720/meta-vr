@@ -1,6 +1,6 @@
 /**
  * Live feedback drawn on and around the learner's own hands:
- *  - fingertip beacons coloured per finger (good / close / fix) — shape AND
+ *  - fingertip beacons coloured per finger (good / close / fix). shape AND
  *    colour differ, so it reads for colour-blind learners too
  *  - a halo where the sign should start
  *  - a dotted path showing where the hand should travel

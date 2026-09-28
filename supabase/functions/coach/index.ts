@@ -28,19 +28,21 @@ Deno.serve(async (req) => {
   } catch {
     return json({ error: 'invalid JSON' }, 400);
   }
+  if (goal.length > 280) return json({ error: 'Please keep your goal under 280 characters.' }, 400);
   if (goal.length < 2) return json({ error: 'Tell Sprout what you want to be able to say.' }, 400);
 
   // Light rate limit: 20 plans per user per day.
   const since = new Date(Date.now() - 24 * 3600 * 1000).toISOString();
   const { count } = await sb.from('coach_plans').select('id', { count: 'exact', head: true }).eq('user_id', user.id).gte('created_at', since);
-  if ((count ?? 0) >= 20) return json({ error: 'Sprout needs a rest — try again tomorrow.' }, 429);
+  if ((count ?? 0) >= 20) return json({ error: 'Sprout needs a rest. try again tomorrow.' }, 429);
 
   const { data: prog } = await sb.from('progress').select('doc').eq('user_id', user.id).maybeSingle();
   const doc = (prog?.doc ?? {}) as Record<string, unknown> & { cards?: LearnerSnapshot['cards'] };
   const learner: LearnerSnapshot = { cards: doc.cards ?? {} };
 
   let plan: Plan | null = null;
-  const geminiKey = Deno.env.get('GEMINI_API_KEY');
+  const rulesOnly = Deno.env.get('COACH_PROVIDER') === 'rules';
+  const geminiKey = rulesOnly ? undefined : Deno.env.get('GEMINI_API_KEY');
   if (geminiKey) {
     try {
       plan = await geminiPlan(geminiKey, goal, learner, Deno.env.get('GEMINI_MODEL') ?? 'gemini-flash-latest');
@@ -49,7 +51,7 @@ Deno.serve(async (req) => {
       else console.warn('coach: unexpected Gemini error', err);
     }
   }
-  const key = Deno.env.get('ANTHROPIC_API_KEY');
+  const key = rulesOnly ? undefined : Deno.env.get('ANTHROPIC_API_KEY');
   if (!plan && key) {
     try {
       const client = new Anthropic({ apiKey: key }) as unknown as MessagesClient;
@@ -62,14 +64,9 @@ Deno.serve(async (req) => {
   }
   plan ??= rulesPlan(goal, learner);
 
-  await sb.from('coach_plans').insert({ user_id: user.id, goal, message: plan.message, sign_ids: plan.signIds, source: plan.source });
-  // Queue the plan into the learner's synced progress document.
-  if (prog?.doc) {
-    const now = Date.now();
-    await sb
-      .from('progress')
-      .update({ doc: { ...doc, focus: plan.signIds, focusUpdatedAt: now, updatedAt: now }, updated_at: new Date().toISOString() })
-      .eq('user_id', user.id);
-  }
+  const { error: planError } = await sb.from('coach_plans').insert({ user_id: user.id, goal, message: plan.message, sign_ids: plan.signIds, source: plan.source });
+  if (planError) return json({ error: 'Could not save your plan. Please try again.' }, 503);
+  const { error: queueError } = await sb.rpc('queue_coach_focus', { p_user: user.id, p_ids: plan.signIds, p_now: Date.now() });
+  if (queueError) return json({ error: 'Could not queue your plan. Please try again.' }, 503);
   return json(plan);
 });

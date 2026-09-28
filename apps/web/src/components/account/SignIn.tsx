@@ -40,7 +40,7 @@ export function SignIn({ client, redirectTo, title = 'Sign in with your email', 
   useEffect(() => {
     const q = new URLSearchParams(window.location.search);
     const desc = q.get('error_description');
-    if (desc) setError(`${desc}. Enter the code from the email instead.`);
+    if (desc) setError(`${desc}. Please try signing in again.`);
   }, []);
 
   const send = async (e?: FormEvent) => {
@@ -92,6 +92,22 @@ export function SignIn({ client, redirectTo, title = 'Sign in with your email', 
     }
     // On success the auth listener swaps this form for the signed-in view.
   };
+
+  if (['google', 'github'].includes(import.meta.env.VITE_AUTH_PROVIDER)) {
+    return (
+      <div className="signin">
+        <h2>Save your garden</h2>
+        <p className="muted">Sign in to sync progress, pair your headset and ask Sprout for a plan. Practice and the dictionary are always available without an account.</p>
+        <button className="btn btn-primary btn-lg btn-block" disabled={busy} onClick={async () => {
+          setBusy(true); setError(null);
+          const { error: err } = await client.auth.signInWithOAuth({ provider: import.meta.env.VITE_AUTH_PROVIDER === 'google' ? 'google' : 'github', options: { redirectTo: siteUrl(redirectTo) } });
+          if (err) { setError(err.message); setBusy(false); }
+        }}>{busy ? 'Opening sign-in…' : `Continue with ${import.meta.env.VITE_AUTH_PROVIDER === 'google' ? 'Google' : 'GitHub'}`}</button>
+        <p className="form-hint">Only your basic profile and email. No password to remember.</p>
+        {error && <p className="form-error" role="alert">{error}</p>}
+      </div>
+    );
+  }
 
   if (step === 'email') {
     return (

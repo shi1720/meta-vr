@@ -43,6 +43,7 @@ export function CoachCard({ client, doc, sample, synced = true }: Props) {
 
   const ask = async (text: string) => {
     const g = text.trim();
+    if (busy) return;
     if (g.length < 2) {
       setError('Tell Sprout what you’d like to be able to say.');
       return;
@@ -98,6 +99,7 @@ export function CoachCard({ client, doc, sample, synced = true }: Props) {
               key={s.label}
               type="button"
               className="suggestion"
+              disabled={busy}
               onClick={() => {
                 setGoal(s.goal);
                 void ask(s.goal);
@@ -124,6 +126,7 @@ export function CoachCard({ client, doc, sample, synced = true }: Props) {
             <div className="bubble">
               <p>{plan.message}</p>
             </div>
+            <p className="form-hint">{plan.source === 'rules' ? 'Built-in planner. Your goal stays within Signsprout.' : 'AI-assisted plan, checked against our sign catalog.'}</p>
             <ul className="plan-signs" aria-label="Signs in this plan">
               {plan.signIds.map((sid) => {
                 const s = findSign(sid);

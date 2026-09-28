@@ -247,7 +247,7 @@ const FEATURES: { icon: IconName; title: string; body: string }[] = [
   },
   {
     icon: 'message',
-    title: 'Sprout, your AI coach',
+    title: 'Sprout, your practice coach',
     body: 'Say “bath time and bedtime words” and Sprout plans your week, choosing only signs it can teach and check.',
   },
   {
@@ -348,7 +348,7 @@ export function Pricing() {
             </header>
             <ul className="plan-list">
               <li>All {COUNTS.total} signs, and every new unit</li>
-              <li>Sprout, your AI coach</li>
+              <li>Sprout, your practice coach</li>
               <li>Up to 4 family members</li>
               <li>Family dashboard and share links</li>
               <li>Cloud sync between headset and phone</li>

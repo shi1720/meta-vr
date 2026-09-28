@@ -23,4 +23,4 @@ robot component and system files. To remove the welcome panel, delete its scene
 node and its `PanelSystem` registration from the application entry point.
 
 - Minimal scene walkthrough: https://iwsdk.dev/guides/01b-minimal-scene.html
-- XR-enabled projects — IWER emulator controls: https://iwsdk.dev/guides/02-testing-experience.html#iwer-controls
+- XR-enabled projects. IWER emulator controls: https://iwsdk.dev/guides/02-testing-experience.html#iwer-controls

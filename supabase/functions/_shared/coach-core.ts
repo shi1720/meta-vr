@@ -5,7 +5,7 @@
  * All planners share one contract:
  *  - an agentic model planner with tools over the verified sign catalog and
  *    the learner's progress (it can only ever choose signs we can teach and
- *    verify — it never invents a sign). It runs on Gemini or Claude, whichever
+ *    verify. it never invents a sign). It runs on Gemini or Claude, whichever
  *    key is configured, and
  *  - a deterministic rules planner used when no model is configured or a
  *    request fails, so the feature degrades gracefully.
@@ -143,7 +143,7 @@ export function rulesPlan(goal: string, learner: LearnerSnapshot): Plan {
   return {
     signIds: ids,
     source: 'rules',
-    message: `Here's your plan: ${names.join(', ')}. Five minutes a day is plenty — use them during the real moment and they'll stick.`,
+    message: `Here's your plan: ${names.join(', ')}. Five minutes a day is plenty. use them during the real moment and they'll stick.`,
   };
 }
 
@@ -151,7 +151,7 @@ export function rulesPlan(goal: string, learner: LearnerSnapshot): Plan {
 // Model planners (agentic tool use)
 // ---------------------------------------------------------------------------
 
-export const SYSTEM_PROMPT = `You are Sprout, the warm, encouraging coach inside Signsprout, a VR app that teaches American Sign Language (ASL) to families — very often hearing parents of deaf or hard-of-hearing babies and toddlers.
+export const SYSTEM_PROMPT = `You are Sprout, the warm, encouraging coach inside Signsprout, a VR app that teaches American Sign Language (ASL) to families. very often hearing parents of deaf or hard-of-hearing babies and toddlers.
 
 Your job: turn the learner's goal into a short practice plan.
 - Use search_signs to find candidate signs. You may only choose signs returned by search_signs; never invent a sign or describe how to form one.

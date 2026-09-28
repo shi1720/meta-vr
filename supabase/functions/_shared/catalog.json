@@ -16,7 +16,7 @@
    "category": "courtesy",
    "unit": "first-words",
    "difficulty": 1,
-   "howTo": "Touch the fingertips of your flat hand to your chin, then move your hand forward and down towards the person — and smile."
+   "howTo": "Touch the fingertips of your flat hand to your chin, then move your hand forward and down towards the person. and smile."
   },
   {
    "id": "i-love-you",
@@ -43,7 +43,7 @@
    "category": "needs",
    "unit": "mealtime",
    "difficulty": 1,
-   "howTo": "Bunch your fingertips onto your thumb and tap them to your lips, twice — like putting food in your mouth."
+   "howTo": "Bunch your fingertips onto your thumb and tap them to your lips, twice. like putting food in your mouth."
   },
   {
    "id": "drink",
@@ -61,7 +61,7 @@
    "category": "needs",
    "unit": "mealtime",
    "difficulty": 1,
-   "howTo": "Hold up a loose C-hand and squeeze it closed into a fist, twice — like milking a cow."
+   "howTo": "Hold up a loose C-hand and squeeze it closed into a fist, twice. like milking a cow."
   },
   {
    "id": "water",
@@ -79,7 +79,7 @@
    "category": "needs",
    "unit": "mealtime",
    "difficulty": 2,
-   "howTo": "Hold up both open hands, palms towards you, then quickly twist them so your palms face out — \"all done!\""
+   "howTo": "Hold up both open hands, palms towards you, then quickly twist them so your palms face out. \"all done!\""
   },
   {
    "id": "hungry",
@@ -133,7 +133,7 @@
    "category": "family",
    "unit": "family",
    "difficulty": 3,
-   "howTo": "Touch your F-hands together in front of you, then draw a circle outwards and around until your little fingers meet — everyone around the table."
+   "howTo": "Touch your F-hands together in front of you, then draw a circle outwards and around until your little fingers meet. everyone around the table."
   },
   {
    "id": "me",
@@ -196,7 +196,7 @@
    "category": "actions",
    "unit": "bath-bedtime",
    "difficulty": 2,
-   "howTo": "Hold your open hand in front of your face and draw it down to your chin while closing your fingers together — and close your eyes."
+   "howTo": "Hold your open hand in front of your face and draw it down to your chin while closing your fingers together. and close your eyes."
   },
   {
    "id": "tired",
@@ -277,7 +277,7 @@
    "category": "descriptions",
    "unit": "feelings",
    "difficulty": 2,
-   "howTo": "Hold a clawed hand in front of your mouth, then quickly twist it away and down — like taking out something too hot."
+   "howTo": "Hold a clawed hand in front of your mouth, then quickly twist it away and down. like taking out something too hot."
   },
   {
    "id": "cold",
@@ -421,7 +421,7 @@
    "category": "questions",
    "unit": "conversation",
    "difficulty": 1,
-   "howTo": "Hold both open hands palms-up in front of you and shake them slightly — with your eyebrows lowered."
+   "howTo": "Hold both open hands palms-up in front of you and shake them slightly. with your eyebrows lowered."
   },
   {
    "id": "where",
@@ -430,7 +430,7 @@
    "category": "questions",
    "unit": "conversation",
    "difficulty": 1,
-   "howTo": "Hold up your index finger and shake it side to side — with your eyebrows lowered."
+   "howTo": "Hold up your index finger and shake it side to side. with your eyebrows lowered."
   },
   {
    "id": "understand",
@@ -439,7 +439,7 @@
    "category": "questions",
    "unit": "conversation",
    "difficulty": 2,
-   "howTo": "Hold your hand beside your forehead with your index finger curled under your thumb, then flick it up — like a light bulb turning on."
+   "howTo": "Hold your hand beside your forehead with your index finger curled under your thumb, then flick it up. like a light bulb turning on."
   },
   {
    "id": "dog",

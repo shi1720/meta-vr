@@ -2,7 +2,7 @@
 
 The headset app and the companion site work with no backend at all: learners
 can practise, grow a garden and keep progress on the device. Accounts, sync,
-phone pairing, family sharing and the AI coach need a free Supabase project.
+phone pairing, family sharing and the practice coach need a free Supabase project.
 
 ## 1. Supabase (accounts, sync, pairing, coach)
 
@@ -18,7 +18,7 @@ phone pairing, family sharing and the AI coach need a free Supabase project.
 
    ```bash
    SUPABASE_ACCESS_TOKEN=sbp_your_token \
-   SITE_URL=https://shi1720.github.io/meta-vr \
+   SITE_URL=https://signsprout.web.app \
    node tools/setup-backend.mjs
    ```
 
@@ -33,7 +33,7 @@ phone pairing, family sharing and the AI coach need a free Supabase project.
    settings**. Supabase's built-in email service only sends a few emails an
    hour, which is fine for testing.
 
-### The AI coach (optional)
+### The practice coach (optional)
 
 Without a key the coach uses a built-in rules planner, so the feature always
 works. To use Gemini:
@@ -81,7 +81,7 @@ npx surge ./dist your-name.surge.sh
 
 ## 3. Testing on a Quest
 
-1. Open `https://shi1720.github.io/meta-vr/app/` in the Quest browser.
+1. Open `https://signsprout.web.app/app/` in the Quest browser.
 2. Tap **Start learning**, put the controllers down, and follow Sprout.
 3. To test pairing: in the headset, **Home → Save my garden** shows a code.
    On a phone, open the companion site, sign in with an email link, choose
@@ -102,3 +102,44 @@ warning.
 - [ ] Submit before **November 18, 2026, 12:00 PM PT**.
 - [ ] **Do not redeploy after the deadline**, and keep the site online until
       winners are announced (about December 11, 2026).
+
+## Current hosted deployment
+
+The competition build is at https://signsprout.web.app/ with the headset at `/app/`.
+Firebase Hosting serves only static files. Supabase provides Google sign-in,
+protected progress, phone pairing and family sharing. Google social OAuth is
+included in Supabase's free plan; enterprise SAML SSO is a separate feature.
+
+The deployed coach has `COACH_PROVIDER=rules`, so it makes no paid AI calls.
+Do not add a Gemini key to either browser environment file. Optional provider
+keys belong only in Supabase Edge Function secrets.
+
+To deploy after Firebase CLI authentication:
+
+```sh
+npm ci
+npm run deploy
+```
+
+The script checks types, runs tests, builds both apps and deploys only the
+`signsprout` Hosting site. It does not change other sites in the Google Cloud
+project. The project and site are recorded in `.firebaserc` and `firebase.json`.
+Deployment is manual so the submission can be frozen at the deadline.
+
+The committed `.env.production` files contain only the public Supabase URL,
+anonymous client key and hosted pairing address. Database row-level security
+and authenticated Edge Functions protect user data. Never commit service-role
+keys, management tokens, OAuth client secrets or generated narration credentials.
+
+Google OAuth redirects through the Supabase project's `/auth/v1/callback` URL.
+The Google consent audience is external and published. Only basic profile and
+email are requested. In Supabase Auth, the Site URL and redirect allowlist must
+include the hosted Firebase domain. Set `VITE_AUTH_PROVIDER=google` for the
+production companion app.
+
+Apply every SQL migration in timestamp order, including the coach focus RPC
+and the trigger that protects newer plans from stale headset saves. Follow
+`docs/submission/TESTING.md` for hosted and device checks.
+
+The free Supabase project can pause after a week without activity. Check its
+availability before judging and restore it from the dashboard if paused.

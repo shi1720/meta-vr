@@ -15,7 +15,7 @@ export const APP_URL: string = import.meta.env.VITE_APP_URL
   : `${withSlash(BASE)}app/`;
 
 /** The same app in its in-browser demo mode (a simulated learner, no headset needed). */
-export const DEMO_URL = `${APP_URL}?demo`;
+export const DEMO_URL = `${APP_URL}?demo&fresh`;
 
 /** Self-hosted WebXR generic hand models (MIT, webxr-input-profiles). */
 export const HANDS_URL = `${withSlash(BASE)}hands/`;

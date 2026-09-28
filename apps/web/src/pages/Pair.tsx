@@ -125,7 +125,7 @@ function Success({ onAgain, demo }: { onAgain: () => void; demo?: boolean }) {
         <span className="success-ring" />
         <Icon name="check" size={44} strokeWidth={3} />
       </div>
-      <h2>Your headset is signed in — your garden will sync.</h2>
+      <h2>Your headset is signed in ,  your garden will sync.</h2>
       <p className="muted">
         Put your headset back on: it will say hello in a moment. Anything you learned on it before is kept and merged,
         and new signs sync to this account from now on.

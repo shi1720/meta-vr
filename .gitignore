@@ -15,3 +15,8 @@ docs/submission/deck/slides/
 tools/video/cards/
 out/
 __pycache__/
+
+# Local source media and provisioning state
+signsprout-demo-share.mp4
+supabase/.temp/
+.firebase/

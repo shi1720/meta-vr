@@ -361,12 +361,12 @@ export function gardenScreen(
         : 'Your garden is waiting for its first seed.',
       { fontSize: 32, color: palette.muted },
     ),
-    caption('Every sign you learn grows a plant. Practise to help it bloom — plants droop a little when they miss you.', { fontSize: 26 }),
+    caption('Every sign you learn grows a plant. Practise to help it bloom. plants droop a little when they miss you.', { fontSize: 26 }),
     selected
       ? card(
           { borderWidth: 3, borderColor: palette.honey },
           row({ gap: 12 }, icon('flower', { color: palette.honey }), text(gloss(selected), { fontSize: 40, fontWeight: 'bold' })),
-          caption(`“${selected.english}” — ${selected.howTo}`, { fontSize: 27 }),
+          caption(`“${selected.english}”. ${selected.howTo}`, { fontSize: 27 }),
           button({ label: 'Practise this sign', icon: 'play', variant: 'primary', onClick: () => a.replay(selected.id) }),
         )
       : caption('Tip: point at a plant and pinch (or poke it) to see its sign again.', { fontSize: 27, color: palette.honey }),
@@ -493,12 +493,12 @@ export function welcomeScreen(a: { next(): void; demo?: () => void }): UIKit.Con
   return surface(
     PANEL_PX,
     row({ gap: 16 }, icon('sprout', { width: 72, height: 72, color: palette.sprout }), title('Welcome to Signsprout', { fontSize: 60 })),
-    text('Learn your first ASL signs with your own two hands — five minutes a day.', { fontSize: 34 }),
+    text('Learn your first ASL signs with your own two hands. five minutes a day.', { fontSize: 34 }),
     card(
       {},
       row({ gap: 14 }, icon('eye', { color: palette.ghost }), text('Watch Sprout show a sign', { fontSize: 30 })),
       row({ gap: 14 }, icon('hand', { color: palette.ghost }), text('Put your hands inside the glowing hands', { fontSize: 30 })),
-      row({ gap: 14 }, icon('sprout', { color: palette.ghost }), text('Sign it yourself — and watch your garden grow', { fontSize: 30 })),
+      row({ gap: 14 }, icon('sprout', { color: palette.ghost }), text('Sign it yourself. and watch your garden grow', { fontSize: 30 })),
     ),
     button({ label: 'Let’s begin', icon: 'play', variant: 'primary', size: 'lg', onClick: a.next, id: 'begin' }),
     caption('No account needed. You can save your garden later.', { fontSize: 27 }),
@@ -513,7 +513,7 @@ export function handsScreen(seen: { left: boolean; right: boolean }, a: { next()
     title(both ? 'I can see both hands!' : 'Show me your hands', { fontSize: 56 }),
     text(
       both
-        ? 'Your hands are the controllers here — no buttons needed. Poke buttons with a fingertip, or point and pinch.'
+        ? 'Your hands are the controllers here. no buttons needed. Poke buttons with a fingertip, or point and pinch.'
         : 'Put your controllers down and hold both hands up in front of you.',
       { fontSize: 30 },
     ),
@@ -545,7 +545,7 @@ export function handedScreen(a: { pick(h: 'right' | 'left'): void }): UIKit.Cont
 export function calibrateScreen(done: boolean, a: { skip(): void }): UIKit.Container {
   return surface(
     PANEL_PX,
-    title(done ? 'Perfect — thank you!' : 'Touch your chin', { fontSize: 56 }),
+    title(done ? 'Perfect. thank you!' : 'Touch your chin', { fontSize: 56 }),
     text(
       done
         ? 'Now I know where your face is, so I can guide your hands to the right spot.'
@@ -633,7 +633,7 @@ export function spellScreen(
     row({ gap: 14 }, button({ icon: 'back', size: 'sm', variant: 'ghost', onClick: a.back }), title('Spell a name', { fontSize: 48 })),
     word ? letters : null,
     word
-      ? caption(index < word.length ? `Fingerspell “${word[index]}” — hold it steady` : 'You spelled it!', { fontSize: 28 })
+      ? caption(index < word.length ? `Fingerspell “${word[index]}”. hold it steady` : 'You spelled it!', { fontSize: 28 })
       : caption('Pick a word to fingerspell, letter by letter:', { fontSize: 28 }),
     row({ gap: 12, flexWrap: 'wrap' }, ...options.map((w) => button({ label: w, size: 'sm', onClick: () => a.pick(w) }))),
     word && index < word.length ? button({ label: 'Skip letter', icon: 'skip', size: 'sm', variant: 'ghost', onClick: a.skipLetter }) : null,

@@ -1,5 +1,5 @@
 /**
- * "Sprout" — the friendly signing buddy who sits across the table.
+ * "Sprout". the friendly signing buddy who sits across the table.
  *
  * Sprout is a deliberately abstract, non-human mascot: the glowing ghost
  * hands carry the sign, and Sprout's head and torso give those hands a body

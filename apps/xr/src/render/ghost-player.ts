@@ -1,6 +1,6 @@
 /**
  * GhostPlayer: plays a sign on a pair of ghost hands in a given signer body
- * frame — the teacher's (face to face) or the learner's own (first person,
+ * frame. the teacher's (face to face) or the learner's own (first person,
  * "put your hands in mine").
  */
 

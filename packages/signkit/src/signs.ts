@@ -39,7 +39,7 @@ const K = (k: HandKey): HandKey => k;
 const SHOULDER_FRONT: [number, number, number] = [0.15, -0.21, -0.3];
 
 // ---------------------------------------------------------------------------
-// Unit 1 — First words
+// Unit 1. First words
 // ---------------------------------------------------------------------------
 
 const HELLO = oneHanded(
@@ -63,7 +63,7 @@ const THANK_YOU = oneHanded(
     english: 'thank you',
     category: 'courtesy',
     difficulty: 1,
-    howTo: 'Touch the fingertips of your flat hand to your chin, then move your hand forward and down towards the person — and smile.',
+    howTo: 'Touch the fingertips of your flat hand to your chin, then move your hand forward and down towards the person. and smile.',
     hint: 'Your thanks leaves your lips and goes to them.',
   },
   K({ shape: 'open-B', at: 'chin', contact: 'fingertips', palm: 'in', fingers: 'up' }),
@@ -85,7 +85,7 @@ const I_LOVE_YOU = oneHanded(
 );
 
 // ---------------------------------------------------------------------------
-// Unit 2 — Mealtime
+// Unit 2. Mealtime
 // ---------------------------------------------------------------------------
 
 const MORE = symmetric(
@@ -109,7 +109,7 @@ const EAT = oneHanded(
     english: 'eat / food',
     category: 'needs',
     difficulty: 1,
-    howTo: 'Bunch your fingertips onto your thumb and tap them to your lips, twice — like putting food in your mouth.',
+    howTo: 'Bunch your fingertips onto your thumb and tap them to your lips, twice. like putting food in your mouth.',
   },
   K({ shape: 'flat-O', at: 'mouth', contact: 'fingertips', palm: 'in-down', fingers: 'in' }),
   { path: 'tap', direction: 'out', amplitude: 0.04, repeat: 2 },
@@ -135,7 +135,7 @@ const MILK = oneHanded(
     english: 'milk',
     category: 'needs',
     difficulty: 1,
-    howTo: 'Hold up a loose C-hand and squeeze it closed into a fist, twice — like milking a cow.',
+    howTo: 'Hold up a loose C-hand and squeeze it closed into a fist, twice. like milking a cow.',
     hint: 'One of the first signs many babies learn.',
   },
   K({ shape: 'C', at: SHOULDER_FRONT, offset: [-0.02, -0.04, 0], palm: 'contra', fingers: 'up' }),
@@ -163,7 +163,7 @@ const FINISH = symmetric(
     english: 'all done / finished',
     category: 'needs',
     difficulty: 2,
-    howTo: 'Hold up both open hands, palms towards you, then quickly twist them so your palms face out — "all done!"',
+    howTo: 'Hold up both open hands, palms towards you, then quickly twist them so your palms face out. "all done!"',
     hint: 'Shaking the last crumbs off your hands.',
   },
   K({ shape: '5', at: [0.16, -0.3, -0.28], palm: 'in', fingers: 'up' }),
@@ -179,14 +179,14 @@ const HUNGRY = oneHanded(
     category: 'feelings',
     difficulty: 2,
     howTo: 'Put a C-hand on your upper chest and move it straight down once, like food going down to your tummy.',
-    hint: 'Do it once — the movement is a single slide.',
+    hint: 'Do it once. the movement is a single slide.',
   },
   K({ shape: 'C', at: 'chest', offset: [0, 0.07, 0.01], contact: 'fingertips', palm: 'in', fingers: 'up' }),
   { to: { at: 'stomach', offset: [0, 0.03, 0.0] }, path: 'line', dur: 0.6 },
 );
 
 // ---------------------------------------------------------------------------
-// Unit 3 — Family
+// Unit 3. Family
 // ---------------------------------------------------------------------------
 
 const MOTHER = oneHanded(
@@ -263,7 +263,7 @@ const FAMILY = symmetric(
     english: 'family',
     category: 'family',
     difficulty: 3,
-    howTo: 'Touch your F-hands together in front of you, then draw a circle outwards and around until your little fingers meet — everyone around the table.',
+    howTo: 'Touch your F-hands together in front of you, then draw a circle outwards and around until your little fingers meet. everyone around the table.',
   },
   K({ shape: 'F', at: [0.025, -0.3, -0.36], contact: 'thumb-side', palm: 'out', fingers: 'up' }),
   { to: { at: [0.15, -0.3, -0.28], palm: 'ipsi' }, path: 'arc', lift: [0.02, 0, -0.03], dur: 0.45 },
@@ -343,7 +343,7 @@ const NAME = twoHanded(
 );
 
 // ---------------------------------------------------------------------------
-// Unit 4 — Bath & bedtime
+// Unit 4. Bath & bedtime
 // ---------------------------------------------------------------------------
 
 const BATH = symmetric(
@@ -366,7 +366,7 @@ const SLEEP = oneHanded(
     english: 'sleep',
     category: 'actions',
     difficulty: 2,
-    howTo: 'Hold your open hand in front of your face and draw it down to your chin while closing your fingers together — and close your eyes.',
+    howTo: 'Hold your open hand in front of your face and draw it down to your chin while closing your fingers together. and close your eyes.',
     hint: 'Your eyes closing.',
   },
   K({ shape: '5', at: 'eyes', offset: [-0.03, 0.0, -0.07], contact: 'palm', palm: 'in', fingers: 'up' }),
@@ -428,7 +428,7 @@ const BATHROOM = oneHanded(
 );
 
 // ---------------------------------------------------------------------------
-// Unit 5 — Feelings & care
+// Unit 5. Feelings & care
 // ---------------------------------------------------------------------------
 
 const HAPPY = oneHanded(
@@ -499,7 +499,7 @@ const HOT = oneHanded(
     english: 'hot',
     category: 'descriptions',
     difficulty: 2,
-    howTo: 'Hold a clawed hand in front of your mouth, then quickly twist it away and down — like taking out something too hot.',
+    howTo: 'Hold a clawed hand in front of your mouth, then quickly twist it away and down. like taking out something too hot.',
   },
   K({ shape: 'claw', at: 'mouth', offset: [0, -0.01, -0.05], contact: 'palm', palm: 'in', fingers: 'up' }),
   { to: { at: 'neutral', offset: [0.06, 0.08, 0.05], palm: 'out-down', fingers: 'up-out' }, path: 'line', dur: 0.45 },
@@ -532,7 +532,7 @@ const PLAY = symmetric(
 );
 
 // ---------------------------------------------------------------------------
-// Unit 6 — Manners
+// Unit 6. Manners
 // ---------------------------------------------------------------------------
 
 const PLEASE = oneHanded(
@@ -666,7 +666,7 @@ const WAIT = twoHanded(
 );
 
 // ---------------------------------------------------------------------------
-// Unit 7 — Little conversations
+// Unit 7. Little conversations
 // ---------------------------------------------------------------------------
 
 const GOOD = oneHanded(
@@ -749,7 +749,7 @@ const WHAT = symmetric(
     english: 'what',
     category: 'questions',
     difficulty: 1,
-    howTo: 'Hold both open hands palms-up in front of you and shake them slightly — with your eyebrows lowered.',
+    howTo: 'Hold both open hands palms-up in front of you and shake them slightly. with your eyebrows lowered.',
   },
   K({ shape: '5', at: [0.14, -0.4, -0.3], palm: 'up', fingers: 'out' }),
   { path: 'shake', amplitude: 22, repeat: 2 },
@@ -762,7 +762,7 @@ const WHERE = oneHanded(
     english: 'where',
     category: 'questions',
     difficulty: 1,
-    howTo: 'Hold up your index finger and shake it side to side — with your eyebrows lowered.',
+    howTo: 'Hold up your index finger and shake it side to side. with your eyebrows lowered.',
   },
   K({ shape: '1', at: SHOULDER_FRONT, palm: 'out', fingers: 'up' }),
   { path: 'shake', axis: 'wag', amplitude: 24, repeat: 2 },
@@ -775,7 +775,7 @@ const UNDERSTAND = oneHanded(
     english: 'understand',
     category: 'questions',
     difficulty: 2,
-    howTo: 'Hold your hand beside your forehead with your index finger curled under your thumb, then flick it up — like a light bulb turning on.',
+    howTo: 'Hold your hand beside your forehead with your index finger curled under your thumb, then flick it up. like a light bulb turning on.',
   },
   K({ shape: 'flick-X', at: 'temple', offset: [0.02, -0.01, -0.03], contact: 'knuckles', palm: 'in', fingers: 'up' }),
   { to: { shape: '1' }, path: 'line', dur: 0.25 },
@@ -783,7 +783,7 @@ const UNDERSTAND = oneHanded(
 );
 
 // ---------------------------------------------------------------------------
-// Unit 8 — Pets
+// Unit 8. Pets
 // ---------------------------------------------------------------------------
 
 const DOG = oneHanded(

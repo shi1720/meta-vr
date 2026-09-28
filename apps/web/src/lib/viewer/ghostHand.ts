@@ -3,7 +3,7 @@
  * headset uses (apps/xr/src/render/ghost-hand.ts), built on plain three.js.
  *
  * The WebXR generic hand model has one bone per WebXR joint, named exactly
- * like the joint, in a flat hierarchy — so posing it is a matter of copying
+ * like the joint, in a flat hierarchy. so posing it is a matter of copying
  * signkit's world-space joint positions/orientations onto the bones. If the
  * model cannot be loaded, a capsule hand is drawn instead.
  */

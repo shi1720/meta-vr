@@ -166,7 +166,7 @@ export function matchTemplate(
         else hint = `Fold your ${name} down more`;
       } else {
         if (b.extension > 0.93) hint = `Straighten your ${name}`;
-        else hint = `Relax your ${name} a little — less folded`;
+        else hint = `Relax your ${name} a little. less folded`;
       }
     }
     parts[f] = { score: s, status: status(s), hint };

@@ -3,7 +3,7 @@
  *
  * `HandInputSystem` fills this every frame from WebXR hand tracking
  * (`XRFrame.fillPoses`), or from the autopilot performer in demo mode.
- * Everything else — the verifier, feedback, UI poke detection — reads it.
+ * Everything else. the verifier, feedback, UI poke detection. reads it.
  */
 
 import type { Quat, Vec3 } from '@signsprout/signkit';

@@ -3,7 +3,7 @@
  *
  * Signsprout is offline-first: everything works without an account. When a
  * Supabase project is configured (VITE_SUPABASE_URL / VITE_SUPABASE_ANON_KEY),
- * learners can save their garden by pairing the headset with a phone —
+ * learners can save their garden by pairing the headset with a phone,
  * no typing in VR: the headset shows a 6-character code, the learner signs in
  * on their phone and enters it, and the headset receives a session.
  */
@@ -12,11 +12,11 @@ import { createClient } from '@supabase/supabase-js';
 import type { Session, SupabaseClient } from '@supabase/supabase-js';
 import { mergeProgress, parseProgress } from '@signsprout/signkit';
 import type { ProgressDoc } from '@signsprout/signkit';
-import { onLocalChange, progress, store } from '../app/store.js';
+import { onLocalChange, progress, store, previewMode } from '../app/store.js';
 
 const URL = import.meta.env.VITE_SUPABASE_URL as string | undefined;
 const KEY = import.meta.env.VITE_SUPABASE_ANON_KEY as string | undefined;
-const WEB = (import.meta.env.VITE_WEB_URL as string | undefined) ?? 'shi1720.github.io/meta-vr/#/pair';
+const WEB = (import.meta.env.VITE_WEB_URL as string | undefined) ?? new globalThis.URL('../#/pair', location.href).href;
 
 export interface AccountState {
   signedIn: boolean;
@@ -28,7 +28,7 @@ export interface AccountState {
 }
 
 class Account {
-  readonly available = !!(URL && KEY);
+  readonly available = !previewMode && !!(URL && KEY);
   readonly pairUrl = WEB.replace(/^https?:\/\//, '');
   state: AccountState = { signedIn: false, pairCode: null, pairStatus: '' };
   private sb: SupabaseClient | null = null;
@@ -43,6 +43,13 @@ class Account {
     this.setSession(data.session);
     this.sb.auth.onAuthStateChange((_e, session) => this.setSession(session));
     onLocalChange(() => this.schedulePush());
+    window.addEventListener('online', () => void this.pull());
+    document.addEventListener('visibilitychange', () => {
+      if (document.visibilityState === 'visible') void this.pull();
+    });
+    setInterval(() => {
+      if (document.visibilityState === 'visible') void this.pull();
+    }, 30000);
   }
 
   onChange(fn: () => void): () => void {
@@ -59,7 +66,7 @@ class Account {
     this.state.signedIn = !!session;
     this.state.email = session?.user.email ?? undefined;
     this.state.userId = session?.user.id;
-    if (session && !was) void this.pull();
+    if (session && !was) setTimeout(() => void this.pull(), 0);
     this.emit();
   }
 
@@ -112,7 +119,7 @@ class Account {
     this.pollTimer = setInterval(async () => {
       if (Date.now() - started > 10 * 60 * 1000) {
         this.stopPairing();
-        this.state.pairStatus = 'Code expired — tap New code.';
+        this.state.pairStatus = 'Code expired. Tap New code.';
         onUpdate();
         return;
       }
@@ -133,6 +140,8 @@ class Account {
   }
 
   async signOut(): Promise<void> {
+    this.stopPairing();
+    clearTimeout(this.pushTimer);
     await this.sb?.auth.signOut();
     this.state = { signedIn: false, pairCode: null, pairStatus: '' };
     this.emit();

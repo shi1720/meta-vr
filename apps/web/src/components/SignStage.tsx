@@ -1,6 +1,6 @@
 /**
  * React wrapper around the three.js SignViewer. This module (and three.js)
- * is only ever loaded lazily — see LazySignStage.
+ * is only ever loaded lazily. see LazySignStage.
  */
 
 import { useEffect, useRef, useState } from 'react';
