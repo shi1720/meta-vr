@@ -1,0 +1,966 @@
+{
+ "signs": [
+  {
+   "id": "hello",
+   "gloss": "HELLO",
+   "english": "hello",
+   "category": "greetings",
+   "unit": "first-words",
+   "difficulty": 1,
+   "howTo": "Touch your flat hand to the side of your forehead like a small salute, then move it out and away."
+  },
+  {
+   "id": "thank-you",
+   "gloss": "THANK-YOU",
+   "english": "thank you",
+   "category": "courtesy",
+   "unit": "first-words",
+   "difficulty": 1,
+   "howTo": "Touch the fingertips of your flat hand to your chin, then move your hand forward and down towards the person — and smile."
+  },
+  {
+   "id": "i-love-you",
+   "gloss": "I-LOVE-YOU",
+   "english": "I love you",
+   "category": "family",
+   "unit": "first-words",
+   "difficulty": 1,
+   "howTo": "Raise your thumb, index finger and pinky together, palm facing the person you love."
+  },
+  {
+   "id": "more",
+   "gloss": "MORE",
+   "english": "more",
+   "category": "needs",
+   "unit": "mealtime",
+   "difficulty": 2,
+   "howTo": "Bunch the fingertips of each hand onto the thumb and tap the two bunches together, twice."
+  },
+  {
+   "id": "eat",
+   "gloss": "EAT",
+   "english": "eat / food",
+   "category": "needs",
+   "unit": "mealtime",
+   "difficulty": 1,
+   "howTo": "Bunch your fingertips onto your thumb and tap them to your lips, twice — like putting food in your mouth."
+  },
+  {
+   "id": "drink",
+   "gloss": "DRINK",
+   "english": "drink",
+   "category": "needs",
+   "unit": "mealtime",
+   "difficulty": 2,
+   "howTo": "Hold a C-hand like a cup by your chin, then tip it towards your mouth as if taking a sip."
+  },
+  {
+   "id": "milk",
+   "gloss": "MILK",
+   "english": "milk",
+   "category": "needs",
+   "unit": "mealtime",
+   "difficulty": 1,
+   "howTo": "Hold up a loose C-hand and squeeze it closed into a fist, twice — like milking a cow."
+  },
+  {
+   "id": "water",
+   "gloss": "WATER",
+   "english": "water",
+   "category": "needs",
+   "unit": "mealtime",
+   "difficulty": 1,
+   "howTo": "Make a W (three middle fingers up) and tap your index finger on your chin twice."
+  },
+  {
+   "id": "finish",
+   "gloss": "FINISH",
+   "english": "all done / finished",
+   "category": "needs",
+   "unit": "mealtime",
+   "difficulty": 2,
+   "howTo": "Hold up both open hands, palms towards you, then quickly twist them so your palms face out — \"all done!\""
+  },
+  {
+   "id": "hungry",
+   "gloss": "HUNGRY",
+   "english": "hungry",
+   "category": "feelings",
+   "unit": "mealtime",
+   "difficulty": 2,
+   "howTo": "Put a C-hand on your upper chest and move it straight down once, like food going down to your tummy."
+  },
+  {
+   "id": "mother",
+   "gloss": "MOTHER",
+   "english": "mom / mother",
+   "category": "family",
+   "unit": "family",
+   "difficulty": 1,
+   "howTo": "Spread your hand open and tap your thumb on your chin, twice."
+  },
+  {
+   "id": "father",
+   "gloss": "FATHER",
+   "english": "dad / father",
+   "category": "family",
+   "unit": "family",
+   "difficulty": 1,
+   "howTo": "Spread your hand open and tap your thumb on your forehead, twice."
+  },
+  {
+   "id": "baby",
+   "gloss": "BABY",
+   "english": "baby",
+   "category": "family",
+   "unit": "family",
+   "difficulty": 2,
+   "howTo": "Cradle your arms, one resting on the other with palms up, and rock them gently side to side."
+  },
+  {
+   "id": "love",
+   "gloss": "LOVE",
+   "english": "love",
+   "category": "family",
+   "unit": "family",
+   "difficulty": 2,
+   "howTo": "Cross your fists over your heart, like a hug."
+  },
+  {
+   "id": "family",
+   "gloss": "FAMILY",
+   "english": "family",
+   "category": "family",
+   "unit": "family",
+   "difficulty": 3,
+   "howTo": "Touch your F-hands together in front of you, then draw a circle outwards and around until your little fingers meet — everyone around the table."
+  },
+  {
+   "id": "me",
+   "gloss": "ME",
+   "english": "me / I",
+   "category": "family",
+   "unit": "family",
+   "difficulty": 1,
+   "howTo": "Point your index finger at the middle of your chest."
+  },
+  {
+   "id": "you",
+   "gloss": "YOU",
+   "english": "you",
+   "category": "family",
+   "unit": "family",
+   "difficulty": 1,
+   "howTo": "Point your index finger at the person you are talking to."
+  },
+  {
+   "id": "my",
+   "gloss": "MY",
+   "english": "my / mine",
+   "category": "family",
+   "unit": "family",
+   "difficulty": 1,
+   "howTo": "Place your flat hand on your chest."
+  },
+  {
+   "id": "your",
+   "gloss": "YOUR",
+   "english": "your / yours",
+   "category": "family",
+   "unit": "family",
+   "difficulty": 1,
+   "howTo": "Show your flat palm to the person and push it slightly towards them."
+  },
+  {
+   "id": "name",
+   "gloss": "NAME",
+   "english": "name",
+   "category": "family",
+   "unit": "family",
+   "difficulty": 3,
+   "howTo": "Make an H with both hands and tap the fingers of your dominant hand across the other hand’s fingers, twice."
+  },
+  {
+   "id": "bath",
+   "gloss": "BATH",
+   "english": "bath",
+   "category": "actions",
+   "unit": "bath-bedtime",
+   "difficulty": 2,
+   "howTo": "Rub two fists up and down on your chest, like scrubbing in the bath."
+  },
+  {
+   "id": "sleep",
+   "gloss": "SLEEP",
+   "english": "sleep",
+   "category": "actions",
+   "unit": "bath-bedtime",
+   "difficulty": 2,
+   "howTo": "Hold your open hand in front of your face and draw it down to your chin while closing your fingers together — and close your eyes."
+  },
+  {
+   "id": "tired",
+   "gloss": "TIRED",
+   "english": "tired",
+   "category": "feelings",
+   "unit": "bath-bedtime",
+   "difficulty": 2,
+   "howTo": "Put the fingertips of both bent hands on your upper chest, then let your hands droop down while the fingertips stay put."
+  },
+  {
+   "id": "book",
+   "gloss": "BOOK",
+   "english": "book",
+   "category": "things",
+   "unit": "bath-bedtime",
+   "difficulty": 2,
+   "howTo": "Press your palms together, then open them like a book, keeping your little fingers together."
+  },
+  {
+   "id": "home",
+   "gloss": "HOME",
+   "english": "home",
+   "category": "things",
+   "unit": "bath-bedtime",
+   "difficulty": 2,
+   "howTo": "Bunch your fingertips, touch them to your cheek by your mouth, then touch higher up on your cheek."
+  },
+  {
+   "id": "bathroom",
+   "gloss": "BATHROOM",
+   "english": "bathroom / potty",
+   "category": "needs",
+   "unit": "bath-bedtime",
+   "difficulty": 2,
+   "howTo": "Make a T (thumb tucked between your first two fingers) and shake it side to side."
+  },
+  {
+   "id": "happy",
+   "gloss": "HAPPY",
+   "english": "happy",
+   "category": "feelings",
+   "unit": "feelings",
+   "difficulty": 1,
+   "howTo": "Brush your flat hand upward on your chest in little circles, with a happy face."
+  },
+  {
+   "id": "sad",
+   "gloss": "SAD",
+   "english": "sad",
+   "category": "feelings",
+   "unit": "feelings",
+   "difficulty": 2,
+   "howTo": "Hold both open hands in front of your face, palms towards you, and draw them slowly down."
+  },
+  {
+   "id": "hurt",
+   "gloss": "HURT",
+   "english": "hurt / pain",
+   "category": "feelings",
+   "unit": "feelings",
+   "difficulty": 2,
+   "howTo": "Point your two index fingers at each other and jab them towards each other twice, near where it hurts."
+  },
+  {
+   "id": "help",
+   "gloss": "HELP",
+   "english": "help",
+   "category": "actions",
+   "unit": "feelings",
+   "difficulty": 2,
+   "howTo": "Rest your thumbs-up fist on your other flat palm and lift both hands up together."
+  },
+  {
+   "id": "hot",
+   "gloss": "HOT",
+   "english": "hot",
+   "category": "descriptions",
+   "unit": "feelings",
+   "difficulty": 2,
+   "howTo": "Hold a clawed hand in front of your mouth, then quickly twist it away and down — like taking out something too hot."
+  },
+  {
+   "id": "cold",
+   "gloss": "COLD",
+   "english": "cold",
+   "category": "descriptions",
+   "unit": "feelings",
+   "difficulty": 1,
+   "howTo": "Make two fists in front of your shoulders and shake them towards each other, like shivering."
+  },
+  {
+   "id": "play",
+   "gloss": "PLAY",
+   "english": "play",
+   "category": "actions",
+   "unit": "feelings",
+   "difficulty": 1,
+   "howTo": "Make Y-hands (thumb and little finger out) and twist them back and forth at the wrists."
+  },
+  {
+   "id": "please",
+   "gloss": "PLEASE",
+   "english": "please",
+   "category": "courtesy",
+   "unit": "manners",
+   "difficulty": 1,
+   "howTo": "Place your flat hand on the middle of your chest and rub it in small circles."
+  },
+  {
+   "id": "sorry",
+   "gloss": "SORRY",
+   "english": "sorry",
+   "category": "courtesy",
+   "unit": "manners",
+   "difficulty": 1,
+   "howTo": "Make an A-hand (a fist with your thumb at the side) and rub it in circles on your chest, looking apologetic."
+  },
+  {
+   "id": "yes",
+   "gloss": "YES",
+   "english": "yes",
+   "category": "courtesy",
+   "unit": "manners",
+   "difficulty": 1,
+   "howTo": "Make a fist and nod it up and down at the wrist, like a head nodding \"yes\"."
+  },
+  {
+   "id": "no",
+   "gloss": "NO",
+   "english": "no",
+   "category": "courtesy",
+   "unit": "manners",
+   "difficulty": 2,
+   "howTo": "Hold your index and middle fingers together above your thumb, then snap them shut onto the thumb, twice."
+  },
+  {
+   "id": "want",
+   "gloss": "WANT",
+   "english": "want",
+   "category": "needs",
+   "unit": "manners",
+   "difficulty": 2,
+   "howTo": "Hold both hands palm-up with fingers spread, then pull them towards you while curling your fingers into claws."
+  },
+  {
+   "id": "again",
+   "gloss": "AGAIN",
+   "english": "again",
+   "category": "actions",
+   "unit": "manners",
+   "difficulty": 3,
+   "howTo": "Hold one hand flat, palm up. Bend your other hand at the knuckles and arc it over so the fingertips land in the flat palm."
+  },
+  {
+   "id": "stop",
+   "gloss": "STOP",
+   "english": "stop",
+   "category": "actions",
+   "unit": "manners",
+   "difficulty": 2,
+   "howTo": "Hold one hand flat, palm up, and chop the edge of your other flat hand sharply down onto it."
+  },
+  {
+   "id": "wait",
+   "gloss": "WAIT",
+   "english": "wait",
+   "category": "actions",
+   "unit": "manners",
+   "difficulty": 2,
+   "howTo": "Hold both hands up off to one side, palms up, one a little in front of the other, and wiggle your fingers."
+  },
+  {
+   "id": "good",
+   "gloss": "GOOD",
+   "english": "good",
+   "category": "descriptions",
+   "unit": "conversation",
+   "difficulty": 1,
+   "howTo": "Touch your fingertips to your chin, then bring your flat hand down and forward so the palm ends facing up."
+  },
+  {
+   "id": "bad",
+   "gloss": "BAD",
+   "english": "bad",
+   "category": "descriptions",
+   "unit": "conversation",
+   "difficulty": 1,
+   "howTo": "Touch your fingertips to your chin, then swing your hand down and flip it palm-down, with a frown."
+  },
+  {
+   "id": "fine",
+   "gloss": "FINE",
+   "english": "fine",
+   "category": "descriptions",
+   "unit": "conversation",
+   "difficulty": 1,
+   "howTo": "Spread your hand open and tap your thumb on your upper chest, twice."
+  },
+  {
+   "id": "nice",
+   "gloss": "NICE",
+   "english": "nice / clean",
+   "category": "descriptions",
+   "unit": "conversation",
+   "difficulty": 2,
+   "howTo": "Slide your flat hand across your other upturned palm, from the heel to past the fingertips."
+  },
+  {
+   "id": "meet",
+   "gloss": "MEET",
+   "english": "meet",
+   "category": "actions",
+   "unit": "conversation",
+   "difficulty": 1,
+   "howTo": "Hold up both index fingers apart, palms facing each other, and bring your hands together until they meet."
+  },
+  {
+   "id": "what",
+   "gloss": "WHAT",
+   "english": "what",
+   "category": "questions",
+   "unit": "conversation",
+   "difficulty": 1,
+   "howTo": "Hold both open hands palms-up in front of you and shake them slightly — with your eyebrows lowered."
+  },
+  {
+   "id": "where",
+   "gloss": "WHERE",
+   "english": "where",
+   "category": "questions",
+   "unit": "conversation",
+   "difficulty": 1,
+   "howTo": "Hold up your index finger and shake it side to side — with your eyebrows lowered."
+  },
+  {
+   "id": "understand",
+   "gloss": "UNDERSTAND",
+   "english": "understand",
+   "category": "questions",
+   "unit": "conversation",
+   "difficulty": 2,
+   "howTo": "Hold your hand beside your forehead with your index finger curled under your thumb, then flick it up — like a light bulb turning on."
+  },
+  {
+   "id": "dog",
+   "gloss": "DOG",
+   "english": "dog",
+   "category": "things",
+   "unit": "pets",
+   "difficulty": 1,
+   "howTo": "Pat the side of your leg twice, as if calling a dog. (Many signers also snap their fingers.)"
+  },
+  {
+   "id": "cat",
+   "gloss": "CAT",
+   "english": "cat",
+   "category": "things",
+   "unit": "pets",
+   "difficulty": 2,
+   "howTo": "Beside your mouth, pinch your thumb and index finger together and pull outwards, like stroking whiskers."
+  },
+  {
+   "id": "letter-a",
+   "gloss": "A",
+   "english": "letter A",
+   "category": "fingerspelling",
+   "unit": "fingerspelling",
+   "difficulty": 1,
+   "howTo": "Fingerspell A."
+  },
+  {
+   "id": "letter-b",
+   "gloss": "B",
+   "english": "letter B",
+   "category": "fingerspelling",
+   "unit": "fingerspelling",
+   "difficulty": 1,
+   "howTo": "Fingerspell B."
+  },
+  {
+   "id": "letter-c",
+   "gloss": "C",
+   "english": "letter C",
+   "category": "fingerspelling",
+   "unit": "fingerspelling",
+   "difficulty": 1,
+   "howTo": "Fingerspell C."
+  },
+  {
+   "id": "letter-d",
+   "gloss": "D",
+   "english": "letter D",
+   "category": "fingerspelling",
+   "unit": "fingerspelling",
+   "difficulty": 1,
+   "howTo": "Fingerspell D."
+  },
+  {
+   "id": "letter-e",
+   "gloss": "E",
+   "english": "letter E",
+   "category": "fingerspelling",
+   "unit": "fingerspelling",
+   "difficulty": 1,
+   "howTo": "Fingerspell E."
+  },
+  {
+   "id": "letter-f",
+   "gloss": "F",
+   "english": "letter F",
+   "category": "fingerspelling",
+   "unit": "fingerspelling",
+   "difficulty": 1,
+   "howTo": "Fingerspell F."
+  },
+  {
+   "id": "letter-g",
+   "gloss": "G",
+   "english": "letter G",
+   "category": "fingerspelling",
+   "unit": "fingerspelling",
+   "difficulty": 1,
+   "howTo": "Fingerspell G."
+  },
+  {
+   "id": "letter-h",
+   "gloss": "H",
+   "english": "letter H",
+   "category": "fingerspelling",
+   "unit": "fingerspelling",
+   "difficulty": 1,
+   "howTo": "Fingerspell H."
+  },
+  {
+   "id": "letter-i",
+   "gloss": "I",
+   "english": "letter I",
+   "category": "fingerspelling",
+   "unit": "fingerspelling",
+   "difficulty": 1,
+   "howTo": "Fingerspell I."
+  },
+  {
+   "id": "letter-j",
+   "gloss": "J",
+   "english": "letter J",
+   "category": "fingerspelling",
+   "unit": "fingerspelling",
+   "difficulty": 1,
+   "howTo": "Fingerspell J."
+  },
+  {
+   "id": "letter-k",
+   "gloss": "K",
+   "english": "letter K",
+   "category": "fingerspelling",
+   "unit": "fingerspelling",
+   "difficulty": 1,
+   "howTo": "Fingerspell K."
+  },
+  {
+   "id": "letter-l",
+   "gloss": "L",
+   "english": "letter L",
+   "category": "fingerspelling",
+   "unit": "fingerspelling",
+   "difficulty": 1,
+   "howTo": "Fingerspell L."
+  },
+  {
+   "id": "letter-m",
+   "gloss": "M",
+   "english": "letter M",
+   "category": "fingerspelling",
+   "unit": "fingerspelling",
+   "difficulty": 1,
+   "howTo": "Fingerspell M."
+  },
+  {
+   "id": "letter-n",
+   "gloss": "N",
+   "english": "letter N",
+   "category": "fingerspelling",
+   "unit": "fingerspelling",
+   "difficulty": 1,
+   "howTo": "Fingerspell N."
+  },
+  {
+   "id": "letter-o",
+   "gloss": "O",
+   "english": "letter O",
+   "category": "fingerspelling",
+   "unit": "fingerspelling",
+   "difficulty": 1,
+   "howTo": "Fingerspell O."
+  },
+  {
+   "id": "letter-p",
+   "gloss": "P",
+   "english": "letter P",
+   "category": "fingerspelling",
+   "unit": "fingerspelling",
+   "difficulty": 1,
+   "howTo": "Fingerspell P."
+  },
+  {
+   "id": "letter-q",
+   "gloss": "Q",
+   "english": "letter Q",
+   "category": "fingerspelling",
+   "unit": "fingerspelling",
+   "difficulty": 1,
+   "howTo": "Fingerspell Q."
+  },
+  {
+   "id": "letter-r",
+   "gloss": "R",
+   "english": "letter R",
+   "category": "fingerspelling",
+   "unit": "fingerspelling",
+   "difficulty": 1,
+   "howTo": "Fingerspell R."
+  },
+  {
+   "id": "letter-s",
+   "gloss": "S",
+   "english": "letter S",
+   "category": "fingerspelling",
+   "unit": "fingerspelling",
+   "difficulty": 1,
+   "howTo": "Fingerspell S."
+  },
+  {
+   "id": "letter-t",
+   "gloss": "T",
+   "english": "letter T",
+   "category": "fingerspelling",
+   "unit": "fingerspelling",
+   "difficulty": 1,
+   "howTo": "Fingerspell T."
+  },
+  {
+   "id": "letter-u",
+   "gloss": "U",
+   "english": "letter U",
+   "category": "fingerspelling",
+   "unit": "fingerspelling",
+   "difficulty": 1,
+   "howTo": "Fingerspell U."
+  },
+  {
+   "id": "letter-v",
+   "gloss": "V",
+   "english": "letter V",
+   "category": "fingerspelling",
+   "unit": "fingerspelling",
+   "difficulty": 1,
+   "howTo": "Fingerspell V."
+  },
+  {
+   "id": "letter-w",
+   "gloss": "W",
+   "english": "letter W",
+   "category": "fingerspelling",
+   "unit": "fingerspelling",
+   "difficulty": 1,
+   "howTo": "Fingerspell W."
+  },
+  {
+   "id": "letter-x",
+   "gloss": "X",
+   "english": "letter X",
+   "category": "fingerspelling",
+   "unit": "fingerspelling",
+   "difficulty": 1,
+   "howTo": "Fingerspell X."
+  },
+  {
+   "id": "letter-y",
+   "gloss": "Y",
+   "english": "letter Y",
+   "category": "fingerspelling",
+   "unit": "fingerspelling",
+   "difficulty": 1,
+   "howTo": "Fingerspell Y."
+  },
+  {
+   "id": "letter-z",
+   "gloss": "Z",
+   "english": "letter Z",
+   "category": "fingerspelling",
+   "unit": "fingerspelling",
+   "difficulty": 1,
+   "howTo": "Fingerspell Z."
+  },
+  {
+   "id": "number-1",
+   "gloss": "1",
+   "english": "number 1",
+   "category": "numbers",
+   "unit": "numbers",
+   "difficulty": 1,
+   "howTo": "Show 1 with your palm facing you."
+  },
+  {
+   "id": "number-2",
+   "gloss": "2",
+   "english": "number 2",
+   "category": "numbers",
+   "unit": "numbers",
+   "difficulty": 1,
+   "howTo": "Show 2 with your palm facing you."
+  },
+  {
+   "id": "number-3",
+   "gloss": "3",
+   "english": "number 3",
+   "category": "numbers",
+   "unit": "numbers",
+   "difficulty": 1,
+   "howTo": "Show 3 with your palm facing you."
+  },
+  {
+   "id": "number-4",
+   "gloss": "4",
+   "english": "number 4",
+   "category": "numbers",
+   "unit": "numbers",
+   "difficulty": 1,
+   "howTo": "Show 4 with your palm facing you."
+  },
+  {
+   "id": "number-5",
+   "gloss": "5",
+   "english": "number 5",
+   "category": "numbers",
+   "unit": "numbers",
+   "difficulty": 1,
+   "howTo": "Show 5 with your palm facing you."
+  },
+  {
+   "id": "number-6",
+   "gloss": "6",
+   "english": "number 6",
+   "category": "numbers",
+   "unit": "numbers",
+   "difficulty": 1,
+   "howTo": "Show 6 with your palm facing out."
+  },
+  {
+   "id": "number-7",
+   "gloss": "7",
+   "english": "number 7",
+   "category": "numbers",
+   "unit": "numbers",
+   "difficulty": 1,
+   "howTo": "Show 7 with your palm facing out."
+  },
+  {
+   "id": "number-8",
+   "gloss": "8",
+   "english": "number 8",
+   "category": "numbers",
+   "unit": "numbers",
+   "difficulty": 1,
+   "howTo": "Show 8 with your palm facing out."
+  },
+  {
+   "id": "number-9",
+   "gloss": "9",
+   "english": "number 9",
+   "category": "numbers",
+   "unit": "numbers",
+   "difficulty": 1,
+   "howTo": "Show 9 with your palm facing out."
+  },
+  {
+   "id": "number-10",
+   "gloss": "10",
+   "english": "number 10",
+   "category": "numbers",
+   "unit": "numbers",
+   "difficulty": 1,
+   "howTo": "Show 10 with your palm facing out."
+  }
+ ],
+ "units": [
+  {
+   "id": "first-words",
+   "title": "First words",
+   "subtitle": "Hello, thank you, I love you",
+   "why": "Three signs you will use every single day.",
+   "signs": [
+    "hello",
+    "thank-you",
+    "i-love-you"
+   ],
+   "color": "#F2A65A"
+  },
+  {
+   "id": "mealtime",
+   "title": "Mealtime",
+   "subtitle": "More, eat, milk, all done",
+   "why": "Mealtimes happen many times a day, so these signs get practised naturally, and they are often among a baby’s first signs.",
+   "signs": [
+    "more",
+    "eat",
+    "milk",
+    "drink",
+    "water",
+    "finish",
+    "hungry"
+   ],
+   "color": "#E86A5F"
+  },
+  {
+   "id": "family",
+   "title": "Family",
+   "subtitle": "Mom, dad, baby, love",
+   "why": "The people in your child’s world.",
+   "signs": [
+    "mother",
+    "father",
+    "baby",
+    "love",
+    "family",
+    "me",
+    "you",
+    "my",
+    "your",
+    "name"
+   ],
+   "color": "#C77DFF"
+  },
+  {
+   "id": "bath-bedtime",
+   "title": "Bath & bedtime",
+   "subtitle": "Bath, sleep, book, tired",
+   "why": "Wind-down routines are perfect for signing: calm, close and face-to-face.",
+   "signs": [
+    "bath",
+    "sleep",
+    "tired",
+    "book",
+    "home",
+    "bathroom"
+   ],
+   "color": "#4D96FF"
+  },
+  {
+   "id": "feelings",
+   "title": "Feelings & care",
+   "subtitle": "Happy, sad, hurt, help",
+   "why": "Giving a child words for feelings early reduces frustration for everyone.",
+   "signs": [
+    "happy",
+    "sad",
+    "hurt",
+    "help",
+    "hot",
+    "cold",
+    "play"
+   ],
+   "color": "#6BCB77"
+  },
+  {
+   "id": "manners",
+   "title": "Yes, no & please",
+   "subtitle": "Please, sorry, yes, no, want",
+   "why": "Everyday back-and-forth: asking, answering and taking turns.",
+   "signs": [
+    "please",
+    "sorry",
+    "yes",
+    "no",
+    "want",
+    "again",
+    "stop",
+    "wait"
+   ],
+   "color": "#FFD93D"
+  },
+  {
+   "id": "conversation",
+   "title": "Little conversations",
+   "subtitle": "Good, nice, meet, what, where",
+   "why": "String signs together into real questions and answers.",
+   "signs": [
+    "good",
+    "bad",
+    "fine",
+    "nice",
+    "meet",
+    "what",
+    "where",
+    "understand"
+   ],
+   "color": "#FF8FAB"
+  },
+  {
+   "id": "pets",
+   "title": "Furry friends",
+   "subtitle": "Dog and cat",
+   "why": "Pets are endlessly interesting to toddlers.",
+   "signs": [
+    "dog",
+    "cat"
+   ],
+   "color": "#A0C4FF"
+  },
+  {
+   "id": "fingerspelling",
+   "title": "Fingerspelling",
+   "subtitle": "A to Z, and your name",
+   "why": "Spell names and any word that does not have a sign yet.",
+   "signs": [
+    "letter-a",
+    "letter-b",
+    "letter-c",
+    "letter-d",
+    "letter-e",
+    "letter-f",
+    "letter-g",
+    "letter-h",
+    "letter-i",
+    "letter-j",
+    "letter-k",
+    "letter-l",
+    "letter-m",
+    "letter-n",
+    "letter-o",
+    "letter-p",
+    "letter-q",
+    "letter-r",
+    "letter-s",
+    "letter-t",
+    "letter-u",
+    "letter-v",
+    "letter-w",
+    "letter-x",
+    "letter-y",
+    "letter-z"
+   ],
+   "color": "#9BF6FF"
+  },
+  {
+   "id": "numbers",
+   "title": "Numbers",
+   "subtitle": "1 to 10",
+   "why": "Counting fingers and toes.",
+   "signs": [
+    "number-1",
+    "number-2",
+    "number-3",
+    "number-4",
+    "number-5",
+    "number-6",
+    "number-7",
+    "number-8",
+    "number-9",
+    "number-10"
+   ],
+   "color": "#CAFFBF"
+  }
+ ]
+}

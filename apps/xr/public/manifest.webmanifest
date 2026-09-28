@@ -1,0 +1,10 @@
+{
+  "name": "Signsprout",
+  "short_name": "Signsprout",
+  "description": "Learn sign language with your own two hands, in VR.",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#16232B",
+  "theme_color": "#16232B",
+  "icons": [{ "src": "icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }]
+}

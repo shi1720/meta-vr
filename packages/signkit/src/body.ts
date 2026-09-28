@@ -76,6 +76,49 @@ export const LOCATIONS: Readonly<Record<LocationName, Vec3>> = {
   rest: [0.16, -0.5, -0.22],
 };
 
+// ---------------------------------------------------------------------------
+// Per-learner calibration: shift face / torso landmarks to fit this body.
+// ---------------------------------------------------------------------------
+
+const FACE_SET = new Set<LocationName>(['forehead', 'temple', 'eyes', 'nose', 'cheek', 'mouth', 'chin', 'jaw', 'ear']);
+const offsets = { face: [0, 0, 0] as Vec3, torso: [0, 0, 0] as Vec3 };
+let calibrationVersion = 0;
+
+/** Current body-local position of a landmark, including calibration. */
+export function locationOf(name: LocationName, out: Vec3 = v3()): Vec3 {
+  const base = LOCATIONS[name];
+  const o = FACE_SET.has(name) ? offsets.face : name.startsWith('neutral') || name === 'rest' ? [0, offsets.torso[1] * 0.5, 0] : offsets.torso;
+  out[0] = base[0] + o[0];
+  out[1] = base[1] + o[1];
+  out[2] = base[2] + o[2];
+  return out;
+}
+
+/**
+ * Personalise landmarks from a measured chin position (body-local), e.g.
+ * from "touch your chin" during onboarding. Offsets are clamped to a
+ * plausible range so a bad measurement can't break anything.
+ */
+export function calibrateFromChin(measuredChin: Readonly<Vec3>): Vec3 {
+  const c = LOCATIONS.chin;
+  const clampv = (x: number, m: number) => Math.max(-m, Math.min(m, x));
+  offsets.face = [clampv(measuredChin[0] - c[0], 0.03), clampv(measuredChin[1] - c[1], 0.05), clampv(measuredChin[2] - c[2], 0.05)];
+  // Torso scales with head size roughly; follow the vertical offset.
+  offsets.torso = [0, offsets.face[1] * 1.5, 0];
+  calibrationVersion++;
+  return offsets.face;
+}
+
+export function setCalibration(face: Readonly<Vec3>): void {
+  offsets.face = [face[0], face[1], face[2]];
+  offsets.torso = [0, face[1] * 1.5, 0];
+  calibrationVersion++;
+}
+
+export function getCalibrationVersion(): number {
+  return calibrationVersion;
+}
+
 export type DirName =
   | 'up'
   | 'down'

@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="theme-color" content="#16232B" />
+    <meta name="description" content="Signsprout: learn sign language with your own two hands, in VR. Glowing guide hands, live per-finger feedback, five minutes a day." />
+    <title>Signsprout · learn to sign in VR</title>
+    <link rel="icon" type="image/svg+xml" href="./icon.svg" />
+    <link rel="manifest" href="./manifest.webmanifest" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <style>
+      :root {
+        --ink: #16232b;
+        --ink-soft: #22343f;
+        --paper: #fff8ee;
+        --muted: #a9b8bf;
+        --sprout: #3dbe8b;
+        --sprout-deep: #1e8c63;
+        --honey: #ffc857;
+        --coral: #ff7a59;
+      }
+      * { box-sizing: border-box; }
+      html, body { margin: 0; height: 100%; background: var(--ink); color: var(--paper); font-family: Inter, system-ui, sans-serif; overflow: hidden; }
+      #scene-container { position: fixed; inset: 0; }
+      #launcher {
+        position: fixed; inset: 0; display: flex; align-items: center; justify-content: center; padding: 24px;
+        background: radial-gradient(1200px 700px at 50% 110%, rgba(61, 190, 139, 0.18), transparent 60%),
+          linear-gradient(180deg, rgba(22, 35, 43, 0.72), rgba(22, 35, 43, 0.9));
+        transition: opacity 0.4s ease, transform 0.4s ease;
+        z-index: 10;
+      }
+      #launcher.hidden { opacity: 0; pointer-events: none; }
+      #launcher.minimised { inset: auto 16px 16px auto; padding: 0; background: none; }
+      #launcher.minimised .card { padding: 14px 18px; flex-direction: row; gap: 14px; max-width: none; align-items: center; }
+      #launcher.minimised .card > :not(.brand) { display: none; }
+      #launcher.minimised .brand h1 { font-size: 20px; }
+      #launcher.minimised .brand svg { width: 34px; height: 34px; }
+      .card {
+        max-width: 560px; width: 100%; display: flex; flex-direction: column; gap: 22px; padding: 40px;
+        background: rgba(22, 35, 43, 0.82); border: 1px solid #2f4452; border-radius: 28px;
+        box-shadow: 0 30px 80px rgba(0, 0, 0, 0.35); backdrop-filter: blur(10px);
+      }
+      .brand { display: flex; align-items: center; gap: 14px; }
+      .brand h1 { margin: 0; font-family: Fraunces, Georgia, serif; font-size: 34px; letter-spacing: -0.01em; }
+      .tagline { font-family: Fraunces, Georgia, serif; font-size: 30px; line-height: 1.15; margin: 0; }
+      .tagline em { font-style: normal; color: var(--sprout); }
+      .steps { display: grid; gap: 10px; margin: 0; padding: 0; list-style: none; color: var(--muted); font-size: 16px; }
+      .steps li { display: flex; gap: 12px; align-items: center; }
+      .steps b { color: var(--paper); font-weight: 600; }
+      .dot { width: 28px; height: 28px; border-radius: 50%; display: grid; place-items: center; font-weight: 700; font-size: 14px; color: var(--ink); flex: none; }
+      .buttons { display: flex; gap: 12px; flex-wrap: wrap; }
+      button {
+        font: 600 17px Inter, system-ui, sans-serif; border: 0; border-radius: 999px; padding: 16px 26px; cursor: pointer;
+        background: var(--ink-soft); color: var(--paper); display: inline-flex; gap: 10px; align-items: center;
+        transition: transform 0.12s ease, background 0.2s ease;
+      }
+      button:hover { transform: translateY(-1px); background: #2c4250; }
+      button.primary, #enter-btn { background: var(--sprout); color: var(--ink); }
+      button.primary:hover, #enter-btn:hover { background: #5bd8a4; }
+      #enter-btn { display: none; font-size: 20px; padding: 20px 34px; }
+      #launcher-hint { color: var(--muted); font-size: 14px; line-height: 1.5; margin: 0; }
+      #launcher-hint b { color: var(--paper); }
+      #loading { position: fixed; inset: 0; display: grid; place-items: center; background: var(--ink); z-index: 20; transition: opacity 0.5s; }
+      #loading.done { opacity: 0; pointer-events: none; }
+      #loading .pulse { animation: pulse 1.6s ease-in-out infinite; }
+      @keyframes pulse { 0%, 100% { transform: scale(0.94); opacity: 0.75; } 50% { transform: scale(1.04); opacity: 1; } }
+      #boot-error { display: none; position: fixed; bottom: 16px; left: 16px; right: 16px; padding: 14px; background: #5a2a2a; border-radius: 12px; z-index: 30; }
+      .foot { color: #6f8691; font-size: 12px; }
+      .foot a { color: var(--muted); }
+      @media (max-width: 480px) { .card { padding: 26px; } .tagline { font-size: 24px; } }
+    </style>
+  </head>
+  <body>
+    <div id="scene-container"></div>
+    <div id="loading">
+      <svg class="pulse" width="88" height="88" viewBox="0 0 64 64" aria-label="Loading Signsprout">
+        <use href="#logo" />
+      </svg>
+    </div>
+    <div id="launcher">
+      <div class="card">
+        <div class="brand">
+          <svg width="44" height="44" viewBox="0 0 64 64" aria-hidden="true"><use href="#logo" /></svg>
+          <h1>Signsprout</h1>
+        </div>
+        <p class="tagline">Learn sign language with <em>your own two hands</em>.</p>
+        <ul class="steps">
+          <li><span class="dot" style="background: #7ff2e1">1</span><span><b>Watch</b> Sprout sign a word, face to face.</span></li>
+          <li><span class="dot" style="background: #ffc857">2</span><span><b>Step inside</b> glowing guide hands and follow along.</span></li>
+          <li><span class="dot" style="background: #3dbe8b">3</span><span><b>Sign it yourself</b> with live, per-finger feedback — and grow your garden.</span></li>
+        </ul>
+        <div class="buttons">
+          <button id="enter-btn" aria-label="Enter virtual reality">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M18 11V6a2 2 0 0 0-4 0v5M14 10V4a2 2 0 0 0-4 0v2M10 10.5V6a2 2 0 0 0-4 0v8"/><path d="M18 8a2 2 0 1 1 4 0v6a8 8 0 0 1-8 8h-2c-2.8 0-4.5-.86-5.99-2.34l-3.6-3.6a2 2 0 0 1 2.83-2.82L7 15"/></svg>
+            Start learning
+          </button>
+          <button id="demo-btn">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+            Watch the demo
+          </button>
+        </div>
+        <p id="launcher-hint">Loading…</p>
+        <p class="foot">Made by Shivam Gupta · ASL signs cross-checked with Handspeak &amp; Lifeprint · <a href="../">About</a></p>
+      </div>
+    </div>
+    <div id="boot-error" role="alert"></div>
+    <svg width="0" height="0" style="position: absolute">
+      <defs>
+        <symbol id="logo" viewBox="0 0 64 64">
+          <circle cx="32" cy="32" r="30" fill="#1E8C63" />
+          <path d="M32 52 C32 42 32 36 32 30" stroke="#FFF8EE" stroke-width="4" stroke-linecap="round" fill="none" />
+          <path d="M31 31 C22 30 15 23 14 12 C24 12 31 19 31 31 Z" fill="#7FF2E1" />
+          <path d="M33 29 C34 17 42 10 51 10 C51 21 44 28 33 29 Z" fill="#3DBE8B" stroke="#FFF8EE" stroke-width="1.5" />
+        </symbol>
+      </defs>
+    </svg>
+    <script type="module" src="/src/index.ts"></script>
+  </body>
+</html>

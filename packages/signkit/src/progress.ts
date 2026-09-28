@@ -33,6 +33,8 @@ export interface LearnerSettings {
   childName?: string;
   /** Daily goal in minutes. */
   dailyGoal: number;
+  /** Face landmark offset from "touch your chin" calibration (body-local m). */
+  calibration?: [number, number, number];
 }
 
 export interface DayLog {

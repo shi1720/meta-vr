@@ -10,7 +10,8 @@
  */
 
 import {
-  LOCATIONS,
+  locationOf,
+  getCalibrationVersion,
   bodyRotToWorld,
   bodyToWorld,
   dirVec,
@@ -163,7 +164,7 @@ export function shapeJoints(pose: HandPose, hand: Handedness, out: JointBuffers)
 // ---------------------------------------------------------------------------
 
 function anchorOf(k: HandKey): Vec3 {
-  const base: Vec3 = Array.isArray(k.at) ? ([...k.at] as Vec3) : ([...LOCATIONS[k.at]] as Vec3);
+  const base: Vec3 = Array.isArray(k.at) ? ([...k.at] as Vec3) : locationOf(k.at);
   if (k.offset) add3(base, base, k.offset);
   return base;
 }
@@ -216,8 +217,13 @@ function compileTrack(script: SignDef['dominant'], hand: Handedness): Track {
 }
 
 const compiled = new Map<string, CompiledSign>();
+let compiledVersion = -1;
 
 export function compileSign(def: SignDef): CompiledSign {
+  if (compiledVersion !== getCalibrationVersion()) {
+    compiled.clear();
+    compiledVersion = getCalibrationVersion();
+  }
   const cached = compiled.get(def.id);
   if (cached && cached.def === def) return cached;
   const dominant = compileTrack(def.dominant, 'right');
