@@ -221,6 +221,8 @@ SUPABASE_ACCESS_TOKEN=sbp_... SITE_URL=https://shi1720.github.io/meta-vr node to
 
 Hand-joint data never leaves the headset. Only the learner's progress (which
 signs, how well, when) is synced, and only after they choose to sign in.
+When a parent asks the coach for a plan, their goal and a summary of the signs
+the learner knows go to the Gemini API: no names, emails or hand data.
 Hand tracking can't see faces, so facial grammar is mentioned as a tip, not
 scored.
 
