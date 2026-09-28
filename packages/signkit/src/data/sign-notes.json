@@ -1,0 +1,879 @@
+{
+ "HELLO": {
+  "sources": [
+   "https://www.handspeak.com/word/1015/",
+   "https://www.lifeprint.com/asl101/pages-signs/h/hello.htm"
+  ],
+  "mistakes": [
+   "Doing a big side-to-side wave in front of the chest instead of the salute-from-forehead (a wave is understood, but it is not the dictionary sign).",
+   "Military-style salute with the palm down or starting at the centre of the forehead."
+  ],
+  "nonManual": "Pleasant/friendly face (Handspeak).",
+  "variants": [
+   "Thumb may be folded in the palm (B) or open/alongside (open-B) - Handspeak.",
+   "Everyday wave: Lifeprint says HI/HELLO is often just a natural sideways wave of the hand."
+  ]
+ },
+ "THANK-YOU": {
+  "sources": [
+   "https://www.handspeak.com/word/2186/",
+   "https://www.lifeprint.com/asl101/pages-signs/t/thankyou.htm"
+  ],
+  "mistakes": [
+   "Confusing it with GOOD: THANK-YOU is aimed out toward the person; GOOD drops more downward (and can land on the other palm).",
+   "Blowing a kiss (puckering, starting on the lips with a kiss) or moving the hand back toward yourself."
+  ],
+  "nonManual": "Smile (Lifeprint: 'so they'll know you mean it').",
+  "variants": [
+   "Two hands (both flat hands from the chin) = 'thank you very much' / many thanks (Handspeak, Lifeprint)."
+  ]
+ },
+ "PLEASE": {
+  "sources": [
+   "https://www.handspeak.com/word/1658/",
+   "https://www.lifeprint.com/asl101/pages-signs/p/please.htm",
+   "https://signingtime.com/blogs/dictionary/please"
+  ],
+  "mistakes": [
+   "Using a fist - that makes SORRY.",
+   "Using both hands - that means ENJOY/APPRECIATE (Lifeprint)."
+  ],
+  "nonManual": "Pleading/hopeful face; Lifeprint notes a strong 'pleeease' uses head lowered, pout, and extended repetition.",
+  "variants": []
+ },
+ "SORRY": {
+  "sources": [
+   "https://www.handspeak.com/word/2027/",
+   "https://www.lifeprint.com/asl101/pages-signs/s/sorry.htm",
+   "https://signingtime.com/blogs/dictionary/sorry"
+  ],
+  "mistakes": [
+   "Using a flat hand - that is PLEASE.",
+   "Using a tight S-fist: Lifeprint says S is seen but less common; Handspeak calls the fist version incorrect."
+  ],
+  "nonManual": "Sorry/apologetic face (brows drawn up/together, slight frown); intensity of movement and face grade the meaning ('very sorry').",
+  "variants": [
+   "S-handshape version (seen, less common)."
+  ]
+ },
+ "YES": {
+  "sources": [
+   "https://www.handspeak.com/word/2443/",
+   "https://www.lifeprint.com/asl101/pages-signs/y/yes.htm"
+  ],
+  "mistakes": [
+   "Moving the whole arm (knocking) instead of bending at the wrist.",
+   "Using a thumbs-up."
+  ],
+  "nonManual": "Head nod usually accompanies it.",
+  "variants": []
+ },
+ "NO": {
+  "sources": [
+   "https://www.handspeak.com/word/1496/",
+   "https://www.lifeprint.com/asl101/pages-signs/n/no.htm"
+  ],
+  "mistakes": [
+   "Using only the index finger, or wagging a finger.",
+   "Forgetting the negative head-shake."
+  ],
+  "nonManual": "Negative head-shake (Lifeprint: double motion + small head-shake is the 'normal' form).",
+  "variants": [
+   "Single forceful snap = firm 'NO!' (Lifeprint).",
+   "Three small gentle snaps with a caring face = gentle 'no, no, no' as to a baby (Lifeprint)."
+  ]
+ },
+ "MORE": {
+  "sources": [
+   "https://www.handspeak.com/word/1433/",
+   "https://www.lifeprint.com/asl101/pages-signs/m/more.htm",
+   "https://signingtime.com/blogs/dictionary/more"
+  ],
+  "mistakes": [
+   "Clapping flat hands or tapping one hand into the other palm (common baby-sign distortion).",
+   "Using rounded O-hands with a hole instead of flat-O."
+  ],
+  "nonManual": null,
+  "variants": []
+ },
+ "EAT": {
+  "sources": [
+   "https://www.handspeak.com/word/645/",
+   "https://www.handspeak.com/word/837/",
+   "https://www.lifeprint.com/asl101/pages-signs/e/eat.htm",
+   "https://www.lifeprint.com/asl101/pages-signs/f/food.htm",
+   "https://signingtime.com/blogs/dictionary/eat"
+  ],
+  "mistakes": [
+   "Tapping the chin or cheek (cheek-to-cheek is HOME).",
+   "Opening the mouth / using a round O or a fist."
+  ],
+  "nonManual": null,
+  "variants": []
+ },
+ "DRINK": {
+  "sources": [
+   "https://www.handspeak.com/word/627/",
+   "https://www.lifeprint.com/asl101/pages-signs/d/drink.htm",
+   "https://signingtime.com/blogs/dictionary/drink"
+  ],
+  "mistakes": [
+   "Using a Y-hand (that means drinking alcohol - Lifeprint).",
+   "Tipping a thumb toward the mouth (a gesture, not the sign)."
+  ],
+  "nonManual": null,
+  "variants": [
+   "Double movement (Handspeak 2nd video).",
+   "Exaggerated/held = chug/drink-up (Lifeprint)."
+  ]
+ },
+ "MILK": {
+  "sources": [
+   "https://www.handspeak.com/word/1382/",
+   "https://www.lifeprint.com/asl101/pages-signs/m/milk.htm",
+   "https://signingtime.com/blogs/dictionary/milk"
+  ],
+  "mistakes": [
+   "Making a big open/close with a spread 5-hand.",
+   "Tapping or moving the arm."
+  ],
+  "nonManual": null,
+  "variants": []
+ },
+ "WATER": {
+  "sources": [
+   "https://www.handspeak.com/word/2360/",
+   "https://www.lifeprint.com/asl101/pages-signs/w/water.htm",
+   "https://signingtime.com/blogs/dictionary/water"
+  ],
+  "mistakes": [
+   "Using the ASL number 3 (thumb-index-middle) instead of W.",
+   "Palm facing forward, or tapping the cheek."
+  ],
+  "nonManual": null,
+  "variants": []
+ },
+ "FINISH": {
+  "sources": [
+   "https://www.handspeak.com/word/795/",
+   "https://www.lifeprint.com/asl101/pages-signs/f/finish.htm",
+   "https://signingtime.com/blogs/dictionary/all-done"
+  ],
+  "mistakes": [
+   "Waving the hands side to side (looks like a 'no/wave off' gesture).",
+   "Using it to mean 'finish the task' - Lifeprint: FINISH means done/already; for 'complete it' use other signs (END/PROCEED)."
+  ],
+  "nonManual": "Neutral; for 'Cut it out!' use an intense face.",
+  "variants": [
+   "Baby-sign teaching (Signing Time 'all done'): start with palms UP and turn the hands down and away.",
+   "One hand with a strong single movement + intense face = 'Stop it! / Cut it out!' (Lifeprint)."
+  ]
+ },
+ "HUNGRY": {
+  "sources": [
+   "https://www.handspeak.com/word/1076/",
+   "https://www.lifeprint.com/asl101/pages-signs/h/hungry.htm",
+   "https://signingtime.com/blogs/dictionary/hungry"
+  ],
+  "mistakes": [
+   "Repeating the movement: Signing Time warns a repeated version means something else (not child-appropriate). Do it ONCE; show 'very hungry' with your face.",
+   "Starting at the stomach, or using a flat hand."
+  ],
+  "nonManual": null,
+  "variants": []
+ },
+ "MOTHER": {
+  "sources": [
+   "https://www.handspeak.com/word/1439/",
+   "https://www.handspeak.com/word/4676/",
+   "https://www.lifeprint.com/asl101/pages-signs/m/mom.htm",
+   "https://signingtime.com/blogs/dictionary/mom"
+  ],
+  "mistakes": [
+   "Touching the forehead (that is FATHER).",
+   "Using a Y- or A-hand, or touching with the fingertips."
+  ],
+  "nonManual": null,
+  "variants": [
+   "Single touch (Lifeprint: 'the most basic form is to just touch').",
+   "Fingers wiggle with thumb on chin."
+  ]
+ },
+ "FATHER": {
+  "sources": [
+   "https://www.handspeak.com/word/758/",
+   "https://www.lifeprint.com/asl101/pages-signs/d/dad.htm",
+   "https://signingtime.com/blogs/dictionary/dad"
+  ],
+  "mistakes": [
+   "Touching the chin (that is MOTHER).",
+   "Handspeak notes that tapping the exact middle of the forehead is a mispronunciation in formal citation (fine in casual signing)."
+  ],
+  "nonManual": null,
+  "variants": [
+   "Single touch or near-touch is fine (Lifeprint).",
+   "Fingers wiggle ('papa' feel; not a firm distinction)."
+  ]
+ },
+ "BABY": {
+  "sources": [
+   "https://www.handspeak.com/word/11/",
+   "https://www.lifeprint.com/asl101/pages-signs/b/baby.htm",
+   "https://signingtime.com/blogs/dictionary/baby"
+  ],
+  "mistakes": [
+   "Arms not stacked (hands far apart) or palms facing the body.",
+   "Huge swinging movement."
+  ],
+  "nonManual": null,
+  "variants": []
+ },
+ "FAMILY": {
+  "sources": [
+   "https://www.handspeak.com/word/740/",
+   "https://www.lifeprint.com/asl101/pages-signs/f/family.htm"
+  ],
+  "mistakes": [
+   "Using flat or C hands (those make CLASS/GROUP).",
+   "Drawing the circle vertically."
+  ],
+  "nonManual": null,
+  "variants": []
+ },
+ "FRIEND": {
+  "sources": [
+   "https://www.handspeak.com/word/865/",
+   "https://www.lifeprint.com/asl101/pages-signs/f/friend.htm",
+   "https://signingtime.com/blogs/dictionary/friend"
+  ],
+  "mistakes": [
+   "Linking little fingers ('pinky promise').",
+   "Only one hook without the switch."
+  ],
+  "nonManual": null,
+  "variants": [
+   "Lifeprint: interlock twice (hook, switch)."
+  ]
+ },
+ "I-LOVE-YOU": {
+  "sources": [
+   "https://www.handspeak.com/word/1098/",
+   "https://www.lifeprint.com/asl101/pages-signs/i/ily.htm"
+  ],
+  "mistakes": [
+   "Palm facing yourself (Handspeak: 'palm outward, not inward!').",
+   "Tucking the thumb (that is the 'horns' gesture)."
+  ],
+  "nonManual": null,
+  "variants": []
+ },
+ "LOVE": {
+  "sources": [
+   "https://www.handspeak.com/word/1316/",
+   "https://www.lifeprint.com/asl101/pages-signs/l/love.htm",
+   "https://signingtime.com/blogs/dictionary/love"
+  ],
+  "mistakes": [
+   "Using ILY for 'love' in general sentences - ILY means 'I love you' only.",
+   "Using KISS-FIST ('love it') for people - Handspeak: that version is for things/activities."
+  ],
+  "nonManual": null,
+  "variants": [
+   "Flat hands crossed over the chest.",
+   "Signing Time adds a small side-to-side rock (hug)."
+  ]
+ },
+ "HAPPY": {
+  "sources": [
+   "https://www.handspeak.com/word/982/",
+   "https://www.lifeprint.com/asl101/pages-signs/h/happy.htm"
+  ],
+  "mistakes": [
+   "Rubbing in place like PLEASE instead of brushing upward.",
+   "Blank face - show the emotion."
+  ],
+  "nonManual": "Happy face/smile (Lifeprint: 'you've got to use your face!').",
+  "variants": [
+   "Two hands (e.g., in 'Happy Birthday')."
+  ]
+ },
+ "SAD": {
+  "sources": [
+   "https://www.handspeak.com/word/1866/",
+   "https://www.lifeprint.com/asl101/pages-signs/s/sad.htm"
+  ],
+  "mistakes": [
+   "No facial expression.",
+   "Wiggling fingers (like tears) - a gesture, not the sign."
+  ],
+  "nonManual": "Sad face; head tilts forward slightly (Lifeprint).",
+  "variants": [
+   "One-handed in informal register (Handspeak)."
+  ]
+ },
+ "TIRED": {
+  "sources": [
+   "https://www.handspeak.com/word/2225/",
+   "https://www.lifeprint.com/asl101/pages-signs/t/tired.htm"
+  ],
+  "mistakes": [
+   "Sliding the hands down the chest.",
+   "Confusing it with ANIMAL (rocking movement) or HAVE (no droop)."
+  ],
+  "nonManual": "Tired/droopy face, shoulders slump; exaggerate for EXHAUSTED.",
+  "variants": []
+ },
+ "HURT": {
+  "sources": [
+   "https://www.handspeak.com/word/1077/",
+   "https://www.lifeprint.com/asl101/pages-signs/h/hurt.htm",
+   "https://signingtime.com/blogs/dictionary/hurt"
+  ],
+  "mistakes": [
+   "Using H-hands (Lifeprint: that is Signed English, not ASL).",
+   "No facial expression - the face shows how much it hurts."
+  ],
+  "nonManual": "Pained face; intensity scales with pain.",
+  "variants": [
+   "Twist version: index fingers twist in opposite directions (Handspeak default; Lifeprint 'injured').",
+   "Lexicalized fingerspelling #HURT at the painful spot."
+  ]
+ },
+ "GOOD": {
+  "sources": [
+   "https://www.handspeak.com/word/926/",
+   "https://www.lifeprint.com/asl101/pages-signs/g/good.htm"
+  ],
+  "mistakes": [
+   "Confusing it with THANK-YOU (THANK-YOU is aimed toward the person; GOOD drops more downward).",
+   "Flipping the palm down (that is BAD)."
+  ],
+  "nonManual": null,
+  "variants": [
+   "Two-handed: dominant hand lands in the non-dominant upturned palm (Lifeprint: used for emphasis/answers; Handspeak: rarely used)."
+  ]
+ },
+ "BAD": {
+  "sources": [
+   "https://www.handspeak.com/word/150/",
+   "https://www.lifeprint.com/asl101/pages-signs/b/bad.htm"
+  ],
+  "mistakes": [
+   "Forgetting to flip the palm down (looks like GOOD).",
+   "Smiling while signing it."
+  ],
+  "nonManual": "Frown/scowl (Lifeprint).",
+  "variants": [
+   "Two-handed version (Lifeprint)."
+  ]
+ },
+ "HOT": {
+  "sources": [
+   "https://www.handspeak.com/word/1060/",
+   "https://www.lifeprint.com/asl101/pages-signs/h/hot.htm",
+   "https://signingtime.com/blogs/dictionary/hot"
+  ],
+  "mistakes": [
+   "Fanning the face (a gesture).",
+   "Slow movement - the faster/stronger, the hotter (Lifeprint)."
+  ],
+  "nonManual": "'Hot' face; Signing Time: open mouth and exhale as if something is hot.",
+  "variants": [
+   "Signing Time teaches it with a C-shaped hand.",
+   "Handspeak variant: open-8 middle fingertip at the mouth, swipe away."
+  ]
+ },
+ "COLD": {
+  "sources": [
+   "https://www.handspeak.com/word/416/",
+   "https://www.lifeprint.com/asl101/pages-signs/c/cold.htm",
+   "https://signingtime.com/blogs/dictionary/cold"
+  ],
+  "mistakes": [
+   "Big slow movements.",
+   "Using it to mean 'a cold' (illness) - it only means temperature (Lifeprint)."
+  ],
+  "nonManual": "Hunched shoulders, tense/shivering face; faster and tighter = very cold.",
+  "variants": []
+ },
+ "HELP": {
+  "sources": [
+   "https://www.handspeak.com/word/1017/",
+   "https://www.lifeprint.com/asl101/pages-signs/h/help.htm",
+   "https://signingtime.com/blogs/dictionary/help"
+  ],
+  "mistakes": [
+   "Fist under the palm (upside down).",
+   "Flat hand on flat hand."
+  ],
+  "nonManual": "Raised brows when offering/asking ('Do you want help?').",
+  "variants": [
+   "Tap version: the fist taps the palm twice (Handspeak; ASL-LEX codes HELP as repeated).",
+   "S-hand instead of open-A (seen; Lifeprint does not recommend)."
+  ]
+ },
+ "SLEEP": {
+  "sources": [
+   "https://www.handspeak.com/word/1985/",
+   "https://www.lifeprint.com/asl101/pages-signs/s/sleep.htm",
+   "https://signingtime.com/blogs/dictionary/sleep"
+  ],
+  "mistakes": [
+   "Closing into a fist/S instead of flat-O (Lifeprint).",
+   "Moving the hand all the way down the chest."
+  ],
+  "nonManual": "Eyes close/droop as the hand closes (Signing Time).",
+  "variants": []
+ },
+ "BATH": {
+  "sources": [
+   "https://www.handspeak.com/word/164/",
+   "https://www.lifeprint.com/asl101/pages-signs/b/bath.htm",
+   "https://signingtime.com/blogs/dictionary/bath"
+  ],
+  "mistakes": [
+   "Upward thrusts with the hands leaving the body (that is ADDRESS/LIVE - Lifeprint).",
+   "Circling instead of up-and-down."
+  ],
+  "nonManual": null,
+  "variants": []
+ },
+ "BATHROOM": {
+  "sources": [
+   "https://www.handspeak.com/word/6715/",
+   "https://www.handspeak.com/word/2230/",
+   "https://www.lifeprint.com/asl101/pages-signs/b/bathroom.htm",
+   "https://www.lifeprint.com/asl101/pages-signs/t/toilet.htm",
+   "https://signingtime.com/blogs/dictionary/potty",
+   "https://signingtime.com/blogs/dictionary/bathroom"
+  ],
+  "mistakes": [
+   "Shaking a B-hand (Lifeprint: not used by the Deaf community).",
+   "Holding a still T (that is just the letter)."
+  ],
+  "nonManual": "To ask 'Do you need to go to the bathroom?': raise eyebrows and tilt the head forward (Lifeprint).",
+  "variants": [
+   "Twist instead of side-to-side shake (Lifeprint, Signing Time).",
+   "RESTROOM (R-hands) considered more polite by some older signers (Lifeprint)."
+  ]
+ },
+ "CHANGE": {
+  "sources": [
+   "https://www.handspeak.com/word/357/",
+   "https://www.lifeprint.com/asl101/pages-signs/c/change.htm"
+  ],
+  "mistakes": [
+   "Swapping by moving whole arms around each other (that is EXCHANGE).",
+   "Using flat hands."
+  ],
+  "nonManual": null,
+  "variants": [
+   "Dominant A-hand with non-dominant X (Handspeak variant).",
+   "Larger movement = big change."
+  ]
+ },
+ "DIAPER": {
+  "sources": [
+   "https://www.handspeak.com/word/571/",
+   "https://www.lifeprint.com/asl101/pages-signs/d/diaper.htm",
+   "https://signingtime.com/blogs/dictionary/diaper"
+  ],
+  "mistakes": [
+   "Doing it in front of the chest.",
+   "Using the whole hand (all fingers) to pinch."
+  ],
+  "nonManual": null,
+  "variants": []
+ },
+ "PLAY": {
+  "sources": [
+   "https://www.handspeak.com/word/1657/",
+   "https://www.lifeprint.com/asl101/pages-signs/p/play.htm",
+   "https://signingtime.com/blogs/dictionary/play"
+  ],
+  "mistakes": [
+   "Initializing with P-hands (Lifeprint: don't).",
+   "Moving the whole arms instead of the wrists."
+  ],
+  "nonManual": null,
+  "variants": []
+ },
+ "BOOK": {
+  "sources": [
+   "https://www.handspeak.com/word/210/",
+   "https://www.lifeprint.com/asl101/pages-signs/b/book.htm",
+   "https://signingtime.com/blogs/dictionary/book"
+  ],
+  "mistakes": [
+   "Hinging on the thumb sides.",
+   "Opening and closing many times."
+  ],
+  "nonManual": null,
+  "variants": []
+ },
+ "DOG": {
+  "sources": [
+   "https://www.handspeak.com/word/602/",
+   "https://www.lifeprint.com/asl101/pages-signs/d/dog.htm",
+   "https://signingtime.com/blogs/dictionary/dog"
+  ],
+  "mistakes": [
+   "Snapping with the index finger (Lifeprint: always the middle finger).",
+   "Barking or tongue gestures instead of the sign."
+  ],
+  "nonManual": null,
+  "variants": [
+   "Pat the thigh with a flat hand (1-2 times), optionally then snap - very common with babies/children (Signing Time, Lifeprint, Handspeak).",
+   "Lifeprint lists 5 versions: snap x2, snap x1, pat thigh x2, snap+pat, pat+snap."
+  ]
+ },
+ "CAT": {
+  "sources": [
+   "https://www.handspeak.com/word/334/",
+   "https://www.lifeprint.com/asl101/pages-signs/c/cat.htm",
+   "https://signingtime.com/blogs/dictionary/cat"
+  ],
+  "mistakes": [
+   "Pulling downward instead of sideways.",
+   "Using all fingers."
+  ],
+  "nonManual": null,
+  "variants": [
+   "Two-handed (both sides of the face).",
+   "G-handshape or 8-handshape versions (Lifeprint, ASL-LEX cat_2/cat_3)."
+  ]
+ },
+ "HOME": {
+  "sources": [
+   "https://www.handspeak.com/word/1046/",
+   "https://www.lifeprint.com/asl101/pages-signs/h/home.htm",
+   "https://signingtime.com/blogs/dictionary/home"
+  ],
+  "mistakes": [
+   "Touching the mouth itself (that is EAT).",
+   "Only one touch in isolation (single-contact form appears in compounds like HOMEWORK)."
+  ],
+  "nonManual": null,
+  "variants": [
+   "Ear-to-mouth direction (Lifeprint)."
+  ]
+ },
+ "SIGN": {
+  "sources": [
+   "https://www.handspeak.com/word/1965/",
+   "https://www.lifeprint.com/asl101/pages-signs/s/sign.htm"
+  ],
+  "mistakes": [
+   "Circling both hands in the same phase.",
+   "Using flat hands."
+  ],
+  "nonManual": null,
+  "variants": [
+   "Forward circling also used (Lifeprint: 'pick a direction and stick with it').",
+   "Quick open-and-close version for skilled signing (Lifeprint)."
+  ]
+ },
+ "MY": {
+  "sources": [
+   "https://www.handspeak.com/word/1448/",
+   "https://www.lifeprint.com/asl101/pages-signs/m/my.htm"
+  ],
+  "mistakes": [
+   "Pointing with the index finger (that is ME/I).",
+   "Palm facing out."
+  ],
+  "nonManual": null,
+  "variants": [
+   "Two gentle pats = MINE (Lifeprint)."
+  ]
+ },
+ "YOUR": {
+  "sources": [
+   "https://www.handspeak.com/word/2453/",
+   "https://www.lifeprint.com/asl101/pages-signs/y/your.htm"
+  ],
+  "mistakes": [
+   "Pointing with the index finger (that is YOU).",
+   "Palm up."
+  ],
+  "nonManual": null,
+  "variants": [
+   "Sweep across several people = YOUR (plural) (Handspeak)."
+  ]
+ },
+ "YOU": {
+  "sources": [
+   "https://www.handspeak.com/word/2448/"
+  ],
+  "mistakes": [
+   "Using a flat palm (that is YOUR)."
+  ],
+  "nonManual": null,
+  "variants": []
+ },
+ "ME": {
+  "sources": [
+   "https://www.handspeak.com/word/1363/"
+  ],
+  "mistakes": [
+   "Using a flat hand (that is MY)."
+  ],
+  "nonManual": null,
+  "variants": []
+ },
+ "NAME": {
+  "sources": [
+   "https://www.handspeak.com/word/1464/",
+   "https://www.lifeprint.com/asl101/pages-signs/n/name.htm"
+  ],
+  "mistakes": [
+   "Tapping flat hands or palms together.",
+   "Single tap - Lifeprint: a single movement tends to mean the verb 'named/called'."
+  ],
+  "nonManual": "In 'What's your name?' (YOUR NAME? / NAME YOU?) use furrowed brows and a forward head tilt (Lifeprint).",
+  "variants": []
+ },
+ "WHAT": {
+  "sources": [
+   "https://www.handspeak.com/word/2383/",
+   "https://www.lifeprint.com/asl101/pages-signs/w/what.htm"
+  ],
+  "mistakes": [
+   "Raising the eyebrows (that marks a yes/no question).",
+   "Asking with the hands but a neutral face."
+  ],
+  "nonManual": "WH-question face: eyebrows lowered/furrowed, head tilted slightly forward, shoulders may hunch (Lifeprint).",
+  "variants": [
+   "Index finger brushes down across the non-dominant palm (older; still used; Lifeprint/Handspeak).",
+   "Lexicalized fingerspelling #WHAT (Handspeak)."
+  ]
+ },
+ "WHERE": {
+  "sources": [
+   "https://www.handspeak.com/word/2391/",
+   "https://www.lifeprint.com/asl101/pages-signs/w/where.htm"
+  ],
+  "mistakes": [
+   "Using a D-handshape (Lifeprint: use 1).",
+   "Bending the finger instead of moving the wrist; raising the eyebrows."
+  ],
+  "nonManual": "WH-question face: eyebrows down (Lifeprint: 'They are part of the sign').",
+  "variants": []
+ },
+ "HOW": {
+  "sources": [
+   "https://www.handspeak.com/word/1067/",
+   "https://www.lifeprint.com/asl101/pages-signs/h/how.htm"
+  ],
+  "mistakes": [
+   "Using the WH face for the friendly greeting HOW-ARE-YOU (see that entry).",
+   "Separating the hands before rolling."
+  ],
+  "nonManual": "WH-question face (lowered brows) for a real 'how' question.",
+  "variants": [
+   "Handspeak's main form uses more closed '10'-like hands twisting against each other.",
+   "One hand rolling forward (Lifeprint)."
+  ]
+ },
+ "UNDERSTAND": {
+  "sources": [
+   "https://www.handspeak.com/word/2292/",
+   "https://www.lifeprint.com/asl101/pages-signs/u/understand.htm"
+  ],
+  "mistakes": [
+   "Flicking the thumb or the whole hand.",
+   "Doing it in front of the chest."
+  ],
+  "nonManual": "Nod for 'understand'; negative head-shake for DON'T-UNDERSTAND (Lifeprint).",
+  "variants": []
+ },
+ "AGAIN": {
+  "sources": [
+   "https://www.handspeak.com/word/51/",
+   "https://www.lifeprint.com/asl101/pages-signs/a/again.htm"
+  ],
+  "mistakes": [
+   "Slapping the whole palm down.",
+   "Touching the back of the base hand."
+  ],
+  "nonManual": null,
+  "variants": []
+ },
+ "WANT": {
+  "sources": [
+   "https://www.handspeak.com/word/2347/",
+   "https://www.lifeprint.com/asl101/pages-signs/w/want.htm"
+  ],
+  "mistakes": [
+   "Closing into fists (grabbing).",
+   "Palms down - flipping palms down is DON'T-WANT (Lifeprint)."
+  ],
+  "nonManual": null,
+  "variants": []
+ },
+ "STOP": {
+  "sources": [
+   "https://www.handspeak.com/word/2079/",
+   "https://www.lifeprint.com/asl101/pages-signs/s/stop.htm"
+  ],
+  "mistakes": [
+   "Holding up a palm like a traffic officer (a gesture, not the ASL sign).",
+   "For 'stop it! / cut it out!' ASL uses a one-handed FINISH instead (Lifeprint)."
+  ],
+  "nonManual": "Firm face for a command.",
+  "variants": [
+   "STOP+ / STOP++ repeated for commands/stress (Handspeak)."
+  ]
+ },
+ "WAIT": {
+  "sources": [
+   "https://www.handspeak.com/word/2341/",
+   "https://www.lifeprint.com/asl101/pages-signs/w/wait.htm",
+   "https://signingtime.com/blogs/dictionary/wait"
+  ],
+  "mistakes": [
+   "Holding up a single index finger ('one minute' gesture).",
+   "Wiggling only one finger."
+  ],
+  "nonManual": null,
+  "variants": []
+ },
+ "NICE": {
+  "sources": [
+   "https://www.handspeak.com/word/1491/",
+   "https://www.lifeprint.com/asl101/pages-signs/n/nice.htm"
+  ],
+  "mistakes": [
+   "Sliding back and forth repeatedly (a double movement means 'clean up')."
+  ],
+  "nonManual": null,
+  "variants": []
+ },
+ "MEET": {
+  "sources": [
+   "https://www.handspeak.com/word/1371/",
+   "https://www.lifeprint.com/asl101/pages-signs/m/meet.htm"
+  ],
+  "mistakes": [
+   "Tapping the fingertips together (Lifeprint: they don't touch).",
+   "Using D-hands (Lifeprint: use 1)."
+  ],
+  "nonManual": null,
+  "variants": []
+ },
+ "FINE": {
+  "sources": [
+   "https://www.handspeak.com/word/793/",
+   "https://www.lifeprint.com/asl101/pages-signs/f/fine.htm"
+  ],
+  "mistakes": [
+   "Tapping the chin (that is MOTHER).",
+   "Using a thumbs-up."
+  ],
+  "nonManual": null,
+  "variants": [
+   "Single touch.",
+   "Thumb on chest then move out/forward in a small arc (Lifeprint, Handspeak)."
+  ]
+ },
+ "MORNING": {
+  "sources": [
+   "https://www.handspeak.com/word/1436/",
+   "https://www.lifeprint.com/asl101/pages-signs/m/morning.htm",
+   "https://signingtime.com/blogs/dictionary/good-morning"
+  ],
+  "mistakes": [
+   "Grabbing the bicep (Lifeprint).",
+   "Making it very large (large = ALL-MORNING)."
+  ],
+  "nonManual": null,
+  "variants": [
+   "One-handed in GOOD-MORNING when the other hand is busy (Lifeprint)."
+  ]
+ },
+ "NIGHT": {
+  "sources": [
+   "https://www.handspeak.com/word/1492/",
+   "https://www.lifeprint.com/asl101/pages-signs/n/night.htm"
+  ],
+  "mistakes": [
+   "Palm up on the dominant hand.",
+   "Moving along the arm (that means EVERY-NIGHT - Lifeprint)."
+  ],
+  "nonManual": null,
+  "variants": []
+ },
+ "GOOD-MORNING": {
+  "sources": [
+   "https://www.handspeak.com/word/7394/",
+   "https://www.lifeprint.com/asl101/pages-signs/m/morning.htm",
+   "https://signingtime.com/blogs/dictionary/good-morning"
+  ],
+  "mistakes": [
+   "Doing two full, separate signs with a pause (fine for beginners, but the compound is smoother).",
+   "Forgetting the base arm in MORNING."
+  ],
+  "nonManual": "Friendly face.",
+  "variants": [
+   "Signing Time teaches full GOOD (landing on the other palm) + MORNING.",
+   "One-handed MORNING when holding something (Lifeprint)."
+  ]
+ },
+ "GOOD-NIGHT": {
+  "sources": [
+   "https://www.handspeak.com/word/9534/",
+   "https://www.lifeprint.com/asl101/pages-signs/g/good-night.htm",
+   "https://www.lifeprint.com/asl101/pages-signs/g/good.htm",
+   "https://signingtime.com/blogs/dictionary/good-night"
+  ],
+  "mistakes": [
+   "Signing GOOD + SLEEP instead (means something else)."
+  ],
+  "nonManual": "Warm/friendly face.",
+  "variants": [
+   "Separate full signs GOOD NIGHT = 'I had a good night' (Lifeprint)."
+  ]
+ },
+ "NICE-TO-MEET-YOU": {
+  "sources": [
+   "https://www.lifeprint.com/asl101/pages-signs/n/nice.htm",
+   "https://www.lifeprint.com/asl101/pages-signs/m/meet.htm",
+   "https://www.handspeak.com/word/1491/",
+   "https://www.handspeak.com/word/1371/"
+  ],
+  "mistakes": [
+   "Adding a sign for 'to' (ASL drops it).",
+   "Signing DATE instead of MEET (Lifeprint notes this common slip)."
+  ],
+  "nonManual": "Smile.",
+  "variants": [
+   "me-MEET-you (directional MEET) can replace MEET + YOU."
+  ]
+ },
+ "HOW-ARE-YOU": {
+  "sources": [
+   "https://www.lifeprint.com/asl101/pages-signs/h/how.htm",
+   "https://www.lifeprint.com/asl101/pages-signs/h/how-are-you.htm",
+   "https://www.handspeak.com/word/1067/"
+  ],
+  "mistakes": [
+   "Using lowered WH-question eyebrows for a casual greeting (that turns it into a serious 'how are you really?')."
+  ],
+  "nonManual": "Casual greeting: raised eyebrows or at least a friendly face (Lifeprint: exception to the lowered-brow WH rule). Concerned inquiry: lowered brows.",
+  "variants": [
+   "Common reply: FINE (thumb of 5-hand taps chest)."
+  ]
+ },
+ "CHANGE-DIAPER": {
+  "sources": [
+   "https://www.lifeprint.com/asl101/pages-signs/d/diaper.htm",
+   "https://www.handspeak.com/word/571/",
+   "https://www.handspeak.com/word/357/"
+  ],
+  "mistakes": [
+   "Fingerspelling 'change'."
+  ],
+  "nonManual": null,
+  "variants": []
+ }
+}
